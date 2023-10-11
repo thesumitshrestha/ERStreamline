@@ -28,7 +28,7 @@ app.use('/api/patients', patientsRoutes);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('NEW LOG');
+    console.log('NEW LOGS');
     // Listen requests
     app.listen(port, () => {
       console.log(`Connected to DB & listening to the port ${port}`);
