@@ -4,6 +4,8 @@ require('dotenv').config();
 //Port
 const port = process.env.PORT;
 const patientsRoutes = require('./routes/patients');
+const healthStaffRoutes = require('./routes/healthStaff');
+const labRoutes = require('./routes/lab');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -23,6 +25,8 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/patients', patientsRoutes);
+app.use('/api/healthStaffs', healthStaffRoutes);
+app.use('/api/labs', labRoutes);
 
 // Connect to MongoDB
 mongoose
