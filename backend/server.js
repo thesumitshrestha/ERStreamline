@@ -6,6 +6,7 @@ const port = process.env.PORT;
 const patientsRoutes = require('./routes/patients');
 const healthStaffRoutes = require('./routes/healthStaff');
 const labRoutes = require('./routes/lab');
+const patientLabTest = require('./routes/patientLabTest');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use('/api/patients', patientsRoutes);
 app.use('/api/healthStaffs', healthStaffRoutes);
 app.use('/api/labs', labRoutes);
+app.use('/api/patientLabTest', patientLabTest);
 
 // Connect to MongoDB
 mongoose

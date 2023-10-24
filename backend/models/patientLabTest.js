@@ -5,16 +5,16 @@ const Schema = mongoose.Schema;
 
 const patientLabSchema = new Schema(
   {
-    patient: [
+    patient_id: [
       {
         type: Schema.Types.ObjectId,
-        ref: patient,
+        ref: 'Patient',
       },
     ],
-    lab: [
+    lab_id: [
       {
         type: Schema.Types.ObjectId,
-        ref: lab,
+        ref: 'Lab',
       },
     ],
     report: {
