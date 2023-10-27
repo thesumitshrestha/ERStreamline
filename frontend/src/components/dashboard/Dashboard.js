@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
   return (
     <div>
-      <h2> ERStreamline Homepage</h2>
-      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+      <div class='bg-primary py-small'>
+        <h2 class='container mx-auto text-white text-5xl px-5'> ERStreamline</h2>
+      </div>
       <Link to='/patients'>All Patients</Link> <br />
       <Link to='/patient/add'>Add Patient</Link> <br />
       <Link to='/health-staffs'>Health Staffs</Link> <br />
