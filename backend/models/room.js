@@ -8,7 +8,7 @@ const roomSchema = new Schema(
       type: String,
       required: true,
     },
-    bed_info: [
+    bedNumber: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Bed',

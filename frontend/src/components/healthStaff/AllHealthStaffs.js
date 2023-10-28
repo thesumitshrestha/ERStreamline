@@ -15,7 +15,7 @@ const AllHealthStaffs = () => {
   }, []);
   return (
     <>
-      <Link to='/health-staffs/add'> Add Health Staffs </Link> <br /> <br />{' '}
+      <Link to='/health-staff/add'> Add Health Staffs </Link> <br /> <br />{' '}
       <br />
       <table>
         <thead>

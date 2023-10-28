@@ -18,6 +18,8 @@ const createPatient = async (req, res) => {
     email,
     gender,
     bloodGroup,
+    emergencyContactName,
+    emergencyContactNumber,
   } = req.body;
 
   let emptyFields = [];
@@ -46,6 +48,13 @@ const createPatient = async (req, res) => {
   if (!bloodGroup) {
     emptyFields.push('bloodGroup');
   }
+  if (!emergencyContactName) {
+    emptyFields.push('emergencyContactName');
+  }
+  if (!emergencyContactNumber) {
+    emptyFields.push('emergencyContactNumber');
+  }
+
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -63,6 +72,8 @@ const createPatient = async (req, res) => {
       email,
       gender,
       bloodGroup,
+      emergencyContactName,
+      emergencyContactNumber,
     });
     res.status(200).json(patient);
   } catch (error) {

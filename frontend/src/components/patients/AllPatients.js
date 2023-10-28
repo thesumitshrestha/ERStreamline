@@ -28,6 +28,8 @@ const AllPatients = () => {
             <th>Email</th>
             <th>Gender</th>
             <th>Blood Group</th>
+            <th>Emergency Contact Name</th>
+            <th>Emergency Contact Number</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +46,8 @@ const AllPatients = () => {
                   <td>{patient.email}</td>
                   <td>{patient.gender}</td>
                   <td>{patient.bloodGroup}</td>
+                  <td>{patient.emergencyContactName}</td>
+                  <td>{patient.emergencyContactNumber}</td>
                 </tr>
               );
             })}

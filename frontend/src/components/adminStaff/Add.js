@@ -5,51 +5,26 @@ import { useNavigate } from 'react-router-dom';
 const Add = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [specialty, setSpecialty] = useState('');
+  const [role, setRole] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const specialtyList = [
-    'Orthopedic Surgeon',
-    'Cardiologist',
-    'Neurologist',
-    'Pediatrician',
-    'Dermatologist',
-    'Psychiatrist',
-    'ENT Specialist',
-    'General Surgeon',
-    'Gynecologist',
-    'Internal Medicine Specialist',
-    'Receptionist',
-    'Administrative Assistant',
-    'Medical Secretary',
-    'Health Information Technician',
-    'Medical Billing Specialist',
-    'Medical Records Clerk',
-    'Medical Transcriptionist',
-    'Office Manager',
-    'Human Resources Coordinator',
-    'IT Support Specialist',
-    'Orthopedic Surgeon',
-    'Cardiologist',
-    'Neurologist',
-    'Pediatrician',
-    'Dermatologist',
-    'Psychiatrist',
-    'ENT Specialist',
-    'General Surgeon',
-    'Gynecologist',
-    'Internal Medicine Specialist',
+  const roleList = [
+    'Lab Technician',
+    'Admissions Specialist',
+    'Pharmaceutical Technician',
+    'Supervisor',
+    'Billing Specialist',
   ];
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5005/api/healthStaffs', {
+      const res = await axios.post('http://localhost:5005/api/adminStaffs', {
         firstName: firstName,
         lastName: lastName,
-        specialty: specialty,
+        role: role,
         phone: phone,
         email: email,
         headers: {
@@ -58,7 +33,7 @@ const Add = () => {
       });
 
       console.log(res.data);
-      console.log('NEW Health Staff ADDED');
+      console.log('NEW Admin Staff ADDED');
       navigate(`/`);
     } catch (error) {
       console.log(error);
@@ -73,10 +48,7 @@ const Add = () => {
             className='create p-large gradient rounded-3xl '
             onSubmit={handleSubmit}
           >
-            <h3 className='mb-10 font-bold text-3xl'>
-              {' '}
-              Add a New Health Staff
-            </h3>
+            <h3 className='mb-10 font-bold text-3xl'> Add a New Admin Staff</h3>
             <div className='mb-3'>
               <label className='mb-2 text-sm font-medium block' htmlFor=''>
                 First Name:{' '}
@@ -103,18 +75,18 @@ const Add = () => {
 
             <div className='mb-3'>
               <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                Specialty
+                Role
               </label>
               <select
                 name=''
-                id='specialty'
-                value={specialty}
-                onChange={(e) => setSpecialty(e.target.value)}
+                id='role'
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
               >
-                {specialtyList.map((specialty, idx) => {
+                {roleList.map((role, idx) => {
                   return (
-                    <option key={idx} value={specialty}>
-                      {specialty}
+                    <option key={idx} value={role}>
+                      {role}
                     </option>
                   );
                 })}
@@ -145,7 +117,7 @@ const Add = () => {
               />
             </div>
             <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
-              Add Health Staff
+              Add Admin Staff
             </button>
           </form>
         </div>

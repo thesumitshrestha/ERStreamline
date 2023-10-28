@@ -38,6 +38,14 @@ const patientSchema = new Schema(
       type: String,
       required: true,
     },
+    emergencyContactName: {
+      type: String,
+      required: true,
+    },
+    emergencyContactNumber: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

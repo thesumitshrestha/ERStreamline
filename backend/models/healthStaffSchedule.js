@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const healthStaffAppointmentSchema = new Schema(
+const healthStaffScheduleSchema = new Schema(
   {
     healthStaff: {
       type: Schema.Types.ObjectId,
@@ -25,6 +25,6 @@ const healthStaffAppointmentSchema = new Schema(
 );
 
 module.exports = mongoose.model(
-  'HealthStaffAppointment',
-  healthStaffAppointmentSchema
+  'HealthStaffSchedule',
+  healthStaffScheduleSchema
 );

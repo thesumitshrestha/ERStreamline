@@ -30,7 +30,7 @@ const AllLabs = () => {
           {allLabs &&
             allLabs.map((lab, index) => {
               return (
-                <tr key={index._id}>
+                <tr key={lab._id}>
                   <td> {index + 1}</td>
                   <td>{lab.name}</td>
                   <td>{lab.address}</td>
