@@ -4,24 +4,18 @@ const Schema = mongoose.Schema;
 
 const admissionSchema = new Schema(
   {
-    ehrVisit: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'EHRVisit',
-      },
-    ],
-    room: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Room',
-      },
-    ],
-    patient: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-      },
-    ],
+    ehrVisit: {
+      type: Schema.Types.ObjectId,
+      ref: 'EHRVisit',
+    },
+    room: {
+      type: Schema.Types.ObjectId,
+      ref: 'Room',
+    },
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
     admissionDate: {
       type: Date,
       require: true,

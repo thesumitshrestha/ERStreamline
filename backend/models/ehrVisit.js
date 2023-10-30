@@ -4,19 +4,15 @@ const Schema = mongoose.Schema;
 
 const ehrVisitSchema = new Schema(
   {
-    patient: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-      },
-    ],
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
 
-    healthStaff: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'HealthStaff',
-      },
-    ],
+    healthStaff: {
+      type: Schema.Types.ObjectId,
+      ref: 'HealthStaff',
+    },
 
     prescribedMedications: {
       type: String,

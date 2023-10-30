@@ -4,12 +4,10 @@ const Schema = mongoose.Schema;
 
 const medicationSchema = new Schema(
   {
-    patient: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-      },
-    ],
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
     medicationName: {
       type: String,
       require: true,

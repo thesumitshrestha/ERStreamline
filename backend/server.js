@@ -11,9 +11,16 @@ const adminStaffRoutes = require('./routes/adminStaff');
 const insuranceRoutes = require('./routes/insurance');
 const bedRoutes = require('./routes/bed');
 const roomRoutes = require('./routes/room');
+const ehrVisitRoutes = require('./routes/ehrVisit');
+const admissionRoutes = require('./routes/admissions');
+const medicationRoutes = require('./routes/medication');
+const billingRoutes = require('./routes/billing');
+const healthStaffSchedules = require('./routes/healthStaffSchedule');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 
 //Express App
 const app = express();
@@ -22,6 +29,12 @@ app.use(cors());
 
 // Middleware
 app.use(express.json());
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -37,6 +50,11 @@ app.use('/api/adminStaffs', adminStaffRoutes);
 app.use('/api/insurance', insuranceRoutes);
 app.use('/api/beds', bedRoutes);
 app.use('/api/rooms', roomRoutes);
+app.use('/api/ehrVisits', ehrVisitRoutes);
+app.use('/api/admissions', admissionRoutes);
+app.use('/api/medication', medicationRoutes);
+app.use('/api/billings', billingRoutes);
+app.use('/api/schedules', healthStaffSchedules);
 
 // Connect to MongoDB
 mongoose

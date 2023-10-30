@@ -13,11 +13,11 @@ const healthStaffScheduleSchema = new Schema(
       require: true,
     },
     startTime: {
-      type: Date,
+      type: String,
       require: true,
     },
     endTime: {
-      type: Date,
+      type: String,
       require: true,
     },
   },

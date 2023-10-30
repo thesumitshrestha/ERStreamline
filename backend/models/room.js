@@ -8,12 +8,10 @@ const roomSchema = new Schema(
       type: String,
       required: true,
     },
-    bedNumber: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Bed',
-      },
-    ],
+    bedNumber: {
+      type: Schema.Types.ObjectId,
+      ref: 'Bed',
+    },
   },
   { timestamps: true }
 );

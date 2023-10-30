@@ -17,6 +17,17 @@ import AllBed from './components/bed/AllBed';
 import AddBed from './components/bed/Add';
 import AddRoom from './components/room/Add';
 import AllRooms from './components/room/AllRooms';
+import AddEHRVisit from './components/ehrVisit/Add';
+import AllEhrVisit from './components/ehrVisit/AllEhrVisit';
+import AddAdmissions from './components/admissions/Add';
+import AllAdmissions from './components/admissions/AllAdmissions';
+import AddMedications from './components/medication/Add';
+import AllMedications from './components/medication/AllMedications';
+import AddBillings from './components/billing/Add';
+import AllBillings from './components/billing/AllBillings';
+import AllSchedules from './components/healthStaffSchedule/AllSchedules';
+import AddSchedules from './components/healthStaffSchedule/Add';
+
 function App() {
   return (
     <div className='App'>
@@ -42,6 +53,16 @@ function App() {
           <Route path='/bed/add' element={<AddBed />} />
           <Route path='/rooms' element={<AllRooms />} />
           <Route path='/room/add' element={<AddRoom />} />
+          <Route path='/ehr-visits' element={<AllEhrVisit />} />
+          <Route path='/ehr-visit/add' element={<AddEHRVisit />} />
+          <Route path='/admission/add' element={<AddAdmissions />} />
+          <Route path='/admissions' element={<AllAdmissions />} />
+          <Route path='/medication/add' element={<AddMedications />} />
+          <Route path='/medications' element={<AllMedications />} />
+          <Route path='/billing/add' element={<AddBillings />} />
+          <Route path='/billings' element={<AllBillings />} />
+          <Route path='/schedules' element={<AllSchedules />} />
+          <Route path='/schedule/add' element={<AddSchedules />} />
         </Routes>
       </BrowserRouter>
     </div>

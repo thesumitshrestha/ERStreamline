@@ -41,6 +41,31 @@ const Dashboard = () => {
       <Link to='/rooms'>All Rooms</Link>
       <br />
       <Link to='/room/add'>Add Room</Link>
+      <br />
+      <br />
+      <Link to='/ehr-visits'>All EHRVisits</Link>
+      <br />
+      <Link to='/ehr-visit/add'>Add EHRVisit</Link>
+      <br />
+      <br />
+      <Link to='/admissions'>All Admissions</Link>
+      <br />
+      <Link to='/admission/add'>Add Admission</Link>
+      <br />
+      <br />
+      <Link to='/medications'>All Medications</Link>
+      <br />
+      <Link to='/medication/add'>Add Medication</Link>
+      <br />
+      <br />
+      <Link to='/billings'>All Billings</Link>
+      <br />
+      <Link to='/billing/add'>Add Billing</Link>
+      <br />
+      <br />
+      <Link to='/schedules'>All Schedules</Link>
+      <br />
+      <Link to='/schedule/add'>Add Schedule</Link>
     </div>
   );
 };

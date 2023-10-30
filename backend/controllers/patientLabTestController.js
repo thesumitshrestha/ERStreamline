@@ -7,10 +7,13 @@ const getPatientLabTest = async (req, res) => {
     .sort({ createdAt: -1 })
     .populate([
       {
-        path: 'patient_id',
+        path: 'patient',
       },
       {
-        path: 'lab_id',
+        path: 'ehrvisit',
+      },
+      {
+        path: 'lab',
       },
     ]);
   res.status(200).json(patientLabTest);
@@ -18,15 +21,21 @@ const getPatientLabTest = async (req, res) => {
 
 // Create new Patient Lab Test
 const createPatientLabTest = async (req, res) => {
-  const { patient_id, lab_id, report, date } = req.body;
+  const { patient, ehrvisit, lab, labFee, report, date } = req.body;
 
   let emptyFields = [];
 
-  if (!patient_id) {
-    emptyFields.push('patient_id');
+  if (!patient) {
+    emptyFields.push('patient');
   }
-  if (!lab_id) {
+  if (!ehrvisit) {
+    emptyFields.push('ehrvisit');
+  }
+  if (!lab) {
     emptyFields.push('lab');
+  }
+  if (!labFee) {
+    emptyFields.push('labFee');
   }
   if (!report) {
     emptyFields.push('report');
@@ -43,9 +52,11 @@ const createPatientLabTest = async (req, res) => {
   // Add doc to db
   try {
     const patientLabTest = await PatientLabTest.create({
-      patient_id,
-      lab_id,
+      patient,
+      lab,
+      ehrvisit,
       report,
+      labFee,
       date,
     });
     res.status(200).json(patientLabTest);

@@ -5,24 +5,20 @@ const Schema = mongoose.Schema;
 
 const patientLabSchema = new Schema(
   {
-    patient: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-      },
-    ],
-    ehrvisit: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'EHRVisit',
-      },
-    ],
-    lab: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Lab',
-      },
-    ],
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
+
+    ehrvisit: {
+      type: Schema.Types.ObjectId,
+      ref: 'EHRVisit',
+    },
+    lab: {
+      type: Schema.Types.ObjectId,
+      ref: 'Lab',
+    },
+
     labFee: {
       type: Number,
       require: true,

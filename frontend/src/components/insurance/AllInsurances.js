@@ -6,12 +6,12 @@ const AllInsurances = () => {
   const [allInsurances, setAllInsurance] = useState([]);
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchInsurances = async () => {
       const res = await axios.get('http://localhost:5005/api/insurance');
       setAllInsurance(res.data);
       console.log(res.data);
     };
-    fetchPatients();
+    fetchInsurances();
   }, []);
   return (
     <>
@@ -34,8 +34,7 @@ const AllInsurances = () => {
                 <tr key={insurance._id}>
                   <td> {index + 1}</td>
                   <td>
-                    {insurance.patient[0].firstName}{' '}
-                    {insurance.patient[0].lastName}
+                    {insurance.patient.firstName} {insurance.patient.lastName}
                   </td>
                   <td>{insurance.policyNumber}</td>
                   <td>{insurance.deductible}</td>

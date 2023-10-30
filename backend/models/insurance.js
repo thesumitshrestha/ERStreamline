@@ -4,12 +4,10 @@ const Schema = mongoose.Schema;
 
 const insuranceSchema = new Schema(
   {
-    patient: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Patient',
-      },
-    ],
+    patient: {
+      type: Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
     policyNumber: {
       type: String,
       require: true,

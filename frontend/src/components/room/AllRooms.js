@@ -30,7 +30,7 @@ const AllRooms = () => {
                 <tr key={room._id}>
                   <td> {index + 1}</td>
                   <td>{room.roomNumber}</td>
-                  <td>{room.bedNumber[0]?.bedNumber}</td>
+                  <td>{room.bedNumber?.bedNumber}</td>
                 </tr>
               );
             })}
