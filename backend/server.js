@@ -24,7 +24,7 @@ const multer = require('multer');
 
 //Express App
 const app = express();
-
+app.use('/reports', express.static('reports'));
 app.use(cors());
 
 // Middleware

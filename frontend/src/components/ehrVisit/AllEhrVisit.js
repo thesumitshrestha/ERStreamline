@@ -40,10 +40,13 @@ const AllEhrVisit = () => {
                 <tr key={ehrvisit._id}>
                   <td> {index + 1}</td>
                   <td>
-                    {ehrvisit.patient.firstName} {ehrvisit.patient.lastName}
+                    <Link to={`/patient/${ehrvisit.patient._id}`}>
+                      {ehrvisit.patient.firstName} {ehrvisit.patient.lastName}
+                      {ehrvisit.patient._id}
+                    </Link>
                   </td>
                   <td>
-                    {ehrvisit.healthStaff.firstName}{' '}
+                    {ehrvisit.healthStaff.firstName}
                     {ehrvisit.healthStaff.lastName}
                   </td>
                   <td>{ehrvisit.prescribedMedications}</td>

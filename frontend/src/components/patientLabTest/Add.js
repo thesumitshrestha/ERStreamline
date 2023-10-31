@@ -10,7 +10,7 @@ const Add = () => {
   const [patientList, setPatientList] = useState([]);
   const [labList, setLabList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
-  const [file, setFile] = useState('');
+  const [report, setReport] = useState();
 
   useEffect(() => {
     const getPatientList = async () => {
@@ -37,24 +37,23 @@ const Add = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('report', file);
+      formData.append('report', report);
       formData.append('labFee', labFee);
-      console.log('File', file);
-      console.log('labFee', labFee);
-      console.log('FORM DATa', formData);
-      const res = await axios.post('http://localhost:5005/api/patientLabTest', {
-        patient: patient,
-        lab: lab,
-        ehrvisit: ehrvisit,
-        report: formData,
-        labFee: labFee,
-        date: date,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log(res.data);
-      console.log('NEW Lab ADDED');
+      formData.append('patient', patient);
+      formData.append('lab', lab);
+      formData.append('ehrvisit', ehrvisit);
+      formData.append('date', date);
+      const res = await axios.post(
+        'http://localhost:5005/api/patientLabTest',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log('RES', res);
+      console.log('NEW Lab Test ADDED');
     } catch (error) {
       console.log(error);
     }
@@ -115,9 +114,10 @@ const Add = () => {
       <label htmlFor=''>Report </label>
       <input
         onChange={(e) => {
-          setFile(e.target.files[0]);
+          setReport(e.target.files[0]);
           console.log(e.target.files[0]);
         }}
+        accept='application/pdf'
         type='file'
         name='report'
       />

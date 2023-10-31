@@ -3,6 +3,7 @@ const express = require('express');
 const {
   createPatient,
   getPatients,
+  getPatientDetail,
 } = require('../controllers/patientController');
 
 const router = express.Router();
@@ -16,8 +17,6 @@ router.get('/', getPatients);
 router.post('/', createPatient);
 
 // get single patient
-router.get('/:id', (req, res) => {
-  res.json({ msg: 'PATIENT DETAIL PAGE' });
-});
+router.get('/:id', getPatientDetail);
 
 module.exports = router;

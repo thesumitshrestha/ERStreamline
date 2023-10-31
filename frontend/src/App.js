@@ -4,6 +4,7 @@ import Add from './components/patients/Add';
 import AdddHealthStaff from './components/healthStaff/Add';
 import Dashboard from './components/dashboard/Dashboard';
 import AllPatients from './components/patients/AllPatients';
+import PatientDetail from './components/patients/Patient';
 import AllHealthStaffs from './components/healthStaff/AllHealthStaffs';
 import AddLabs from './components/lab/Add';
 import AllLabs from './components/lab/AllLabs';
@@ -36,6 +37,7 @@ function App() {
           <Route path='/' element={<Dashboard />} />
           <Route path='/patient/add' element={<Add />} />
           <Route path='/patients' element={<AllPatients />} />
+          <Route path='/patient/:id' element={<PatientDetail />} />
           <Route path='/health-staff/add' element={<AdddHealthStaff />} />
           <Route path='/health-staffs' element={<AllHealthStaffs />} />
           <Route path='/lab/add' element={<AddLabs />} />

@@ -7,6 +7,13 @@ const getPatients = async (req, res) => {
   res.status(200).json(patients);
 };
 
+// Patient Detail Page
+const getPatientDetail = async (req, res) => {
+  const id = req.params.id;
+  const patients = await Patient.findById(req.params.id);
+  res.status(200).json(patients);
+};
+
 // create new patient
 const createPatient = async (req, res) => {
   const {
@@ -84,4 +91,5 @@ const createPatient = async (req, res) => {
 module.exports = {
   createPatient,
   getPatients,
+  getPatientDetail,
 };
