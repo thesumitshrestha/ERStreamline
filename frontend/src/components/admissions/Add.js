@@ -24,15 +24,28 @@ const Add = () => {
       setRoomList(res.data);
     };
 
-    const getEHRVisitList = async () => {
-      const res = await axios.get('http://localhost:5005/api/ehrVisits');
-      setEhrVisitList(res.data);
-    };
+    // const getEHRVisitList = async () => {
+    //   const res = await axios.get('http://localhost:5005/api/ehrVisits');
+    //   setEhrVisitList(res.data);
+    // };
 
     getPatientList();
     getRoomList();
-    getEHRVisitList();
+    // getEHRVisitList();
   }, []);
+
+  const handlePatient = async (e) => {
+    const patientId = e.target.value;
+    setPatient(patientId);
+    console.log(patientId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/patient/${patientId}`
+    );
+
+    console.log(res.data);
+    setEhrVisitList(res.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,8 +82,12 @@ const Add = () => {
               name=''
               id='patient'
               value={patient}
-              onChange={(e) => setPatient(e.target.value)}
+              onChange={(e) => handlePatient(e)}
             >
+              <option selected value=''>
+                Select Patient
+              </option>
+
               {patientList.map((patient, idx) => {
                 return (
                   <option key={patient._id} value={patient._id}>
@@ -83,6 +100,7 @@ const Add = () => {
 
           <div className='mb-3'>
             <label htmlFor=''>Select EHRVisit: </label>
+
             <select
               name=''
               id='ehrVisit'

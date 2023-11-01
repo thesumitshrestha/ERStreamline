@@ -31,7 +31,7 @@ const billingSchema = new Schema(
 
     lab: {
       type: Schema.Types.ObjectId,
-      ref: 'Lab',
+      ref: 'PatientLabTest',
     },
 
     billingDate: {

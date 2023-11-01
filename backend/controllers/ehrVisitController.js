@@ -16,6 +16,28 @@ const getEHRVisits = async (req, res) => {
   res.status(200).json(ehrVisits);
 };
 
+// get all EHRVisits Staffs
+const getEHRVisitsByPatientId = async (req, res) => {
+  const id = req.params.id;
+  // const patients = await Patient.findById(req.params.id);
+  const ehrVisits = await EHRVisit.find({
+    patient: id,
+  })
+    // EHRVisit.findOne({
+    //   patient: ObjectId('653bfd57158d46990460c2d7'),
+    // })
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: 'patient',
+      },
+      {
+        path: 'healthStaff',
+      },
+    ]);
+  res.status(200).json(ehrVisits);
+};
+
 // Create new EHRVisits Staff
 const createEHRVisits = async (req, res) => {
   const {
@@ -97,4 +119,5 @@ const createEHRVisits = async (req, res) => {
 module.exports = {
   createEHRVisits,
   getEHRVisits,
+  getEHRVisitsByPatientId,
 };
