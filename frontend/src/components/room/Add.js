@@ -55,16 +55,20 @@ const Add = () => {
             />
           </div>
 
-          <div className='mb-3'>
+          {/* <div className='mb-3'>
             <label class='mb-2 text-sm font-medium block' htmlFor=''>
               Bed Number
-            </label>
-            <select
+            </label> */}
+
+          {/* <select
               name=''
               id='bedNumber'
               value={bedNumber}
               onChange={(e) => setBedNumber(e.target.value)}
             >
+              <option selected value=''>
+                Select Bed Number
+              </option>
               {bedList.map((bed, idx) => {
                 return (
                   <option key={bed._id} value={bed._id}>
@@ -72,8 +76,8 @@ const Add = () => {
                   </option>
                 );
               })}
-            </select>
-          </div>
+            </select> */}
+          {/* </div> */}
 
           <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
             Add Room

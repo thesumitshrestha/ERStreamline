@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const Add = () => {
+  const today = new Date();
   const [patient, setPatient] = useState('');
   const [ehrVisit, setEhrVisit] = useState('');
   const [adminStaff, setAdminStaff] = useState('');
   const [medication, setMedication] = useState('');
   const [insurance, setInsurance] = useState('');
   const [lab, setLab] = useState('');
-  const [billingDate, setBillingDate] = useState('');
+  const [billingDate, setBillingDate] = useState(moment(today).format('LL'));
   const [totalAmount, setTotalAmount] = useState('');
   const [patientList, setPatientList] = useState([]);
-  const [medicationList, setMedicationList] = useState([]);
-  const [insuranceList, setInsuranceList] = useState([]);
+  const [patientInsurance, setPatientInsurance] = useState([]);
   const [adminStaffList, setAdminStaffList] = useState([]);
-  const [labList, setLabList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
+  const [labFeeList, setLabFeeList] = useState([]);
+  const [medicationFeeList, setMedicationFeeList] = useState([]);
+  const [insuranceChecked, setInsuranceChecked] = useState(false);
   const navigate = useNavigate();
+
+  const handleInsurance = () => {
+    setInsuranceChecked(!insuranceChecked);
+  };
 
   useEffect(() => {
     const getPatientList = async () => {
@@ -30,45 +37,42 @@ const Add = () => {
       setAdminStaffList(res.data);
     };
 
-    const getEHRVisitList = async () => {
-      const res = await axios.get('http://localhost:5005/api/ehrVisits');
-      setEhrVisitList(res.data);
-    };
-
-    const getLabList = async () => {
-      const res = await axios.get('http://localhost:5005/api/patientLabTest');
-      setLabList(res.data);
-    };
-
-    const getInsuranceList = async () => {
-      const res = await axios.get('http://localhost:5005/api/insurance');
-      setInsuranceList(res.data);
-    };
-
-    const getMedicationList = async () => {
-      const res = await axios.get('http://localhost:5005/api/medication');
-      setMedicationList(res.data);
-    };
-
     getPatientList();
     getAdminStaff();
-    // getEHRVisitList();
-    getLabList();
-    getInsuranceList();
-    getMedicationList();
   }, []);
 
   const handlePatient = async (e) => {
     const patientId = e.target.value;
     setPatient(patientId);
-    console.log(patientId);
 
     const res = await axios.get(
       `http://localhost:5005/api/ehrVisits/patient/${patientId}`
     );
 
-    console.log(res.data);
+    const patientInsurance = await axios.get(
+      `http://localhost:5005/api/insurance/patient/${patientId}`
+    );
+
+    console.log('PATIENTINSUANCE', patientInsurance.data);
     setEhrVisitList(res.data);
+    setPatientInsurance(patientInsurance.data);
+  };
+
+  const handleEHRVisit = async (e) => {
+    const ehrVisitId = e.target.value;
+    setEhrVisit(ehrVisitId);
+    console.log('EHRVISIT ID is', ehrVisitId);
+    const res = await axios.get(
+      `http://localhost:5005/api/patientLabTest/ehrVisit/${ehrVisitId}`
+    );
+
+    setLabFeeList(res.data);
+
+    const medicationList = await axios.get(
+      `http://localhost:5005/api/medication/ehrVisit/${ehrVisitId}`
+    );
+
+    setMedicationFeeList(medicationList.data);
   };
 
   const handleSubmit = async (e) => {
@@ -78,10 +82,10 @@ const Add = () => {
         patient: patient,
         ehrVisit: ehrVisit,
         adminStaff: adminStaff,
-        medication: medication,
-        lab: lab,
+        medication: totalMedicationFee(),
+        lab: totalLabFee(),
         billingDate: billingDate,
-        insurance: insurance,
+        insurance: patientInsurance[0]?._id,
         totalAmount: totalAmount,
         headers: {
           'Content-Type': 'application/json',
@@ -93,6 +97,20 @@ const Add = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const totalLabFee = () => {
+    let sum = labFeeList.reduce(function (prev, current) {
+      return prev + +current?.labFee;
+    }, 0);
+    return sum;
+  };
+
+  const totalMedicationFee = () => {
+    let sum = medicationFeeList.reduce(function (prev, current) {
+      return prev + +current?.medicineCost;
+    }, 0);
+    return sum;
   };
 
   return (
@@ -130,8 +148,12 @@ const Add = () => {
               name=''
               id='ehrVisit'
               value={ehrVisit}
-              onChange={(e) => setEhrVisit(e.target.value)}
+              onChange={(e) => handleEHRVisit(e)}
+              // onChange={(e) => setEhrVisit(e.target.value)}
             >
+              <option selected value=''>
+                Select EHRVisit
+              </option>
               {ehrVisitList.map((ehrVisit, idx) => {
                 return (
                   <option key={ehrVisit._id} value={ehrVisit._id}>
@@ -162,82 +184,96 @@ const Add = () => {
           </div>
 
           <div className='mb-3'>
-            <label htmlFor=''>Select Lab: </label>
-            <select
-              name=''
-              id='room'
-              value={lab}
-              onChange={(e) => setLab(e.target.value)}
-            >
-              {labList.map((lab, idx) => {
-                return (
-                  <option key={lab._id} value={lab._id}>
-                    ${lab?.labFee}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label htmlFor=''>Select Insurance: </label>
-            <select
-              name=''
-              id='insurance'
-              value={insurance}
-              onChange={(e) => setInsurance(e.target.value)}
-            >
-              {insuranceList.map((insurance, idx) => {
-                return (
-                  <option key={insurance._id} value={insurance._id}>
-                    {insurance?.policyNumber}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label htmlFor=''>Select Medicaiton: </label>
-            <select
-              name=''
-              id='medication'
-              value={medication}
-              onChange={(e) => setMedication(e.target.value)}
-            >
-              {medicationList.map((medication, idx) => {
-                return (
-                  <option key={medication._id} value={medication._id}>
-                    {medication?.medicationName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Total Amount
-            </label>
+            <label htmlFor=''>Total Lab Fee: </label>$
             <input
               class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='number'
-              onChange={(e) => setTotalAmount(e.target.value)}
-              value={lab?.labFee + medication?.medicationCost}
+              readonly='readonly'
+              // onChange={setLab(totalLabFee())}
+              value={totalLabFee()}
             />
           </div>
 
-          <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Billing Date
-            </label>
+          <div>Doctor Fee: $1000</div>
+
+          <div className='mb-3'>
+            <label htmlFor=''>Total Medication Fee: </label>$
             <input
               class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='date'
-              onChange={(e) => setBillingDate(e.target.value)}
-              value={billingDate}
+              readonly='readonly'
+              // onChange={setMedication(totalMedicationFee())}
+              value={totalMedicationFee()}
             />
           </div>
+
+          <div className='mb-3'>
+            <label>
+              Subtotal: {totalLabFee()} + {totalMedicationFee()} + $1000 =
+            </label>
+            {totalLabFee() + totalMedicationFee() + 1000}
+          </div>
+
+          <div className='mb-3'>
+            <label
+              htmlFor='inputVacationPercentage'
+              className='switch switch-default'
+            >
+              Has Insurance
+            </label>
+            &nbsp;
+            <input
+              id='insuranceChecked'
+              type='checkbox'
+              checked={insuranceChecked}
+              onChange={handleInsurance}
+            />
+          </div>
+
+          {insuranceChecked && (
+            <>
+              <div className='mb-3'>
+                <label htmlFor=''> Coverage Amount: </label>
+                {patientInsurance[0]?.coverageAmount
+                  ? patientInsurance[0]?.coverageAmount
+                  : 0}
+
+                <label htmlFor=''> Deductible Amount: </label>
+                {patientInsurance[0]?.deductible
+                  ? patientInsurance[0]?.deductible
+                  : 0}
+              </div>
+              <div class='mb-3'>
+                <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                  Total Amount
+                </label>
+                <input
+                  class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  onChange={(e) => setTotalAmount(e.target.value)}
+                  readonly='readonly'
+                  value={
+                    1000 +
+                    totalLabFee() +
+                    totalMedicationFee() +
+                    patientInsurance[0]?.coverageAmount +
+                    patientInsurance[0]?.deductible
+                  }
+                />
+              </div>
+            </>
+          )}
+
+          {!insuranceChecked && (
+            <div class='mb-3'>
+              <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                Total Amount
+              </label>
+              <input
+                readonly='readonly'
+                class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                onChange={(e) => setTotalAmount(e.target.value)}
+                value={1000 + totalLabFee() + totalMedicationFee()}
+              />
+            </div>
+          )}
 
           <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
             Add Bill

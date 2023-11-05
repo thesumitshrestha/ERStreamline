@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,22 +23,26 @@ const Add = () => {
       });
       console.log(res.data);
       console.log('NEW Lab ADDED');
+      navigate(`/`);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-
     <>
       <div class='bg-background'>
         <div class='container mx-auto p-large'>
-          <form className='create p-large gradient rounded-3xl ' onSubmit={handleSubmit}>
-
-            <h3 class='mb-10 font-bold text-3xl'>  Add a New Lab</h3>
+          <form
+            className='create p-large gradient rounded-3xl '
+            onSubmit={handleSubmit}
+          >
+            <h3 class='mb-10 font-bold text-3xl'> Add a New Lab</h3>
 
             <div class='mb-3'>
-              <label class='mb-2 text-sm font-medium block' htmlFor=''>Name: </label>
+              <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                Name:
+              </label>
               <input
                 class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                 type='text'
@@ -44,19 +50,23 @@ const Add = () => {
                 value={name}
               />
             </div>
-            
+
             <div class='mb-3'>
-              <label class='mb-2 text-sm font-medium block' htmlFor=''>Address: </label>
+              <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                Address:
+              </label>
               <input
                 class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                 type='text'
                 onChange={(e) => setAddress(e.target.value)}
                 value={address}
-              />{' '}
+              />
             </div>
-            
+
             <div class='mb-3'>
-              <label class='mb-2 text-sm font-medium block' htmlFor=''>Phone </label>
+              <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                Phone{' '}
+              </label>
               <input
                 class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                 type='text'
@@ -64,9 +74,11 @@ const Add = () => {
                 value={phone}
               />
             </div>
-            
+
             <div class='mb-3'>
-              <label class='mb-2 text-sm font-medium block' htmlFor=''>Email: </label>
+              <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                Email:{' '}
+              </label>
               <input
                 class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                 type='email'
@@ -74,8 +86,11 @@ const Add = () => {
                 value={email}
               />
             </div>
-            
-            <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Add Lab</button>
+
+            <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
+              {' '}
+              Add Lab
+            </button>
           </form>
         </div>
       </div>

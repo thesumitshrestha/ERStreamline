@@ -43,6 +43,11 @@ const Dashboard = () => {
       <Link to='/room/add'>Add Room</Link>
       <br />
       <br />
+      <Link to='/roomBeds'>All RoomBed</Link>
+      <br />
+      <Link to='/roomBed/add'>Add RoomBed</Link>
+      <br />
+      <br />
       <Link to='/ehr-visits'>All EHRVisits</Link>
       <br />
       <Link to='/ehr-visit/add'>Add EHRVisit</Link>

@@ -22,6 +22,8 @@ const AllAdmissions = () => {
             <th> S.N.</th>
             <th>Patient Name</th>
             <th>EHR Visit Date</th>
+            <th>Room Number</th>
+            <th>Bed Number</th>
             <th>Admitted Date</th>
             <th>Discharged Date</th>
           </tr>
@@ -36,11 +38,17 @@ const AllAdmissions = () => {
                     {admission.patient?.firstName} {admission.patient?.lastName}
                   </td>
                   <td>{admission.ehrVisit?.visitDate}</td>
+                  <td>{admission.bedNumber?.roomNumber?.roomNumber}</td>
+                  <td>{admission.bedNumber?.bedNumber.bedNumber}</td>
                   <td>{admission.admissionDate}</td>
                   <td>
-                    {admission.dischargeDate && admission.dischargeDate
-                      ? admission.dischargeDate
-                      : 'Not Discharged Yet'}
+                    {admission.dischargeDate && admission.dischargeDate ? (
+                      admission.dischargeDate
+                    ) : (
+                      <Link to={`/admission/update/${admission?._id}`}>
+                        Not Discharged Yet --- Update
+                      </Link>
+                    )}
                   </td>
                 </tr>
               );

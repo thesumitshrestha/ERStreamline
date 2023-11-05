@@ -3,6 +3,7 @@ const express = require('express');
 const {
   // createPatientLabTest,
   getPatientLabTest,
+  getpatientLabTestByEHRVisit,
 } = require('../controllers/patientLabTestController');
 
 const router = express.Router();
@@ -24,6 +25,7 @@ const upload = multer({ storage: storage });
 
 //get all patientLabs
 router.get('/', getPatientLabTest);
+router.get('/ehrVisit/:id', getpatientLabTestByEHRVisit);
 // router.post('/', createPatientLabTest);
 
 //API Endpoint for uploading file

@@ -14,7 +14,7 @@ const createBed = async (req, res) => {
   let emptyFields = [];
 
   if (!bedNumber) {
-    emptyFields.push('firstName');
+    emptyFields.push('bedNumber');
   }
 
   if (emptyFields.length > 0) {

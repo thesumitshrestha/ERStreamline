@@ -29,6 +29,11 @@ const AllBed = () => {
                 <tr key={bed._id}>
                   <td> {index + 1}</td>
                   <td>{bed.bedNumber}</td>
+                  {/* <td>
+                    {JSON.stringify(bed?.isAvailable) === 'false'
+                      ? 'No'
+                      : 'Yes'}
+                  </td> */}
                 </tr>
               );
             })}

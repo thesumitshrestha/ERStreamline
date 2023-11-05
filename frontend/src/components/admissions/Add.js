@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const Add = () => {
   const [patient, setPatient] = useState('');
   const [ehrVisit, setEhrVisit] = useState('');
-  const [room, setRoom] = useState('');
+  const [bedNumber, setBedNumber] = useState('');
   const [admissionDate, setAdmissionDate] = useState('');
   const [dischargeDate, setDischargeDate] = useState('');
   const [patientList, setPatientList] = useState([]);
-  const [roomList, setRoomList] = useState([]);
+  const [roomBedList, setRoomBedList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
   const navigate = useNavigate();
 
@@ -19,19 +19,13 @@ const Add = () => {
       setPatientList(res.data);
     };
 
-    const getRoomList = async () => {
-      const res = await axios.get('http://localhost:5005/api/rooms');
-      setRoomList(res.data);
+    const getRoomBedList = async () => {
+      const res = await axios.get('http://localhost:5005/api/roomBeds');
+      setRoomBedList(res.data);
     };
 
-    // const getEHRVisitList = async () => {
-    //   const res = await axios.get('http://localhost:5005/api/ehrVisits');
-    //   setEhrVisitList(res.data);
-    // };
-
     getPatientList();
-    getRoomList();
-    // getEHRVisitList();
+    getRoomBedList();
   }, []);
 
   const handlePatient = async (e) => {
@@ -53,7 +47,7 @@ const Add = () => {
       const res = await axios.post('http://localhost:5005/api/admissions', {
         patient: patient,
         ehrVisit: ehrVisit,
-        room: room,
+        bedNumber: bedNumber,
         admissionDate: admissionDate,
         dischargeDate: dischargeDate,
         headers: {
@@ -107,6 +101,9 @@ const Add = () => {
               value={ehrVisit}
               onChange={(e) => setEhrVisit(e.target.value)}
             >
+              <option selected value=''>
+                Select EHR Visit
+              </option>
               {ehrVisitList.map((ehrVisit, idx) => {
                 return (
                   <option key={ehrVisit._id} value={ehrVisit._id}>
@@ -119,20 +116,25 @@ const Add = () => {
           </div>
 
           <div className='mb-3'>
-            <label htmlFor=''>Select Room: </label>
+            <label htmlFor=''>Select Bed: </label>
             <select
               name=''
               id='room'
-              value={room}
-              onChange={(e) => setRoom(e.target.value)}
+              value={bedNumber}
+              onChange={(e) => setBedNumber(e.target.value)}
             >
-              {roomList.map((room, idx) => {
-                return (
-                  <option key={room._id} value={room._id}>
-                    {room.roomNumber} {room.bedNumber?.bedNumber}
-                  </option>
-                );
-              })}
+              <option selected value=''>
+                Select Bed
+              </option>
+              {roomBedList
+                .filter((room) => room.isAvailable === true)
+                .map((room, idx) => {
+                  return (
+                    <option key={room._id} value={room._id}>
+                      {room.roomNumber?.roomNumber} {room.bedNumber?.bedNumber}
+                    </option>
+                  );
+                })}
             </select>
           </div>
 
@@ -148,7 +150,7 @@ const Add = () => {
             />
           </div>
 
-          <div class='mb-3'>
+          {/* <div class='mb-3'>
             <label class='mb-2 text-sm font-medium block' htmlFor=''>
               Discharge Date
             </label>
@@ -158,7 +160,7 @@ const Add = () => {
               onChange={(e) => setDischargeDate(e.target.value)}
               value={dischargeDate}
             />
-          </div>
+          </div> */}
 
           <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
             Add Admissions

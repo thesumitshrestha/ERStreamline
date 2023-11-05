@@ -19,13 +19,9 @@ const getEHRVisits = async (req, res) => {
 // get all EHRVisits Staffs
 const getEHRVisitsByPatientId = async (req, res) => {
   const id = req.params.id;
-  // const patients = await Patient.findById(req.params.id);
   const ehrVisits = await EHRVisit.find({
     patient: id,
   })
-    // EHRVisit.findOne({
-    //   patient: ObjectId('653bfd57158d46990460c2d7'),
-    // })
     .sort({ createdAt: -1 })
     .populate([
       {
