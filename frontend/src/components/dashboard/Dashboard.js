@@ -71,6 +71,9 @@ const Dashboard = () => {
       <Link to='/schedules'>All Schedules</Link>
       <br />
       <Link to='/schedule/add'>Add Schedule</Link>
+      <h2>
+        <Link to='/patient-history'>Patient History</Link>
+      </h2>
     </div>
   );
 };

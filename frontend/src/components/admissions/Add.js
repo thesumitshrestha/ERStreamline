@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -108,7 +109,7 @@ const Add = () => {
                 return (
                   <option key={ehrVisit._id} value={ehrVisit._id}>
                     {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                    || {ehrVisit.visitDate}
+                    || {convertDate(ehrVisit.visitDate)}
                   </option>
                 );
               })}

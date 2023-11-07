@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -13,6 +14,8 @@ const Add = () => {
   const [patientList, setPatientList] = useState([]);
   const [healthStaffList, setHealthStaffList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
+  const [ehrVisitListStaff, setEhrVisitListStaff] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,13 +52,26 @@ const Add = () => {
     setEhrVisitList(res.data);
   };
 
+  const handleEHRVisit = async (e) => {
+    const ehrVisitId = e.target.value;
+    setEhrVisit(ehrVisitId);
+    console.log('EHR Visit ID', ehrVisitId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/${ehrVisitId}`
+    );
+
+    console.log('EHR DATA', res.data);
+    setEhrVisitListStaff(res.data);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:5005/api/medication', {
         patient: patient,
         ehrVisit: ehrVisit,
-        healthStaff: healthStaff,
+        healthStaff: ehrVisitListStaff?.healthStaff?._id,
         medicationName: medicationName,
         dosage: dosage,
         prescribedDate: prescribedDate,
@@ -107,13 +123,16 @@ const Add = () => {
               name=''
               id='ehrVisit'
               value={ehrVisit}
-              onChange={(e) => setEhrVisit(e.target.value)}
+              onChange={(e) => handleEHRVisit(e)}
             >
+              <option selected value=''>
+                Select EHRVisit
+              </option>
               {ehrVisitList.map((ehrVisit, idx) => {
                 return (
                   <option key={ehrVisit._id} value={ehrVisit._id}>
                     {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}
-                    || {ehrVisit.visitDate}
+                    || {convertDate(ehrVisit.visitDate)}
                   </option>
                 );
               })}
@@ -122,19 +141,24 @@ const Add = () => {
 
           <div className='mb-3'>
             <label htmlFor=''>Select Health Staff: </label>
+            {ehrVisitListStaff?.healthStaff?.firstName} &nbsp;
+            {ehrVisitListStaff?.healthStaff?.lastName}
             <select
               name=''
               id='room'
               value={healthStaff}
               onChange={(e) => setHealthStaff(e.target.value)}
             >
-              {healthStaffList.map((healthStaff, idx) => {
+              {/* {healthStaffList.map((healthStaff, idx) => {
                 return (
                   <option key={healthStaff._id} value={healthStaff._id}>
                     {healthStaff.firstName} {healthStaff.lastName}
                   </option>
                 );
               })}
+               */}
+              {ehrVisitListStaff?.healthStaff?.firstName} &nbsp;
+              {ehrVisitListStaff?.healthStaff?.lastName}
             </select>
           </div>
 

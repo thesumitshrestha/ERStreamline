@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const AllAdmissions = () => {
   const [allAdmissions, setAllAdmissions] = useState([]);
@@ -37,13 +38,13 @@ const AllAdmissions = () => {
                   <td>
                     {admission.patient?.firstName} {admission.patient?.lastName}
                   </td>
-                  <td>{admission.ehrVisit?.visitDate}</td>
+                  <td>{convertDate(admission.ehrVisit?.visitDate)}</td>
                   <td>{admission.bedNumber?.roomNumber?.roomNumber}</td>
                   <td>{admission.bedNumber?.bedNumber.bedNumber}</td>
-                  <td>{admission.admissionDate}</td>
+                  <td>{convertDate(admission.admissionDate)}</td>
                   <td>
                     {admission.dischargeDate && admission.dischargeDate ? (
-                      admission.dischargeDate
+                      convertDate(admission.dischargeDate)
                     ) : (
                       <Link to={`/admission/update/${admission?._id}`}>
                         Not Discharged Yet --- Update

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
   const [lab, setLab] = useState('');
-  const [ehrvisit, setEhrvisit] = useState('');
+  const [ehrVisit, setEhrVisit] = useState('');
   const [date, setDate] = useState('');
   const [labFee, setLabFee] = useState('');
   const [patientList, setPatientList] = useState([]);
   const [labList, setLabList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
   const [report, setReport] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPatientList = async () => {
@@ -23,15 +26,28 @@ const Add = () => {
       setLabList(res.data);
     };
 
-    const getEhrVisits = async () => {
-      const res = await axios.get('http://localhost:5005/api/ehrVisits');
-      setEhrVisitList(res.data);
-    };
+    // const getEhrVisits = async () => {
+    //   const res = await axios.get('http://localhost:5005/api/ehrVisits');
+    //   setEhrVisitList(res.data);
+    // };
 
     getPatientList();
     getLabList();
-    getEhrVisits();
+    // getEhrVisits();
   }, []);
+
+  const handlePatient = async (e) => {
+    const patientId = e.target.value;
+    setPatient(patientId);
+    console.log(patientId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/patient/${patientId}`
+    );
+
+    console.log(res.data);
+    setEhrVisitList(res.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +57,7 @@ const Add = () => {
       formData.append('labFee', labFee);
       formData.append('patient', patient);
       formData.append('lab', lab);
-      formData.append('ehrvisit', ehrvisit);
+      formData.append('ehrvisit', ehrVisit);
       formData.append('date', date);
       const res = await axios.post(
         'http://localhost:5005/api/patientLabTest',
@@ -54,6 +70,7 @@ const Add = () => {
       );
       console.log('RES', res);
       console.log('NEW Lab Test ADDED');
+      navigate(`/`);
     } catch (error) {
       console.log(error);
     }
@@ -62,13 +79,16 @@ const Add = () => {
   return (
     <form className='create' onSubmit={handleSubmit}>
       <h3> Add a New Patient Lab Details</h3>
-      <label htmlFor=''>Patient: </label>
+      <label htmlFor=''>Select Patient: </label>
       <select
         name=''
         id='patient'
         value={patient}
-        onChange={(e) => setPatient(e.target.value)}
+        onChange={(e) => handlePatient(e)}
       >
+        <option selected value=''>
+          Select Patient
+        </option>
         {patientList.map((patient, idx) => {
           return (
             <option key={patient._id} value={patient._id}>
@@ -85,6 +105,9 @@ const Add = () => {
         value={lab}
         onChange={(e) => setLab(e.target.value)}
       >
+        <option selected value=''>
+          Select Lab
+        </option>
         {labList.map((lab, idx) => {
           return (
             <option key={lab._id} value={lab._id}>
@@ -99,13 +122,14 @@ const Add = () => {
       <select
         name=''
         id='ehrvisit'
-        value={ehrvisit}
-        onChange={(e) => setEhrvisit(e.target.value)}
+        value={ehrVisit}
+        onChange={(e) => setEhrVisit(e.target.value)}
       >
         {ehrVisitList.map((ehrvisit, idx) => {
           return (
             <option key={ehrvisit._id} value={ehrvisit._id}>
-              {ehrvisit.patient?.firstName} {ehrvisit.patient?.lastName}
+              {ehrvisit.patient?.firstName} {ehrvisit.patient?.lastName} ||{' '}
+              {ehrvisit?.visitDate}
             </option>
           );
         })}

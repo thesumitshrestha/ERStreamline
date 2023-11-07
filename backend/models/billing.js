@@ -9,11 +9,14 @@ const billingSchema = new Schema(
       ref: 'EHRVisit',
     },
 
-    medication: {
-      type: Schema.Types.ObjectId,
-      ref: 'Medication',
-    },
+    // medication: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Medication',
+    // },
 
+    medication: {
+      type: Number,
+    },
     patient: {
       type: Schema.Types.ObjectId,
       ref: 'Patient',
@@ -30,9 +33,13 @@ const billingSchema = new Schema(
     },
 
     lab: {
-      type: Schema.Types.ObjectId,
-      ref: 'PatientLabTest',
+      type: Number,
     },
+
+    // lab: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'PatientLabTest',
+    // },
 
     billingDate: {
       type: Date,

@@ -8,6 +8,7 @@ const getAllBillings = async (req, res) => {
     .populate([
       {
         path: 'ehrVisit',
+        populate: { path: 'healthStaff' },
       },
       {
         path: 'medication',
@@ -38,6 +39,7 @@ const getBillingsByEHRVisit = async (req, res) => {
     .populate([
       {
         path: 'ehrVisit',
+        populate: { path: 'healthStaff' },
       },
       {
         path: 'medication',
@@ -70,19 +72,30 @@ const createBilling = async (req, res) => {
     totalAmount,
   } = req.body;
 
+  console.log('RES BODY', res.body);
+
   let emptyFields = [];
 
   if (!ehrVisit) {
     emptyFields.push('ehrVisit');
   }
-  if (!room) {
-    emptyFields.push('room');
-  }
   if (!patient) {
     emptyFields.push('patient');
   }
-  if (!admissionDate) {
-    emptyFields.push('admissionDate');
+  if (!medication) {
+    emptyFields.push('medication');
+  }
+  if (!insurance) {
+    emptyFields.push('insurance');
+  }
+  if (!administrativeStaff) {
+    emptyFields.push('administrativeStaff');
+  }
+  if (!lab) {
+    emptyFields.push('lab');
+  }
+  if (!billingDate) {
+    emptyFields.push('billingDate');
   }
 
   if (emptyFields.length > 0) {

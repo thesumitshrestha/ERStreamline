@@ -31,6 +31,9 @@ import AllSchedules from './components/healthStaffSchedule/AllSchedules';
 import AddSchedules from './components/healthStaffSchedule/Add';
 import AddRoomBed from './components/roomBed/Add';
 import AllRoomBed from './components/roomBed/AllRoomBed';
+import PatientHistory from './components/PatientHistory';
+import PatientHistoryDetail from './components/PatientHistoryDetail';
+import PatientEHRVisit from './components/PatientEHRVisit';
 
 function App() {
   return (
@@ -71,6 +74,12 @@ function App() {
           <Route path='/schedule/add' element={<AddSchedules />} />
           <Route path='/roomBed/add' element={<AddRoomBed />} />
           <Route path='/roomBeds' element={<AllRoomBed />} />
+          <Route path='/patient-history' element={<PatientHistory />} />
+          <Route
+            path='/patient-history/:id'
+            element={<PatientHistoryDetail />}
+          />
+          <Route path='/ehr-visit/:id' element={<PatientEHRVisit />} />
         </Routes>
       </BrowserRouter>
     </div>

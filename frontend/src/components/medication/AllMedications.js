@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const AllMedications = () => {
   const [allMedications, setAllMedications] = useState([]);
@@ -43,9 +44,9 @@ const AllMedications = () => {
                     {medication.healthStaff?.firstName}{' '}
                     {medication.healthStaff?.lastName}
                   </td>
-                  <td>{medication.ehrVisit?.visitDate}</td>
+                  <td>{convertDate(medication.ehrVisit?.visitDate)}</td>
                   <td>{medication.medicationName}</td>
-                  <td>{medication.prescribedDate}</td>
+                  <td>{convertDate(medication.ehrVisit?.prescribedDate)}</td>
                   <td>{medication.dosage}</td>
                   <td>{medication.medicineCost}</td>
                 </tr>

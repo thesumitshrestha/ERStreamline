@@ -68,6 +68,29 @@ const createAdmission = async (req, res) => {
   }
 };
 
+// Get Admission By EHRVisit
+const getAdmissionByEHRVisit = async (req, res) => {
+  const id = req.params.id;
+  console.log('ID of EHR at Admission is', id);
+  const admissionByEHRVisits = await Admission.find({
+    ehrVisit: id,
+  })
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: 'ehrVisit',
+      },
+      {
+        path: 'bedNumber',
+        populate: [{ path: 'bedNumber' }, { path: 'roomNumber' }],
+      },
+      {
+        path: 'patient',
+      },
+    ]);
+  res.status(200).json(admissionByEHRVisits);
+};
+
 // Get Admissions by ID
 const getAdmissionById = async (req, res) => {
   const id = req.params.id;
@@ -123,4 +146,5 @@ module.exports = {
   getAllAdmissions,
   updateAdmission,
   getAdmissionById,
+  getAdmissionByEHRVisit,
 };

@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { DOCTOR_FEE, ADMISSION_FEE } from '../../commons/constants';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const today = new Date();
   const [patient, setPatient] = useState('');
   const [ehrVisit, setEhrVisit] = useState('');
-  const [adminStaff, setAdminStaff] = useState('');
+  const [administrativeStaff, setAdministrativeStaff] = useState('');
   const [medication, setMedication] = useState('');
   const [insurance, setInsurance] = useState('');
   const [lab, setLab] = useState('');
@@ -78,15 +80,15 @@ const Add = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5005/api/billing', {
+      const res = await axios.post('http://localhost:5005/api/billings', {
         patient: patient,
         ehrVisit: ehrVisit,
-        adminStaff: adminStaff,
+        administrativeStaff: administrativeStaff,
         medication: totalMedicationFee(),
-        lab: totalLabFee(),
+        lab: totalLabFee().toString(),
         billingDate: billingDate,
         insurance: patientInsurance[0]?._id,
-        totalAmount: totalAmount,
+        totalAmount: getTotalCalculatedAmount(),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -111,6 +113,33 @@ const Add = () => {
       return prev + +current?.medicineCost;
     }, 0);
     return sum;
+  };
+
+  const getTotalCalculatedAmount = () => {
+    let totalAmount = 0;
+    if (
+      patientInsurance[0]?.coverageAmount <
+      DOCTOR_FEE + totalLabFee() + totalMedicationFee()
+    ) {
+      console.log('IN IF');
+      totalAmount +=
+        DOCTOR_FEE +
+        totalLabFee() +
+        totalMedicationFee() +
+        patientInsurance[0]?.deductible -
+        patientInsurance[0]?.coverageAmount;
+    } else if (
+      patientInsurance[0]?.deductible >
+      DOCTOR_FEE + totalLabFee() + totalMedicationFee()
+    ) {
+      console.log('IN ELSE IF');
+      totalAmount += DOCTOR_FEE + totalLabFee() + totalMedicationFee();
+    } else {
+      console.log('IN ELSE ');
+      totalAmount = patientInsurance[0]?.deductible;
+    }
+
+    return totalAmount;
   };
 
   return (
@@ -141,7 +170,6 @@ const Add = () => {
               })}
             </select>
           </div>
-
           <div className='mb-3'>
             <label htmlFor=''>Select EHRVisit: </label>
             <select
@@ -158,21 +186,23 @@ const Add = () => {
                 return (
                   <option key={ehrVisit._id} value={ehrVisit._id}>
                     {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                    || {ehrVisit.visitDate}
+                    || {convertDate(ehrVisit.visitDate)}
                   </option>
                 );
               })}
             </select>
           </div>
-
           <div className='mb-3'>
             <label htmlFor=''>Select Admin Staff: </label>
             <select
               name=''
               id='room'
-              value={adminStaff}
-              onChange={(e) => setAdminStaff(e.target.value)}
+              value={administrativeStaff}
+              onChange={(e) => setAdministrativeStaff(e.target.value)}
             >
+              <option selected value=''>
+                Select Admin Staff
+              </option>
               {adminStaffList.map((adminStaff, idx) => {
                 return (
                   <option key={adminStaff._id} value={adminStaff._id}>
@@ -182,7 +212,6 @@ const Add = () => {
               })}
             </select>
           </div>
-
           <div className='mb-3'>
             <label htmlFor=''>Total Lab Fee: </label>$
             <input
@@ -192,9 +221,7 @@ const Add = () => {
               value={totalLabFee()}
             />
           </div>
-
-          <div>Doctor Fee: $1000</div>
-
+          <div>Doctor Fee: ${DOCTOR_FEE}</div>
           <div className='mb-3'>
             <label htmlFor=''>Total Medication Fee: </label>$
             <input
@@ -204,73 +231,76 @@ const Add = () => {
               value={totalMedicationFee()}
             />
           </div>
-
           <div className='mb-3'>
             <label>
-              Subtotal: {totalLabFee()} + {totalMedicationFee()} + $1000 =
+              Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
+              {DOCTOR_FEE}=
             </label>
-            {totalLabFee() + totalMedicationFee() + 1000}
+            ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
           </div>
-
           <div className='mb-3'>
-            <label
-              htmlFor='inputVacationPercentage'
-              className='switch switch-default'
-            >
-              Has Insurance
-            </label>
-            &nbsp;
-            <input
-              id='insuranceChecked'
-              type='checkbox'
-              checked={insuranceChecked}
-              onChange={handleInsurance}
-            />
-          </div>
+            <label htmlFor=''> Coverage Amount: </label>
+            {patientInsurance[0]?.coverageAmount
+              ? '$' + patientInsurance[0]?.coverageAmount
+              : '$' + 0}
 
+            <label htmlFor=''> Deductible Amount: </label>
+            {patientInsurance[0]?.deductible
+              ? '$' + patientInsurance[0]?.deductible
+              : '$' + 0}
+          </div>
+          {patientInsurance[0]?.deductible >
+          DOCTOR_FEE + totalLabFee() + totalMedicationFee()
+            ? 'Since Deductible amount is greater than subtotal amount,  Subtotal amount is applied.'
+            : // <div className='mb-3'>
+              //   <label
+              //     htmlFor='inputVacationPercentage'
+              //     className='switch switch-default'
+              //   >
+              //     Want to use Insurance?
+              //   </label>
+              //   &nbsp;
+              //   <input
+              //     id='insuranceChecked'
+              //     type='checkbox'
+              //     checked={insuranceChecked}
+              //     onChange={handleInsurance}
+              //   />
+              // </div>
+              ''}
+          {/* 
           {insuranceChecked && (
             <>
-              <div className='mb-3'>
-                <label htmlFor=''> Coverage Amount: </label>
-                {patientInsurance[0]?.coverageAmount
-                  ? patientInsurance[0]?.coverageAmount
-                  : 0}
-
-                <label htmlFor=''> Deductible Amount: </label>
-                {patientInsurance[0]?.deductible
-                  ? patientInsurance[0]?.deductible
-                  : 0}
-              </div>
               <div class='mb-3'>
                 <label class='mb-2 text-sm font-medium block' htmlFor=''>
-                  Total Amount
+                  Total Amount $
                 </label>
                 <input
                   class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   onChange={(e) => setTotalAmount(e.target.value)}
                   readonly='readonly'
                   value={
-                    1000 +
-                    totalLabFee() +
+                    DOCTOR_FEE +
                     totalMedicationFee() +
-                    patientInsurance[0]?.coverageAmount +
-                    patientInsurance[0]?.deductible
+                    totalLabFee() +
+                    patientInsurance[0]?.deductible -
+                    patientInsurance[0]?.coverageAmount
                   }
                 />
               </div>
             </>
-          )}
-
+          )} */}
           {!insuranceChecked && (
             <div class='mb-3'>
               <label class='mb-2 text-sm font-medium block' htmlFor=''>
-                Total Amount
+                Total Amount $
               </label>
               <input
                 readonly='readonly'
                 class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                 onChange={(e) => setTotalAmount(e.target.value)}
-                value={1000 + totalLabFee() + totalMedicationFee()}
+                defaultValue={getTotalCalculatedAmount()}
+                value={getTotalCalculatedAmount()}
               />
             </div>
           )}
