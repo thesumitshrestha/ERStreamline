@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Dashboard from '../dashboard/Dashboard';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -61,84 +62,107 @@ const Add = () => {
   };
 
   return (
-    <form className='create' onSubmit={handleSubmit}>
-      <h3> Add a New Patient Lab Details</h3>
-      <label htmlFor=''>Patient: </label>
-      <select
-        name=''
-        id='patient'
-        value={patient}
-        onChange={(e) => setPatient(e.target.value)}
-      >
-        {patientList.map((patient, idx) => {
-          return (
-            <option key={patient._id} value={patient._id}>
-              {patient.firstName} {patient.lastName}{' '}
-            </option>
-          );
-        })}
-      </select>
-      <br />
-      <label htmlFor=''>Lab: </label>
-      <select
-        name=''
-        id='lab'
-        value={lab}
-        onChange={(e) => setLab(e.target.value)}
-      >
-        {labList.map((lab, idx) => {
-          return (
-            <option key={lab._id} value={lab._id}>
-              {lab.name}
-            </option>
-          );
-        })}
-      </select>
-
-      <br />
-      <label htmlFor=''>EHRVisit: </label>
-      <select
-        name=''
-        id='ehrvisit'
-        value={ehrvisit}
-        onChange={(e) => setEhrvisit(e.target.value)}
-      >
-        {ehrVisitList.map((ehrvisit, idx) => {
-          return (
-            <option key={ehrvisit._id} value={ehrvisit._id}>
-              {ehrvisit.patient?.firstName} {ehrvisit.patient?.lastName}
-            </option>
-          );
-        })}
-      </select>
-      <br />
-      <label htmlFor=''>Report </label>
-      <input
-        onChange={(e) => {
-          setFile(e.target.files[0]);
-          console.log(e.target.files[0]);
-        }}
-        type='file'
-        name='report'
-      />
-
-      <br />
-      <label htmlFor=''>Lab Fee: </label>
-      <input
-        type='number'
-        onChange={(e) => setLabFee(e.target.value)}
-        value={labFee}
-      />
-      <br />
-      <label htmlFor=''>Date: </label>
-      <input
-        type='date'
-        onChange={(e) => setDate(e.target.value)}
-        value={date}
-      />
-      <br />
-      <button> Add Patient Lab Report</button>
-    </form>
+    <>
+      <div className='flex'>
+        <Dashboard/>
+        <div className='bg-background w-4/5 content'>
+          <div className='container px-5 py-medium'>
+            <form
+              className='create p-large gradient rounded-3xl '
+              onSubmit={handleSubmit}
+            >
+              <h3 className='mb-10 font-bold text-3xl'>
+                {' '}Add a New Patient Lab Details</h3>
+              <div className='mb-3'>
+                <label  className='mb-2 text-sm font-medium block' htmlFor=''>Patient: </label>
+                <select
+                  name=''
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  id='patient'
+                  value={patient}
+                  onChange={(e) => setPatient(e.target.value)}
+                >
+                  {patientList.map((patient, idx) => {
+                    return (
+                      <option key={patient._id} value={patient._id}>
+                        {patient.firstName} {patient.lastName}{' '}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Lab: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='lab'
+                  value={lab}
+                  onChange={(e) => setLab(e.target.value)}
+                >
+                  {labList.map((lab, idx) => {
+                    return (
+                      <option key={lab._id} value={lab._id}>
+                        {lab.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>EHRVisit: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='ehrvisit'
+                  value={ehrvisit}
+                  onChange={(e) => setEhrvisit(e.target.value)}
+                >
+                  {ehrVisitList.map((ehrvisit, idx) => {
+                    return (
+                      <option key={ehrvisit._id} value={ehrvisit._id}>
+                        {ehrvisit.patient?.firstName} {ehrvisit.patient?.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Report </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                    console.log(e.target.files[0]);
+                  }}
+                  type='file'
+                  name='report'
+                />
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Lab Fee: </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  type='number'
+                  onChange={(e) => setLabFee(e.target.value)}
+                  value={labFee}
+                />
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Date: </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  type='date'
+                  onChange={(e) => setDate(e.target.value)}
+                  value={date}
+                />
+              </div>
+              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Add Patient Lab Report</button>
+            </form>
+          </div>
+        </div>
+      </div>    
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Dashboard from '../dashboard/Dashboard';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -83,152 +84,163 @@ const Add = () => {
   };
 
   return (
-    <div className='bg-background'>
-      <div className='container mx-auto p-large'>
-        <form
-          className='create p-large gradient rounded-3xl '
-          onSubmit={handleSubmit}
-        >
-          <h3> Add a Billing</h3>
-          <div className='mb-3'>
-            <label htmlFor=''>Select Patient: </label>
-            <select
-              name=''
-              id='patient'
-              value={patient}
-              onChange={(e) => setPatient(e.target.value)}
+    <>
+      <div className='flex'>
+        <Dashboard/>
+        <div className='bg-background w-4/5 content'>
+          <div className='container px-5 py-medium'>
+            <form
+              className='create p-large gradient rounded-3xl '
+              onSubmit={handleSubmit}
             >
-              {patientList.map((patient, idx) => {
-                return (
-                  <option key={patient._id} value={patient._id}>
-                    {patient.firstName} {patient.lastName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <h3 className='mb-10 font-bold text-3xl'> Add a Billing</h3>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='patient'
+                  value={patient}
+                  onChange={(e) => setPatient(e.target.value)}
+                >
+                  {patientList.map((patient, idx) => {
+                    return (
+                      <option key={patient._id} value={patient._id}>
+                        {patient.firstName} {patient.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select EHRVisit: </label>
-            <select
-              name=''
-              id='ehrVisit'
-              value={ehrVisit}
-              onChange={(e) => setEhrVisit(e.target.value)}
-            >
-              {ehrVisitList.map((ehrVisit, idx) => {
-                return (
-                  <option key={ehrVisit._id} value={ehrVisit._id}>
-                    {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                    || {ehrVisit.visitDate}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='ehrVisit'
+                  value={ehrVisit}
+                  onChange={(e) => setEhrVisit(e.target.value)}
+                >
+                  {ehrVisitList.map((ehrVisit, idx) => {
+                    return (
+                      <option key={ehrVisit._id} value={ehrVisit._id}>
+                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
+                        || {ehrVisit.visitDate}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select Admin Staff: </label>
-            <select
-              name=''
-              id='room'
-              value={adminStaff}
-              onChange={(e) => setAdminStaff(e.target.value)}
-            >
-              {adminStaffList.map((adminStaff, idx) => {
-                return (
-                  <option key={adminStaff._id} value={adminStaff._id}>
-                    {adminStaff.firstName} {adminStaff.lastName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Admin Staff: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='room'
+                  value={adminStaff}
+                  onChange={(e) => setAdminStaff(e.target.value)}
+                >
+                  {adminStaffList.map((adminStaff, idx) => {
+                    return (
+                      <option key={adminStaff._id} value={adminStaff._id}>
+                        {adminStaff.firstName} {adminStaff.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select Lab: </label>
-            <select
-              name=''
-              id='room'
-              value={lab}
-              onChange={(e) => setLab(e.target.value)}
-            >
-              {labList.map((lab, idx) => {
-                return (
-                  <option key={lab._id} value={lab._id}>
-                    {lab?.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Lab: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='room'
+                  value={lab}
+                  onChange={(e) => setLab(e.target.value)}
+                >
+                  {labList.map((lab, idx) => {
+                    return (
+                      <option key={lab._id} value={lab._id}>
+                        {lab?.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select Insurance: </label>
-            <select
-              name=''
-              id='insurance'
-              value={insurance}
-              onChange={(e) => setInsurance(e.target.value)}
-            >
-              {insuranceList.map((insurance, idx) => {
-                return (
-                  <option key={insurance._id} value={insurance._id}>
-                    {insurance?.policyNumber}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Insurance: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='insurance'
+                  value={insurance}
+                  onChange={(e) => setInsurance(e.target.value)}
+                >
+                  {insuranceList.map((insurance, idx) => {
+                    return (
+                      <option key={insurance._id} value={insurance._id}>
+                        {insurance?.policyNumber}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select Medicaiton: </label>
-            <select
-              name=''
-              id='medication'
-              value={medication}
-              onChange={(e) => setMedication(e.target.value)}
-            >
-              {medicationList.map((medication, idx) => {
-                return (
-                  <option key={medication._id} value={medication._id}>
-                    {medication?.medicationName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Medicaiton: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='medication'
+                  value={medication}
+                  onChange={(e) => setMedication(e.target.value)}
+                >
+                  {medicationList.map((medication, idx) => {
+                    return (
+                      <option key={medication._id} value={medication._id}>
+                        {medication?.medicationName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Total Amount
-            </label>
-            <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='number'
-              onChange={(e) => setTotalAmount(e.target.value)}
-              value={lab?.labFee + medication?.medicationCost}
-            />
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Total Amount
+                </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  type='number'
+                  onChange={(e) => setTotalAmount(e.target.value)}
+                  value={lab?.labFee + medication?.medicationCost}
+                />
+              </div>
 
-          <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Billing Date
-            </label>
-            <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='date'
-              onChange={(e) => setBillingDate(e.target.value)}
-              value={billingDate}
-            />
-          </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Billing Date
+                </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  type='date'
+                  onChange={(e) => setBillingDate(e.target.value)}
+                  value={billingDate}
+                />
+              </div>
 
-          <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
-            Add Bill
-          </button>
-        </form>
+              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
+                Add Bill
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
