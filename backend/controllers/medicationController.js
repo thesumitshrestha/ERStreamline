@@ -19,6 +19,27 @@ const getAllMedication = async (req, res) => {
   res.status(200).json(medication);
 };
 
+const getMedicationCostByEHRVisit = async (req, res) => {
+  const id = req.params.id;
+  console.log('ID of EHR at Medication Cost is', id);
+  const medicationByEHRVisits = await Medication.find({
+    ehrVisit: id,
+  })
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: 'ehrVisit',
+      },
+      {
+        path: 'healthStaff',
+      },
+      {
+        path: 'patient',
+      },
+    ]);
+  res.status(200).json(medicationByEHRVisits);
+};
+
 // Create new Medication
 const createMedication = async (req, res) => {
   const {
@@ -81,4 +102,5 @@ const createMedication = async (req, res) => {
 module.exports = {
   createMedication,
   getAllMedication,
+  getMedicationCostByEHRVisit,
 };

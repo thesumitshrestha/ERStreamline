@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import { convertDate } from '../../commons/functions';
 
 const AllMedications = () => {
   const [allMedications, setAllMedications] = useState([]);
@@ -16,6 +17,7 @@ const AllMedications = () => {
   }, []);
   return (
     <>
+
       <div className='flex'>
         <Dashboard/>
         <div className='bg-background w-4/5 content'>

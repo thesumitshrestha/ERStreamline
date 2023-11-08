@@ -16,6 +16,7 @@ const admissionRoutes = require('./routes/admissions');
 const medicationRoutes = require('./routes/medication');
 const billingRoutes = require('./routes/billing');
 const healthStaffSchedules = require('./routes/healthStaffSchedule');
+const roomBedRoutes = require('./routes/roomBed');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -24,7 +25,7 @@ const multer = require('multer');
 
 //Express App
 const app = express();
-
+app.use('/reports', express.static('reports'));
 app.use(cors());
 
 // Middleware
@@ -55,6 +56,7 @@ app.use('/api/admissions', admissionRoutes);
 app.use('/api/medication', medicationRoutes);
 app.use('/api/billings', billingRoutes);
 app.use('/api/schedules', healthStaffSchedules);
+app.use('/api/roomBeds', roomBedRoutes);
 
 // Connect to MongoDB
 mongoose

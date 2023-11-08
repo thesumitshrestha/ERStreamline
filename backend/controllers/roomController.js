@@ -3,28 +3,18 @@ const mongoose = require('mongoose');
 
 // get all Rooms
 const getRoom = async (req, res) => {
-  const room = await Room.find({})
-    .sort({ createdAt: -1 })
-    .populate([
-      {
-        path: 'bedNumber',
-      },
-    ]);
+  const room = await Room.find({}).sort({ createdAt: -1 });
   res.status(200).json(room);
 };
 
 // Create new Room
 const createRoom = async (req, res) => {
-  const { roomNumber, bedNumber } = req.body;
+  const { roomNumber } = req.body;
 
   let emptyFields = [];
 
   if (!roomNumber) {
     emptyFields.push('roomNumber');
-  }
-
-  if (!bedNumber) {
-    emptyFields.push('bedNumber');
   }
 
   if (emptyFields.length > 0) {
@@ -37,7 +27,6 @@ const createRoom = async (req, res) => {
   try {
     const room = await Room.create({
       roomNumber,
-      bedNumber,
     });
     res.status(200).json(room);
   } catch (error) {

@@ -39,6 +39,7 @@ const Dashboard = () => {
           <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/billing/add'>Add Billing</NavLink>
           <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/schedules'>All Schedules</NavLink>
           <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/schedule/add'>Add Schedule</NavLink>
+          <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/patient-history'>Patient History</NavLink>
         </div>
       </div>
     </>

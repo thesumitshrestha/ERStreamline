@@ -3,14 +3,25 @@ const mongoose = require('mongoose');
 
 // get all Insurance
 const getInsurance = async (req, res) => {
-  const insurance = await Insurance.find({})
+  const insurance = await Insurance.find({}).sort({ createdAt: -1 }).populate({
+    path: 'patient',
+  });
+  res.status(200).json(insurance);
+};
+
+// Get insurance by Patient
+const getInsuranceByPatient = async (req, res) => {
+  const id = req.params.id;
+  const insuranceByPatient = await Insurance.find({
+    patient: id,
+  })
     .sort({ createdAt: -1 })
     .populate([
       {
         path: 'patient',
       },
     ]);
-  res.status(200).json(insurance);
+  res.status(200).json(insuranceByPatient);
 };
 
 // Create new Insurance
@@ -64,4 +75,5 @@ const createInsurance = async (req, res) => {
 module.exports = {
   createInsurance,
   getInsurance,
+  getInsuranceByPatient,
 };

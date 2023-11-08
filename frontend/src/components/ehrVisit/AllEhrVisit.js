@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import { convertDate } from '../../commons/functions';
 
 const AllEhrVisit = () => {
   const [allEhrVisits, setAllEhrVisits] = useState([]);
@@ -46,7 +47,9 @@ const AllEhrVisit = () => {
                         <tr key={ehrvisit._id}>
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>
+                            <Link to={`/patient/${ehrvisit.patient._id}`}>
                             {ehrvisit.patient.firstName} {ehrvisit.patient.lastName}
+                            </Link>
                           </td>
                           <td className='p-4'>
                             {ehrvisit.healthStaff.firstName}{' '}
@@ -56,7 +59,7 @@ const AllEhrVisit = () => {
                           <td className='p-4'>{ehrvisit.followUpInstructions}</td>
                           <td className='p-4'>{ehrvisit.diagnosis}</td>
                           <td className='p-4'>{ehrvisit.procedure}</td>
-                          <td className='p-4'>{ehrvisit.visitDate}</td>
+                          <td className='p-4'>{convertDate(ehrvisit.visitDate)}</td>
                           <td className='p-4'>{ehrvisit.height}</td>
                           <td className='p-4'>{ehrvisit.weight}</td>
                           <td className='p-4'>{ehrvisit.bloodPressure}</td>

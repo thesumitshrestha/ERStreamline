@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import { convertDate } from '../../commons/functions';
 
 const AllAdmissions = () => {
   const [allAdmissions, setAllAdmissions] = useState([]);
@@ -41,12 +42,17 @@ const AllAdmissions = () => {
                           <td className='p-4'>
                             {admission.patient?.firstName} {admission.patient?.lastName}
                           </td>
-                          <td className='p-4'>{admission.ehrVisit?.visitDate}</td>
-                          <td className='p-4'>{admission.admissionDate}</td>
+                          <td className='p-4'>{convertDate(admission.ehrVisit?.visitDate)}</td>
+                          <td className='p-4'>{admission.bedNumber?.roomNumber?.roomNumber}</td>
+                           <td className='p-4>{convertDate(admission.admissionDate)} </td>
                           <td className='p-4'>
-                            {admission.dischargeDate && admission.dischargeDate
-                              ? admission.dischargeDate
-                              : 'Not Discharged Yet'}
+                            {admission.dischargeDate && admission.dischargeDate ? (
+                      convertDate(admission.dischargeDate)
+                    ) : (
+                      <Link to={`/admission/update/${admission?._id}`}>
+                        Not Discharged Yet --- Update
+                      </Link>
+                    )}
                           </td>
                         </tr>
                       );
@@ -57,6 +63,8 @@ const AllAdmissions = () => {
           </div>
         </div>
       </div>
+
+    
     </>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -14,6 +15,8 @@ const Add = () => {
   const [patientList, setPatientList] = useState([]);
   const [healthStaffList, setHealthStaffList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
+  const [ehrVisitListStaff, setEhrVisitListStaff] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,8 +37,34 @@ const Add = () => {
 
     getPatientList();
     getHealthStaff();
-    getEHRVisitList();
+    // getEHRVisitList();
   }, []);
+
+  const handlePatient = async (e) => {
+    const patientId = e.target.value;
+    setPatient(patientId);
+    console.log(patientId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/patient/${patientId}`
+    );
+
+    console.log(res.data);
+    setEhrVisitList(res.data);
+  };
+
+  const handleEHRVisit = async (e) => {
+    const ehrVisitId = e.target.value;
+    setEhrVisit(ehrVisitId);
+    console.log('EHR Visit ID', ehrVisitId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/${ehrVisitId}`
+    );
+
+    console.log('EHR DATA', res.data);
+    setEhrVisitListStaff(res.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +72,7 @@ const Add = () => {
       const res = await axios.post('http://localhost:5005/api/medication', {
         patient: patient,
         ehrVisit: ehrVisit,
-        healthStaff: healthStaff,
+        healthStaff: ehrVisitListStaff?.healthStaff?._id,
         medicationName: medicationName,
         dosage: dosage,
         prescribedDate: prescribedDate,
@@ -70,7 +99,7 @@ const Add = () => {
               className='create p-large gradient rounded-3xl '
               onSubmit={handleSubmit}
             >
-              <h3 className='mb-10 font-bold text-3xl'> Add a Medicaiton</h3>
+              <h3 className='mb-10 font-bold text-3xl'> Add a Medication</h3>
               <div className='mb-3'>
                 <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
                 <select
@@ -90,6 +119,7 @@ const Add = () => {
                 </select>
               </div>
 
+
               <div className='mb-3'>
                 <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
                 <select
@@ -99,11 +129,14 @@ const Add = () => {
                   value={ehrVisit}
                   onChange={(e) => setEhrVisit(e.target.value)}
                 >
+                   <option selected value=''>
+                Select EHRVisit
+              </option>
                   {ehrVisitList.map((ehrVisit, idx) => {
                     return (
                       <option key={ehrVisit._id} value={ehrVisit._id}>
                         {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}
-                        || {ehrVisit.visitDate}
+                        || {convertDate(ehrVisit.visitDate)}
                       </option>
                     );
                   })}
@@ -119,10 +152,13 @@ const Add = () => {
                   value={healthStaff}
                   onChange={(e) => setHealthStaff(e.target.value)}
                 >
+                   <option selected value=''>
+                Select Health Staff
+              </option>
                   {healthStaffList.map((healthStaff, idx) => {
                     return (
                       <option key={healthStaff._id} value={healthStaff._id}>
-                        {healthStaff.firstName} {healthStaff.lastName}
+                        {ehrVisitListStaff.healthStaff.firstName} &nbsp; {ehrVisitListStaff.healthStaff.lastName}
                       </option>
                     );
                   })}

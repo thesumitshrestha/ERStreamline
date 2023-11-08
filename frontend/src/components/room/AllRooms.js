@@ -26,7 +26,6 @@ const AllRooms = () => {
                   <tr>
                     <th className='p-4'> S.N.</th>
                     <th className='p-4'>Room Number</th>
-                    <th className='p-4'>Bed Number</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -36,7 +35,6 @@ const AllRooms = () => {
                         <tr key={room._id}>
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>{room.roomNumber}</td>
-                          <td className='p-4'>{room.bedNumber?.bedNumber}</td>
                         </tr>
                       );
                     })}

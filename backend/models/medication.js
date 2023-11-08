@@ -20,18 +20,16 @@ const medicationSchema = new Schema(
       type: Date,
       require: true,
     },
-    ehrVisit: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'EHRVisit',
-      },
-    ],
-    healthStaff: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'HealthStaff',
-      },
-    ],
+    ehrVisit: {
+      type: Schema.Types.ObjectId,
+      ref: 'EHRVisit',
+    },
+
+    healthStaff: {
+      type: Schema.Types.ObjectId,
+      ref: 'HealthStaff',
+    },
+
     medicineCost: {
       type: Number,
       min: 0,

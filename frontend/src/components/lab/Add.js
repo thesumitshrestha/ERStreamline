@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Dashboard from '../dashboard/Dashboard';
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,13 +24,13 @@ const Add = () => {
       });
       console.log(res.data);
       console.log('NEW Lab ADDED');
+      navigate(`/`);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-
     <>
       <div className='flex'>
         <Dashboard/>
@@ -80,7 +82,7 @@ const Add = () => {
               
               <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Add Lab</button>
             </form>
-          </div>
+          </div>   
         </div>
       </div>
     </>

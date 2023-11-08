@@ -8,6 +8,7 @@ const getAllBillings = async (req, res) => {
     .populate([
       {
         path: 'ehrVisit',
+        populate: { path: 'healthStaff' },
       },
       {
         path: 'medication',
@@ -28,6 +29,36 @@ const getAllBillings = async (req, res) => {
   res.status(200).json(billing);
 };
 
+const getBillingsByEHRVisit = async (req, res) => {
+  const id = req.params.id;
+  console.log('ID is', id);
+  const billingByEHR = await Billing.find({
+    ehrVisit: id,
+  })
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: 'ehrVisit',
+        populate: { path: 'healthStaff' },
+      },
+      {
+        path: 'medication',
+      },
+      {
+        path: 'patient',
+      },
+      {
+        path: 'insurance',
+      },
+      {
+        path: 'administrativeStaff',
+      },
+      {
+        path: 'lab',
+      },
+    ]);
+};
+
 // Create new Billing
 const createBilling = async (req, res) => {
   const {
@@ -41,19 +72,30 @@ const createBilling = async (req, res) => {
     totalAmount,
   } = req.body;
 
+  console.log('RES BODY', res.body);
+
   let emptyFields = [];
 
   if (!ehrVisit) {
     emptyFields.push('ehrVisit');
   }
-  if (!room) {
-    emptyFields.push('room');
-  }
   if (!patient) {
     emptyFields.push('patient');
   }
-  if (!admissionDate) {
-    emptyFields.push('admissionDate');
+  if (!medication) {
+    emptyFields.push('medication');
+  }
+  if (!insurance) {
+    emptyFields.push('insurance');
+  }
+  if (!administrativeStaff) {
+    emptyFields.push('administrativeStaff');
+  }
+  if (!lab) {
+    emptyFields.push('lab');
+  }
+  if (!billingDate) {
+    emptyFields.push('billingDate');
   }
 
   if (emptyFields.length > 0) {
@@ -83,4 +125,5 @@ const createBilling = async (req, res) => {
 module.exports = {
   createBilling,
   getAllBillings,
+  getBillingsByEHRVisit,
 };

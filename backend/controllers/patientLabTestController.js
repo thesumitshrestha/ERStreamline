@@ -19,55 +19,33 @@ const getPatientLabTest = async (req, res) => {
   res.status(200).json(patientLabTest);
 };
 
-// Create new Patient Lab Test
-const createPatientLabTest = async (req, res) => {
-  const { patient, ehrvisit, lab, labFee, report, date } = req.body;
-
-  let emptyFields = [];
-
-  if (!patient) {
-    emptyFields.push('patient');
-  }
-  if (!ehrvisit) {
-    emptyFields.push('ehrvisit');
-  }
-  if (!lab) {
-    emptyFields.push('lab');
-  }
-  if (!labFee) {
-    emptyFields.push('labFee');
-  }
-  if (!report) {
-    emptyFields.push('report');
-  }
-  if (!date) {
-    emptyFields.push('date');
-  }
-  if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({ error: 'Please fill in all the fields', emptyFields });
-  }
-
-  // Add doc to db
-  try {
-    const patientLabTest = await PatientLabTest.create({
-      patient,
-      lab,
-      ehrvisit,
-      report,
-      labFee,
-      date,
-    });
-    res.status(200).json(patientLabTest);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+// Get Patient Lab Test by EHRVisits
+const getpatientLabTestByEHRVisit = async (req, res) => {
+  const id = req.params.id;
+  console.log('ID of EHR at Patient Lab Test is', id);
+  const patientLabTestByEHRVisits = await PatientLabTest.find({
+    ehrvisit: id,
+  })
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: 'patient',
+      },
+      {
+        path: 'ehrvisit',
+      },
+      {
+        path: 'lab',
+      },
+    ]);
+  res.status(200).json(patientLabTestByEHRVisits);
 };
 
-patientLabTest: async (req, res) => {};
+// Create new Patient Lab Test
+// const createPatientLabTest =
 
 module.exports = {
-  createPatientLabTest,
+  // createPatientLabTest,
   getPatientLabTest,
+  getpatientLabTestByEHRVisit,
 };

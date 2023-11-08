@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Dashboard from '../dashboard/Dashboard';
+import { useNavigate } from 'react-router-dom';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
   const [lab, setLab] = useState('');
-  const [ehrvisit, setEhrvisit] = useState('');
+  const [ehrVisit, setEhrVisit] = useState('');
   const [date, setDate] = useState('');
   const [labFee, setLabFee] = useState('');
   const [patientList, setPatientList] = useState([]);
   const [labList, setLabList] = useState([]);
   const [ehrVisitList, setEhrVisitList] = useState([]);
-  const [file, setFile] = useState('');
+  const [report, setReport] = useState();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPatientList = async () => {
@@ -24,38 +27,51 @@ const Add = () => {
       setLabList(res.data);
     };
 
-    const getEhrVisits = async () => {
-      const res = await axios.get('http://localhost:5005/api/ehrVisits');
-      setEhrVisitList(res.data);
-    };
+    // const getEhrVisits = async () => {
+    //   const res = await axios.get('http://localhost:5005/api/ehrVisits');
+    //   setEhrVisitList(res.data);
+    // };
 
     getPatientList();
     getLabList();
-    getEhrVisits();
+    // getEhrVisits();
   }, []);
+
+  const handlePatient = async (e) => {
+    const patientId = e.target.value;
+    setPatient(patientId);
+    console.log(patientId);
+
+    const res = await axios.get(
+      `http://localhost:5005/api/ehrVisits/patient/${patientId}`
+    );
+
+    console.log(res.data);
+    setEhrVisitList(res.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('report', file);
+      formData.append('report', report);
       formData.append('labFee', labFee);
-      console.log('File', file);
-      console.log('labFee', labFee);
-      console.log('FORM DATa', formData);
-      const res = await axios.post('http://localhost:5005/api/patientLabTest', {
-        patient: patient,
-        lab: lab,
-        ehrvisit: ehrvisit,
-        report: formData,
-        labFee: labFee,
-        date: date,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log(res.data);
-      console.log('NEW Lab ADDED');
+      formData.append('patient', patient);
+      formData.append('lab', lab);
+      formData.append('ehrvisit', ehrVisit);
+      formData.append('date', date);
+      const res = await axios.post(
+        'http://localhost:5005/api/patientLabTest',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log('RES', res);
+      console.log('NEW Lab Test ADDED');
+      navigate(`/`);
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +88,7 @@ const Add = () => {
               onSubmit={handleSubmit}
             >
               <h3 className='mb-10 font-bold text-3xl'>
-                {' '}Add a New Patient Lab Details</h3>
+                Add a New Patient Lab Details</h3>
               <div className='mb-3'>
                 <label  className='mb-2 text-sm font-medium block' htmlFor=''>Patient: </label>
                 <select

@@ -8,9 +8,9 @@ const admissionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'EHRVisit',
     },
-    room: {
+    bedNumber: {
       type: Schema.Types.ObjectId,
-      ref: 'Room',
+      ref: 'RoomBed',
     },
     patient: {
       type: Schema.Types.ObjectId,
