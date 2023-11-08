@@ -1,5 +1,10 @@
 import './App.css';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import Header from './components/homePage/Header';
+import Login from './components/homePage/Login';
+import Announcements from './components/homePage/Announcements';
+import Patient from './components/homePage/Patient';
 import Add from './components/patients/Add';
 import AdddHealthStaff from './components/healthStaff/Add';
 import Dashboard from './components/dashboard/Dashboard';
@@ -37,10 +42,16 @@ import PatientEHRVisit from './components/PatientEHRVisit';
 
 function App() {
   return (
-    <div className='App'>
+    <div className='App bg-background'>
+
+
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Dashboard />} />
+          {/* <Route path='/' element={<Dashboard />} /> */}
+          <Route path='/homepage/login' element={<Login />} />
+          {/* <Route path='/homepage/announcements' element={<Announcements />} /> */}
+          <Route path='/' element={<Announcements />} />
+          <Route path='/homepage/patient' element={<Patient />} />
           <Route path='/patient/add' element={<Add />} />
           <Route path='/patients' element={<AllPatients />} />
           <Route path='/patient/:id' element={<PatientDetail />} />

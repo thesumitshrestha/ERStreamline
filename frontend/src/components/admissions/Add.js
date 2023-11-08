@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Dashboard from '../dashboard/Dashboard';
 import { convertDate } from '../../commons/functions';
 
 const Add = () => {
@@ -64,111 +65,102 @@ const Add = () => {
   };
 
   return (
-    <div className='bg-background'>
-      <div className='container mx-auto p-large'>
-        <form
-          className='create p-large gradient rounded-3xl '
-          onSubmit={handleSubmit}
-        >
-          <h3> Add an Admission (Room)</h3>
-          <div className='mb-3'>
-            <label htmlFor=''>Select Patient: </label>
-            <select
-              name=''
-              id='patient'
-              value={patient}
-              onChange={(e) => handlePatient(e)}
+    <>
+      <div className='flex'>
+        <Dashboard/>
+        <div className='bg-background w-4/5 content'>
+          <div className='container px-5 py-medium'>
+            <form
+              className='create p-large gradient rounded-3xl '
+              onSubmit={handleSubmit}
             >
-              <option selected value=''>
+              <h3 className='mb-10 font-bold text-3xl'> Add an Admission (Room)</h3>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='patient'
+                  value={patient}
+                   onChange={(e) => handlePatient(e)}
+                >
+                   <option selected value=''>
                 Select Patient
               </option>
+                  {patientList.map((patient, idx) => {
+                    return (
+                      <option key={patient._id} value={patient._id}>
+                        {patient.firstName} {patient.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-              {patientList.map((patient, idx) => {
-                return (
-                  <option key={patient._id} value={patient._id}>
-                    {patient.firstName} {patient.lastName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label htmlFor=''>Select EHRVisit: </label>
-
-            <select
-              name=''
-              id='ehrVisit'
-              value={ehrVisit}
-              onChange={(e) => setEhrVisit(e.target.value)}
-            >
-              <option selected value=''>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='ehrVisit'
+                  value={ehrVisit}
+                 onChange={(e) => setEhrVisit(e.target.value)}
+                >
+                   <option selected value=''>
                 Select EHR Visit
               </option>
-              {ehrVisitList.map((ehrVisit, idx) => {
-                return (
-                  <option key={ehrVisit._id} value={ehrVisit._id}>
-                    {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                    || {convertDate(ehrVisit.visitDate)}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+                  {ehrVisitList.map((ehrVisit, idx) => {
+                    return (
+                      <option key={ehrVisit._id} value={ehrVisit._id}>
+                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
+                        || {convertDate(ehrVisit.visitDate)}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
-          <div className='mb-3'>
-            <label htmlFor=''>Select Bed: </label>
-            <select
-              name=''
-              id='room'
-              value={bedNumber}
-              onChange={(e) => setBedNumber(e.target.value)}
-            >
-              <option selected value=''>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Room: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='room'
+                  value={bedNumber}
+                  onChange={(e) => setBedNumber(e.target.value)}
+                >
+                  <option selected value=''>
                 Select Bed
               </option>
-              {roomBedList
-                .filter((room) => room.isAvailable === true)
-                .map((room, idx) => {
-                  return (
-                    <option key={room._id} value={room._id}>
-                      {room.roomNumber?.roomNumber} {room.bedNumber?.bedNumber}
-                    </option>
-                  );
-                })}
-            </select>
+                  {roomList.map((room, idx) => {
+                    return (
+                      <option key={room._id} value={room._id}>
+                        {room.roomNumber?.roomNumber} {room.bedNumber?.bedNumber}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Admission Date
+                </label>
+                <input
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  type='date'
+                  onChange={(e) => setAdmissionDate(e.target.value)}
+                  value={admissionDate}
+                />
+              </div>
+
+              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
+                Add Admissions
+              </button>
+            </form>
           </div>
-
-          <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Admission Date
-            </label>
-            <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='date'
-              onChange={(e) => setAdmissionDate(e.target.value)}
-              value={admissionDate}
-            />
-          </div>
-
-          {/* <div class='mb-3'>
-            <label class='mb-2 text-sm font-medium block' htmlFor=''>
-              Discharge Date
-            </label>
-            <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              type='date'
-              onChange={(e) => setDischargeDate(e.target.value)}
-              value={dischargeDate}
-            />
-          </div> */}
-
-          <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
-            Add Admissions
-          </button>
-        </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

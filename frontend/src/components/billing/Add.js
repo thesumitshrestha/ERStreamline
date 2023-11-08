@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Dashboard from '../dashboard/Dashboard';
 import moment from 'moment';
 import { DOCTOR_FEE, ADMISSION_FEE } from '../../commons/constants';
 import { convertDate } from '../../commons/functions';
@@ -143,95 +144,116 @@ const Add = () => {
   };
 
   return (
-    <div className='bg-background'>
-      <div className='container mx-auto p-large'>
-        <form
-          className='create p-large gradient rounded-3xl '
-          onSubmit={handleSubmit}
-        >
-          <h3> Add a Billing</h3>
-          <div className='mb-3'>
-            <label htmlFor=''>Select Patient: </label>
-            <select
-              name=''
-              id='patient'
-              value={patient}
-              onChange={(e) => handlePatient(e)}
+    <>
+      <div className='flex'>
+        <Dashboard/>
+        <div className='bg-background w-4/5 content'>
+          <div className='container px-5 py-medium'>
+            <form
+              className='create p-large gradient rounded-3xl '
+              onSubmit={handleSubmit}
             >
-              <option selected value=''>
-                Select Patient
-              </option>
-              {patientList.map((patient, idx) => {
-                return (
-                  <option key={patient._id} value={patient._id}>
-                    {patient.firstName} {patient.lastName}
+              <h3 className='mb-10 font-bold text-3xl'> Add a Billing</h3>
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='patient'
+                  value={patient}
+                  onChange={(e) => handlePatient(e)}
+                >
+                  <option selected value=''>
+                     Select Patient
                   </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label htmlFor=''>Select EHRVisit: </label>
-            <select
-              name=''
-              id='ehrVisit'
-              value={ehrVisit}
-              onChange={(e) => handleEHRVisit(e)}
-              // onChange={(e) => setEhrVisit(e.target.value)}
-            >
-              <option selected value=''>
-                Select EHRVisit
-              </option>
-              {ehrVisitList.map((ehrVisit, idx) => {
-                return (
-                  <option key={ehrVisit._id} value={ehrVisit._id}>
-                    {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                    || {convertDate(ehrVisit.visitDate)}
+                  {patientList.map((patient, idx) => {
+                    return (
+                      <option key={patient._id} value={patient._id}>
+                        {patient.firstName} {patient.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='ehrVisit'
+                  value={ehrVisit}
+                  onChange={(e) => handleEHRVisit(e)}
+                >
+                    <option selected value=''>
+                      Select EHRVisit
+                    </option>
+                  {ehrVisitList.map((ehrVisit, idx) => {
+                    return (
+                      <option key={ehrVisit._id} value={ehrVisit._id}>
+                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
+                        || {convertDate(ehrVisit.visitDate)}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Administrative Staff: </label>
+                <select
+                  className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  name=''
+                  id='room'
+                  value={administrativeStaff}
+                  onChange={(e) => setAdministrativeStaff(e.target.value)}
+                >
+                  <option selected value=''>
+                    Select Admin Staff
                   </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label htmlFor=''>Select Admin Staff: </label>
-            <select
-              name=''
-              id='room'
-              value={administrativeStaff}
-              onChange={(e) => setAdministrativeStaff(e.target.value)}
-            >
-              <option selected value=''>
-                Select Admin Staff
-              </option>
-              {adminStaffList.map((adminStaff, idx) => {
-                return (
-                  <option key={adminStaff._id} value={adminStaff._id}>
-                    {adminStaff.firstName} {adminStaff.lastName}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label htmlFor=''>Total Lab Fee: </label>$
-            <input
+                  {adminStaffList.map((adminStaff, idx) => {
+                    return (
+                      <option key={adminStaff._id} value={adminStaff._id}>
+                        {adminStaff.firstName} {adminStaff.lastName}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Total Lab Fee: </label>
+                <input
               class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
               readonly='readonly'
               // onChange={setLab(totalLabFee())}
-              value={totalLabFee()}
-            />
-          </div>
-          <div>Doctor Fee: ${DOCTOR_FEE}</div>
-          <div className='mb-3'>
-            <label htmlFor=''>Total Medication Fee: </label>$
-            <input
+                  value={totalLabFee()}
+                />
+              </div>
+                                         
+              <div>Doctor Fee: ${DOCTOR_FEE}</div>
+
+             
+              <div className='mb-3'>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Medication: </label>
+                <input
               class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
               readonly='readonly'
               // onChange={setMedication(totalMedicationFee())}
               value={totalMedicationFee()}
             />
+              </div>
+                     
+                     <div className='mb-3'>
+            <label>
+              Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
+              {DOCTOR_FEE}=
+            </label>
+            ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
           </div>
-          <div className='mb-3'>
+
+              <div className='mb-3'>
             <label>
               Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
               {DOCTOR_FEE}=
@@ -305,12 +327,14 @@ const Add = () => {
             </div>
           )}
 
-          <button class='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
-            Add Bill
-          </button>
-        </form>
+              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
+                Add Bill
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
