@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import {
+  Scheduler,
+  WeekView,
+  WorkWeekView,
+} from '@progress/kendo-react-scheduler';
 
 const AllSchedules = () => {
   const [schedules, setSchedules] = useState([]);
@@ -14,13 +19,19 @@ const AllSchedules = () => {
     };
     fetchAllHealthStaffSchedules();
   }, []);
-   return (
+  return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
-            <Link to='/schedule/add' className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'> Add Schedule</Link>
+            <Link
+              to='/schedule/add'
+              className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+            >
+              {' '}
+              Add Schedule
+            </Link>
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
               <table>
                 <thead>

@@ -92,7 +92,7 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
@@ -101,7 +101,9 @@ const Add = () => {
             >
               <h3 className='mb-10 font-bold text-3xl'> Add a Medication</h3>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Patient:
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -109,6 +111,7 @@ const Add = () => {
                   value={patient}
                   onChange={(e) => setPatient(e.target.value)}
                 >
+                  <option>Select Patient</option>
                   {patientList.map((patient, idx) => {
                     return (
                       <option key={patient._id} value={patient._id}>
@@ -119,9 +122,10 @@ const Add = () => {
                 </select>
               </div>
 
-
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select EHRVisit:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -129,13 +133,14 @@ const Add = () => {
                   value={ehrVisit}
                   onChange={(e) => setEhrVisit(e.target.value)}
                 >
-                   <option selected value=''>
-                Select EHRVisit
-              </option>
+                  <option selected value=''>
+                    Select EHRVisit
+                  </option>
                   {ehrVisitList.map((ehrVisit, idx) => {
                     return (
                       <option key={ehrVisit._id} value={ehrVisit._id}>
-                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}
+                        {ehrVisit.patient?.firstName}{' '}
+                        {ehrVisit.patient?.lastName}
                         || {convertDate(ehrVisit.visitDate)}
                       </option>
                     );
@@ -144,7 +149,9 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Health Staff: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Health Staff:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -152,13 +159,14 @@ const Add = () => {
                   value={healthStaff}
                   onChange={(e) => setHealthStaff(e.target.value)}
                 >
-                   <option selected value=''>
-                Select Health Staff
-              </option>
+                  <option selected value=''>
+                    Select Health Staff
+                  </option>
                   {healthStaffList.map((healthStaff, idx) => {
                     return (
                       <option key={healthStaff._id} value={healthStaff._id}>
-                        {ehrVisitListStaff.healthStaff.firstName} &nbsp; {ehrVisitListStaff.healthStaff.lastName}
+                        {ehrVisitListStaff.healthStaff?.firstName} &nbsp;{' '}
+                        {ehrVisitListStaff?.healthStaff?.lastName}
                       </option>
                     );
                   })}
