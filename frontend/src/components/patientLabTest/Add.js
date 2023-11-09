@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Dashboard from '../dashboard/Dashboard';
 import { useNavigate } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const [patient, setPatient] = useState('');
@@ -99,7 +100,7 @@ const Add = () => {
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   id='patient'
                   value={patient}
-                  onChange={(e) => setPatient(e.target.value)}
+                  onChange={(e) => handlePatient(e)}
                 >
                   {patientList.map((patient, idx) => {
                     return (
@@ -144,8 +145,9 @@ const Add = () => {
                   {ehrVisitList.map((ehrvisit, idx) => {
                     return (
                       <option key={ehrvisit._id} value={ehrvisit._id}>
-                        {ehrvisit.patient?.firstName}{' '}
-                        {ehrvisit.patient?.lastName}
+                        {ehrvisit.patient?.firstName} &nbsp;
+                        {ehrvisit.patient?.lastName} ||{' '}
+                        {convertDate(ehrVisit?.visitDate)}
                       </option>
                     );
                   })}

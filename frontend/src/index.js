@@ -3,8 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { registerLicense } from '@syncfusion/ej2-base';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Registering Syncfusion license key
+registerLicense('License Key');
+
 root.render(
   <React.StrictMode>
     <App />

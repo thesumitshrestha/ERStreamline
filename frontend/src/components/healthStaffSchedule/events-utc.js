@@ -1,4 +1,4 @@
-export const appointments = [
+export const appData = [
   {
     title: 'Website Re-Design Plan',
     startDate: new Date(2018, 5, 25, 9, 35),
