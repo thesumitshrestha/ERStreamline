@@ -18,10 +18,17 @@ const AllPatients = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
-            <Link to='/patient/add' className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'> Add Patient </Link> <br /> <br /> <br />
+            <Link
+              to='/patient/add'
+              className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+            >
+              {' '}
+              Add Patient{' '}
+            </Link>{' '}
+            <br /> <br /> <br />
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
               <table>
                 <thead>
@@ -47,22 +54,28 @@ const AllPatients = () => {
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>{patient.firstName}</td>
                           <td className='p-4'>{patient.lastName}</td>
-                          <td className='p-4'>{patient.dateOfBirth}</td>
+                          <td className='p-4'>
+                            {convertDate(patient.dateOfBirth)}
+                          </td>
                           <td className='p-4'>{patient.address}</td>
                           <td className='p-4'>{patient.phone}</td>
                           <td className='p-4'>{patient.email}</td>
                           <td className='p-4'>{patient.gender}</td>
                           <td className='p-4'>{patient.bloodGroup}</td>
-                          <td className='p-4'>{patient.emergencyContactName}</td>
-                          <td className='p-4'>{patient.emergencyContactNumber}</td>
+                          <td className='p-4'>
+                            {patient.emergencyContactName}
+                          </td>
+                          <td className='p-4'>
+                            {patient.emergencyContactNumber}
+                          </td>
                         </tr>
                       );
                     })}
                 </tbody>
               </table>
-            </div> 
+            </div>
           </div>
-        </div> 
+        </div>
       </div>
     </>
   );

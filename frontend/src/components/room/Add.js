@@ -38,7 +38,7 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form

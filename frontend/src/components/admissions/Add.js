@@ -67,26 +67,31 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
               className='create p-large gradient rounded-3xl '
               onSubmit={handleSubmit}
             >
-              <h3 className='mb-10 font-bold text-3xl'> Add an Admission (Room)</h3>
+              <h3 className='mb-10 font-bold text-3xl'>
+                {' '}
+                Add an Admission (Room)
+              </h3>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Patient:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
                   id='patient'
                   value={patient}
-                   onChange={(e) => handlePatient(e)}
+                  onChange={(e) => handlePatient(e)}
                 >
-                   <option selected value=''>
-                Select Patient
-              </option>
+                  <option selected value=''>
+                    Select Patient
+                  </option>
                   {patientList.map((patient, idx) => {
                     return (
                       <option key={patient._id} value={patient._id}>
@@ -98,22 +103,25 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select EHRVisit:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
                   id='ehrVisit'
                   value={ehrVisit}
-                 onChange={(e) => setEhrVisit(e.target.value)}
+                  onChange={(e) => setEhrVisit(e.target.value)}
                 >
-                   <option selected value=''>
-                Select EHR Visit
-              </option>
+                  <option selected value=''>
+                    Select EHR Visit
+                  </option>
                   {ehrVisitList.map((ehrVisit, idx) => {
                     return (
                       <option key={ehrVisit._id} value={ehrVisit._id}>
-                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                        || {convertDate(ehrVisit.visitDate)}
+                        {ehrVisit.patient?.firstName}{' '}
+                        {ehrVisit.patient?.lastName} ||{' '}
+                        {convertDate(ehrVisit.visitDate)}
                       </option>
                     );
                   })}
@@ -121,7 +129,9 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Room: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Room:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -130,12 +140,13 @@ const Add = () => {
                   onChange={(e) => setBedNumber(e.target.value)}
                 >
                   <option selected value=''>
-                Select Bed
-              </option>
-                  {roomList.map((room, idx) => {
+                    Select Bed
+                  </option>
+                  {roomBedList.map((room, idx) => {
                     return (
                       <option key={room._id} value={room._id}>
-                        {room.roomNumber?.roomNumber} {room.bedNumber?.bedNumber}
+                        {room.roomNumber?.roomNumber}{' '}
+                        {room.bedNumber?.bedNumber}
                       </option>
                     );
                   })}

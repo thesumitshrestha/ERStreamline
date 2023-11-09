@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios, { all } from 'axios';
 import { Link } from 'react-router-dom';
+import { convertDate } from '../../commons/functions';
 
 const AllBillings = () => {
   const [allBillings, setAllBillings] = useState([]);
@@ -27,6 +28,7 @@ const AllBillings = () => {
             <th>Lab Fee</th>
             <th>Insurance Coverage</th>
             <th>Deductible</th>
+            <th>Billing Date</th>
             <th>Total Amount</th>
           </tr>
         </thead>
@@ -44,12 +46,12 @@ const AllBillings = () => {
                     {billing.ehrVisit?.healthStaff?.firstName} &nbsp;
                     {billing.ehrVisit?.healthStaff?.lastName}
                   </td>
-                  <td>{billing.ehrVisit?.visitDate}</td>
-                  <td>{billing?.medication}</td>
-                  <td>{billing?.lab}</td>
-                  <td>{billing.insurance.coverageAmount}</td>
-                  <td>{billing.insurance.deductible}</td>
-                  <td>{billing.billingDate}</td>
+                  <td>{convertDate(billing.ehrVisit?.visitDate)}</td>
+                  <td>${billing?.medication}</td>
+                  <td>${billing?.lab}</td>
+                  <td>${billing.insurance.coverageAmount}</td>
+                  <td>${billing.insurance.deductible}</td>
+                  <td>{convertDate(billing.billingDate)}</td>
                   <td>{billing.totalAmount}</td>
                 </tr>
               );

@@ -43,8 +43,6 @@ import PatientEHRVisit from './components/PatientEHRVisit';
 function App() {
   return (
     <div className='App bg-background'>
-
-
       <BrowserRouter>
         <Routes>
           {/* <Route path='/' element={<Dashboard />} /> */}

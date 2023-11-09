@@ -80,7 +80,7 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
@@ -88,9 +88,12 @@ const Add = () => {
               onSubmit={handleSubmit}
             >
               <h3 className='mb-10 font-bold text-3xl'>
-                Add a New Patient Lab Details</h3>
+                Add a New Patient Lab Details
+              </h3>
               <div className='mb-3'>
-                <label  className='mb-2 text-sm font-medium block' htmlFor=''>Patient: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Patient:{' '}
+                </label>
                 <select
                   name=''
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
@@ -108,7 +111,9 @@ const Add = () => {
                 </select>
               </div>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Lab: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Lab:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -126,29 +131,34 @@ const Add = () => {
                 </select>
               </div>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>EHRVisit: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  EHRVisit:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
                   id='ehrvisit'
-                  value={ehrvisit}
-                  onChange={(e) => setEhrvisit(e.target.value)}
+                  value={ehrVisit}
+                  onChange={(e) => setEhrVisit(e.target.value)}
                 >
                   {ehrVisitList.map((ehrvisit, idx) => {
                     return (
                       <option key={ehrvisit._id} value={ehrvisit._id}>
-                        {ehrvisit.patient?.firstName} {ehrvisit.patient?.lastName}
+                        {ehrvisit.patient?.firstName}{' '}
+                        {ehrvisit.patient?.lastName}
                       </option>
                     );
                   })}
                 </select>
               </div>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Report </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Report{' '}
+                </label>
                 <input
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   onChange={(e) => {
-                    setFile(e.target.files[0]);
+                    setReport(e.target.files[0]);
                     console.log(e.target.files[0]);
                   }}
                   type='file'
@@ -156,7 +166,9 @@ const Add = () => {
                 />
               </div>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Lab Fee: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Lab Fee:{' '}
+                </label>
                 <input
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   type='number'
@@ -165,7 +177,9 @@ const Add = () => {
                 />
               </div>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Date: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Date:{' '}
+                </label>
                 <input
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   type='date'
@@ -173,11 +187,14 @@ const Add = () => {
                   value={date}
                 />
               </div>
-              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Add Patient Lab Report</button>
+              <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
+                {' '}
+                Add Patient Lab Report
+              </button>
             </form>
           </div>
         </div>
-      </div>    
+      </div>
     </>
   );
 };

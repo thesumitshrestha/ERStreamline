@@ -18,10 +18,16 @@ const AllAdmissions = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
-            <Link to='/admission/add' className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'> Add Admission </Link>
+            <Link
+              to='/admission/add'
+              className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+            >
+              {' '}
+              Add Admission{' '}
+            </Link>
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
               <table>
                 <thead>
@@ -40,19 +46,27 @@ const AllAdmissions = () => {
                         <tr key={admission._id}>
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>
-                            {admission.patient?.firstName} {admission.patient?.lastName}
+                            {admission.patient?.firstName}{' '}
+                            {admission.patient?.lastName}
                           </td>
-                          <td className='p-4'>{convertDate(admission.ehrVisit?.visitDate)}</td>
-                          <td className='p-4'>{admission.bedNumber?.roomNumber?.roomNumber}</td>
-                           <td className='p-4>{convertDate(admission.admissionDate)} </td>
                           <td className='p-4'>
-                            {admission.dischargeDate && admission.dischargeDate ? (
-                      convertDate(admission.dischargeDate)
-                    ) : (
-                      <Link to={`/admission/update/${admission?._id}`}>
-                        Not Discharged Yet --- Update
-                      </Link>
-                    )}
+                            {convertDate(admission.ehrVisit?.visitDate)}
+                          </td>
+                          <td className='p-4'>
+                            {admission.bedNumber?.roomNumber?.roomNumber}
+                          </td>
+                          <td className='p-4'>
+                            {convertDate(admission.admissionDate)}{' '}
+                          </td>
+                          <td className='p-4'>
+                            {admission.dischargeDate &&
+                            admission.dischargeDate ? (
+                              convertDate(admission.dischargeDate)
+                            ) : (
+                              <Link to={`/admission/update/${admission?._id}`}>
+                                Not Discharged Yet --- Update
+                              </Link>
+                            )}
                           </td>
                         </tr>
                       );
@@ -63,8 +77,6 @@ const AllAdmissions = () => {
           </div>
         </div>
       </div>
-
-    
     </>
   );
 };
