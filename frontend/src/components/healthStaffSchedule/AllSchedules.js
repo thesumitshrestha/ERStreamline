@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
-import moment from 'moment';
+import moment, { parseTwoDigitYear } from 'moment';
 
 import {
   ScheduleComponent,
@@ -16,18 +16,24 @@ import {
 const AllSchedules = () => {
   const [schedules, setSchedules] = useState([]);
   const timeScale = { enable: true, slotCount: 5 };
-  const today = new Date();
-  console.log('TODAY DATE', moment(today).format('YYYY,MM,DD'));
+  // const today = moment(new Date()).format('YYYY, MM, D');
+  // console.log('PARSE FLOAT', today.toString());
 
   const data = [
     {
       Id: 2,
-      Subject: 'Meeting',
+      Subject: 'Manish Wagle',
       StartTime: new Date(2023, 11, 10, 10, 0),
       EndTime: new Date(2023, 11, 10, 11, 30),
       IsAllDay: false,
-      Status: 'Completed',
-      Priority: 'High',
+    },
+    {
+      Id: 3,
+      Subject: 'Simran Thapa',
+
+      StartTime: new Date(2023, 11, 10, 12, 0),
+      EndTime: new Date(2023, 11, 10, 14, 0),
+      IsAllDay: false,
     },
   ];
 
@@ -87,21 +93,14 @@ const AllSchedules = () => {
             <ScheduleComponent
               width='100%'
               height='550px'
-              selectedDate={new Date(moment(today).format('YYYY, MM, DD'))}
+              selectedDate={new Date(2023, 11, 10)}
+              // selectedDate={new Date(2018, 1, 15)}
               eventSettings={eventSettings}
             >
               <ViewsDirective>
-                {/* <ViewDirective
-                  option='Day'
-                  interval={2}
-                  displayName='2 Days'
-                  startHour='06:30'
-                  endHour='00:00'
-                  timeScale={timeScale}
-                /> */}
                 <ViewDirective
                   option='Week'
-                  interval={2}
+                  interval={1}
                   displayName='2 Weeks'
                   showWeekend={true}
                   isSelected={true}
