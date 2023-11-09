@@ -232,7 +232,10 @@ const Add = () => {
                 />
               </div>
                                          
-              <div>Doctor Fee: ${DOCTOR_FEE}</div>
+              <div className='mb-3 flex items-center'>
+                <label className='mr-2 text-sm font-medium block'>Doctor Fee:</label> 
+                <span className='text-secondary inline-block font-bold'>${DOCTOR_FEE}</span>
+              </div>
 
              
               <div className='mb-3'>
@@ -245,31 +248,32 @@ const Add = () => {
             />
               </div>
                      
-                     <div className='mb-3'>
-            <label>
+            <div className='mb-3 flex items-center'>
+            <label className='mr-2 text-sm font-medium block'>
               Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
-              {DOCTOR_FEE}=
+              {DOCTOR_FEE}:
             </label>
-            ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
+            <span className='text-secondary inline-block font-bold'>${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}</span>
           </div>
 
-              <div className='mb-3'>
-            <label>
+              <div className='mb-3 flex items-center'>
+            <label className='mr-2 text-sm font-medium block'>
               Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
-              {DOCTOR_FEE}=
+              {DOCTOR_FEE}:
             </label>
-            ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
+            <span className='text-secondary inline-block font-bold'>${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}</span>
           </div>
-          <div className='mb-3'>
-            <label htmlFor=''> Coverage Amount: </label>
-            {patientInsurance[0]?.coverageAmount
+          <div className='mb-3 flex items-center'>
+            <label  className='mr-2 text-sm font-medium block' htmlFor=''> Coverage Amount: </label>
+            <span className='text-secondary inline-block font-bold'>{patientInsurance[0]?.coverageAmount
               ? '$' + patientInsurance[0]?.coverageAmount
-              : '$' + 0}
-
-            <label htmlFor=''> Deductible Amount: </label>
-            {patientInsurance[0]?.deductible
+              : '$' + 0}</span>
+          </div>
+          <div className='mb-3 flex items-center'>
+            <label className='mr-2 text-sm font-medium block' htmlFor=''> Deductible Amount: </label>
+            <span className='text-secondary inline-block font-bold'>{patientInsurance[0]?.deductible
               ? '$' + patientInsurance[0]?.deductible
-              : '$' + 0}
+              : '$' + 0}</span>
           </div>
           {patientInsurance[0]?.deductible >
           DOCTOR_FEE + totalLabFee() + totalMedicationFee()
