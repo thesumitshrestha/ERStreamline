@@ -14,6 +14,10 @@ module.exports = {
         'small': '32px',
         'medium': '40px',
         'large': '80px',
+      }, 
+      borderColor: {
+        'primary': '#089bab', 
+        'secondary': '#fc9e5b',
       },
     },
   },
