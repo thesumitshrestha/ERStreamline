@@ -73,8 +73,7 @@ const PatientHistoryDetail = () => {
                   );
                 })
               : 'No EHR Visits'} */}
-            <div className='flex'>
-            <div className='p-small gradient rounded-3xl mt-10 mr-10 basis-2/4' key={id}>
+            <div className='p-small gradient rounded-3xl mt-10 basis-2/4' key={id}>
               <div className='block '>
                 <div className='card-body'>
                   <div className='user-details-block'>
@@ -91,9 +90,9 @@ const PatientHistoryDetail = () => {
                       </h4>
                       <p>{calculateAge(patientDetail?.dateOfBirth)} Years</p>
                     </div>
-                    <h4>
+                    {/* <h4>
                       <b> General Info</b>
-                    </h4>
+                    </h4> */}
                     <ul className='flex items-center justify-between p-0 mt-4 mb-0 '>
                       <li className='text-center w-1/3'>
                         <h6 className='text-primary'>Gender</h6>
@@ -101,13 +100,13 @@ const PatientHistoryDetail = () => {
                           {patientDetail?.gender}
                         </h3>
                       </li>
-                      <li className='text-center border-l border-black-100 w-1/3'>
+                      <li className='text-center border-l border-secondary w-1/3'>
                         <h6 className='text-primary'>DOB</h6>
                         <h3>
                           {convertDate(patientDetail?.dateOfBirth)}
                         </h3>
                       </li>
-                      <li className='text-center border-l border-black-100 w-1/3'>
+                      <li className='text-center border-l border-secondary w-1/3'>
                         <h6 className='text-primary'>Blood Group</h6>
                         <h3 className='text-warning'>
                           {patientDetail?.bloodGroup}
@@ -123,30 +122,29 @@ const PatientHistoryDetail = () => {
               <div className='block '>
                 <div className='card-body'>
                   <div className='user-details-block'>
-                    
-                    <h4>
-                      <b> Contact Info Info</b>
-                    </h4>
+                    <h3 className='text-center mb-10'>
+                      <b>Admissions</b>
+                    </h3>
                     <ul className='flex flex-wrap items-center justify-between p-0 mt-4 mb-0 '>
-                      <li className='text-center border-l border-primary-100 w-1/2 p-1 mb-2'>
+                      <li className='text-center  w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Phone</h6>
                         <h3>
                           {patientDetail?.phone} 
                         </h3>
                       </li>
-                      <li className='text-center border-l border-primary-100 w-1/2 p-1 mb-2'>
+                      <li className='text-center border-l border-secondary w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Email</h6>
                         <h3>
                           {patientDetail?.email}
                         </h3>
                       </li>
-                      <li className='text-center border-l border-primary-100 w-1/2 p-1 mb-2'>
+                      <li className='text-center w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Address</h6>
                         <h3 className='text-warning'>
                           {patientDetail?.address}
                         </h3>
                       </li>
-                      <li className='text-center border-l border-primary-100 w-1/2 p-1 mb-2'>
+                      <li className='text-center border-l border-secondary w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Emergency Contact</h6>
                         <h4>
                           <b> {patientDetail?.emergencyContactName} </b>
@@ -159,17 +157,14 @@ const PatientHistoryDetail = () => {
                 </div>
               </div>
             </div>
-            </div>
             {/* appointments */}
-            <div className='p-large gradient rounded-3xl mt-10'>
+            <div className='p-small gradient rounded-3xl mt-10'>
               <div className='block '>
                 <div className='card-body'>
                   <div className='user-details-block'>
-                    <div className='text-center mb-10'>
-                      <h3>
-                        <b>All EHR Visits</b>
-                      </h3>
-                    </div>
+                    <h3 className='text-center mb-10'>
+                      <b>All EHR Visits</b>
+                    </h3>
                     <ul className='p-0 mt-4 mb-0'>
                         {ehrVisits.length > 0
                         ? ehrVisits.map((ehrVisit, idx) => {

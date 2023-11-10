@@ -1,10 +1,16 @@
 import React from 'react';
+import { Link }from 'react-router-dom';
 
 const Login = () => {
 
   return (
 
     <>
+      <div className='bg-primary py-medium'>
+        <div className='container mx-auto text-white px-large  flex flex-row items-center justify-between'>
+          <h2 className='text-5xl'>ERStreamline</h2>
+        </div>
+      </div>
       <div className='bg-background'>
         <div className='container mx-auto p-large'>
           <form className='login_form p-large gradient rounded-3xl '>
@@ -37,7 +43,8 @@ const Login = () => {
               />
             </div>
             
-            <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Add Lab</button>
+            {/* <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'> Login</button> */}
+            <Link className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors' to='/homepage/patient'>Login</Link>
           </form>
         </div>
       </div>

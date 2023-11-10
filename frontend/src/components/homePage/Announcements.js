@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link }from 'react-router-dom';
 import { Navigation, Pagination} from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,18 +10,25 @@ import bipin from '../../images/bipin.jpg';
 import raj from '../../images/raj.jpg';
 import roshan from '../../images/roshan.jpg';
 import sumit from '../../images/sumit.jpg';
-import Dashboard from '../dashboard/Dashboard';
+// import Dashboard from '../dashboard/Dashboard';
 
 const Announcements = () => {
 
   return (
   
     <>
-      <div className='flex'>
-         <Dashboard/>
-        <div className='bg-background w-4/5 content'>
+      <div className='bg-primary py-medium'>
+        <div className='container mx-auto text-white px-large  flex flex-row items-center justify-between'>
+          <h2 className='text-5xl'>ERStreamline</h2>
+          <div className='px-4 py-2 bg-secondary border-2 border-secondary hover:shadow-lg hover:shadow-secondary-500/50 text-white rounded-full text-base transition-colors'>
+            <Link  to='/homepage/login'>Login</Link>
+          </div>
+        </div>
+      </div>
+      <div className='container mx-auto p-large'>
+        <div className='bg-background'>
           <div className='container mx-auto p-large'>
-            <h3 className='mb-10 text-center font-bold text-3xl'>About Us</h3>
+            <h3 className='mb-10 text-center font-bold text-3xl'>Hear what our users say</h3>
             <Swiper className='p-medium'
               modules={[Navigation, Pagination]}
               spaceBetween={50}
