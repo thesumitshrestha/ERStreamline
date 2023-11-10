@@ -109,7 +109,7 @@ const Add = () => {
                   name=''
                   id='patient'
                   value={patient}
-                  onChange={(e) => setPatient(e.target.value)}
+                  onChange={(e) => handlePatient(e)}
                 >
                   <option>Select Patient</option>
                   {patientList.map((patient, idx) => {
@@ -124,14 +124,14 @@ const Add = () => {
 
               <div className='mb-3'>
                 <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                  Select EHRVisit:{' '}
+                  Select EHRVisit:
                 </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
                   id='ehrVisit'
                   value={ehrVisit}
-                  onChange={(e) => setEhrVisit(e.target.value)}
+                  onChange={(e) => handleEHRVisit(e)}
                 >
                   <option selected value=''>
                     Select EHRVisit
@@ -152,25 +152,26 @@ const Add = () => {
                 <label className='mb-2 text-sm font-medium block' htmlFor=''>
                   Select Health Staff:{' '}
                 </label>
-                <select
+                {ehrVisitListStaff?.healthStaff?.firstName} &nbsp;
+                {ehrVisitListStaff?.healthStaff?.lastName}
+                {/* <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
-                  id='room'
+                  id='healthStaff'
                   value={healthStaff}
                   onChange={(e) => setHealthStaff(e.target.value)}
-                >
-                  <option selected value=''>
-                    Select Health Staff
-                  </option>
-                  {healthStaffList.map((healthStaff, idx) => {
+                > */}
+                {/* {healthStaffList.map((healthStaff, idx) => {
                     return (
                       <option key={healthStaff._id} value={healthStaff._id}>
                         {ehrVisitListStaff.healthStaff?.firstName} &nbsp;{' '}
                         {ehrVisitListStaff?.healthStaff?.lastName}
                       </option>
                     );
-                  })}
-                </select>
+                  })} */}
+                {/* {ehrVisitListStaff?.healthStaff?.firstName} &nbsp;
+                  {ehrVisitListStaff?.healthStaff?.lastName}
+                </select> */}
               </div>
 
               <div className='mb-3'>

@@ -35,6 +35,7 @@ const AllAdmissions = () => {
                     <th className='p-4'> S.N.</th>
                     <th className='p-4'>Patient Name</th>
                     <th className='p-4'>EHR Visit Date</th>
+                    <th className='p-4'>Room Number</th>
                     <th className='p-4'>Admitted Date</th>
                     <th className='p-4'>Discharged Date</th>
                   </tr>
@@ -54,6 +55,7 @@ const AllAdmissions = () => {
                           </td>
                           <td className='p-4'>
                             {admission.bedNumber?.roomNumber?.roomNumber}
+                            {admission.bedNumber?.bedNumber?.bedNumber}
                           </td>
                           <td className='p-4'>
                             {convertDate(admission.admissionDate)}{' '}

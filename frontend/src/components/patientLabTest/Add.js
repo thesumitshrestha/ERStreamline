@@ -142,6 +142,9 @@ const Add = () => {
                   value={ehrVisit}
                   onChange={(e) => setEhrVisit(e.target.value)}
                 >
+                  <option selected value=''>
+                    Select EHRVisit
+                  </option>
                   {ehrVisitList.map((ehrvisit, idx) => {
                     return (
                       <option key={ehrvisit._id} value={ehrvisit._id}>

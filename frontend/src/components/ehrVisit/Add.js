@@ -64,16 +64,18 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
               className='create p-large gradient rounded-3xl '
               onSubmit={handleSubmit}
             >
-              <h3  className='mb-10 font-bold text-3xl'> Add a EHRVisit</h3>
+              <h3 className='mb-10 font-bold text-3xl'> Add a EHRVisit</h3>
               <div className='mb-3'>
-                <label  className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Patient:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -92,7 +94,9 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label  className='mb-2 text-sm font-medium block' htmlFor=''>Select Heath Staff: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Heath Staff:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -112,7 +116,7 @@ const Add = () => {
 
               <div className='mb-3'>
                 <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                  Prescribed Medications:
+                  Past Medications:
                 </label>
                 <input
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
