@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+// const { requireAuth } = require('../backend/middleware/authMiddleware');
 
 //Port
 const port = process.env.PORT;
@@ -17,18 +18,39 @@ const medicationRoutes = require('./routes/medication');
 const billingRoutes = require('./routes/billing');
 const healthStaffSchedules = require('./routes/healthStaffSchedule');
 const roomBedRoutes = require('./routes/roomBed');
+const userRoutes = require('./routes/user');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const cookieParser = require('cookie-parser');
+// const { requireAuth } = require('./middleware/authMiddleware');
 
 //Express App
 const app = express();
+app.use(express.static('public'));
+
 app.use('/reports', express.static('reports'));
-app.use(cors());
+
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ['http://localhost:3001'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//   })
+// );
+
+app.use(
+  cors({
+    origin: ['http://localhost:3001'],
+    credentials: true,
+    methods: ['GET', 'POST'],
+  })
+);
 
 // Middleware
+app.use(cookieParser());
 app.use(express.json());
 
 app.use(
@@ -57,6 +79,23 @@ app.use('/api/medication', medicationRoutes);
 app.use('/api/billings', billingRoutes);
 app.use('/api/schedules', healthStaffSchedules);
 app.use('/api/roomBeds', roomBedRoutes);
+app.use('/api/users', userRoutes);
+
+// app.get('/set-cookies', (req, res) => {
+//   // res.setHeader('Set-Cookie', 'newUser=true');
+//   res.cookie('newUser', false);
+//   res.cookie('isEmployee', true, {
+//     maxAge: 1000 * 60 * 60 * 48,
+//     httpOnly: true,
+//   });
+//   res.send('You got the cookies!');
+// });
+
+// app.get('/read-cookies', (req, res) => {
+//   const cookies = req.cookies;
+//   console.log('cookies');
+//   res.json(cookies);
+// });
 
 // Connect to MongoDB
 mongoose

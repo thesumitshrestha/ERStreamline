@@ -7,10 +7,12 @@ const adminStaffSchema = new Schema(
     firstName: {
       type: String,
       required: true,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
+      trim: true,
     },
     role: {
       type: String,
@@ -19,6 +21,7 @@ const adminStaffSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       type: String,

@@ -17,10 +17,16 @@ const AllInsurances = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
-            <Link to='/insurance/add' className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'> Add Insurance </Link>
+            <Link
+              to='/insurance/add'
+              className='inline-block px-4 py-2 mb-10 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+            >
+              {' '}
+              Add Insurance{' '}
+            </Link>
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
               <table>
                 <thead>
@@ -40,7 +46,8 @@ const AllInsurances = () => {
                         <tr key={insurance._id}>
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>
-                            {insurance.patient.firstName} {insurance.patient.lastName}
+                            {insurance?.patient?.firstName}{' '}
+                            {insurance?.patient?.lastName}
                           </td>
                           <td className='p-4'>{insurance.policyNumber}</td>
                           <td className='p-4'>{insurance.deductible}</td>
@@ -51,7 +58,7 @@ const AllInsurances = () => {
                     })}
                 </tbody>
               </table>
-              </div>
+            </div>
           </div>
         </div>
       </div>

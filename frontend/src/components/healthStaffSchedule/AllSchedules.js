@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
-import moment, { parseTwoDigitYear } from 'moment';
+import { doctorSchedules } from './schedules';
 
 import {
   ScheduleComponent,
@@ -19,24 +19,6 @@ const AllSchedules = () => {
   // const today = moment(new Date()).format('YYYY, MM, D');
   // console.log('PARSE FLOAT', today.toString());
 
-  const data = [
-    {
-      Id: 2,
-      Subject: 'Manish Wagle',
-      StartTime: new Date(2023, 11, 10, 10, 0),
-      EndTime: new Date(2023, 11, 10, 11, 30),
-      IsAllDay: false,
-    },
-    {
-      Id: 3,
-      Subject: 'Simran Thapa',
-
-      StartTime: new Date(2023, 11, 10, 12, 0),
-      EndTime: new Date(2023, 11, 10, 14, 0),
-      IsAllDay: false,
-    },
-  ];
-
   useEffect(() => {
     const fetchAllHealthStaffSchedules = async () => {
       const res = await axios.get('http://localhost:5005/api/schedules');
@@ -46,7 +28,7 @@ const AllSchedules = () => {
     fetchAllHealthStaffSchedules();
   }, []);
 
-  const eventSettings = { dataSource: data };
+  const eventSettings = { dataSource: doctorSchedules };
 
   return (
     <>
@@ -93,7 +75,7 @@ const AllSchedules = () => {
             <ScheduleComponent
               width='100%'
               height='550px'
-              selectedDate={new Date(2023, 11, 10)}
+              selectedDate={new Date(2023, 11, 11)}
               // selectedDate={new Date(2018, 1, 15)}
               eventSettings={eventSettings}
             >

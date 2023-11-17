@@ -26,7 +26,7 @@ const AllReports = () => {
               className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
             >
               {' '}
-               Add Patient Lab Report{' '}
+              Add Patient Lab Report{' '}
             </Link>{' '}
             <br /> <br /> <br />
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
@@ -52,7 +52,9 @@ const AllReports = () => {
                             {patientReport.patient?.firstName}{' '}
                             {patientReport.patient?.lastName}
                           </td>
-                          <td className='p-4'>{convertDate(patientReport.ehrVisit?.visitDate)} </td>
+                          <td className='p-4'>
+                            {convertDate(patientReport.ehrvisit?.visitDate)}{' '}
+                          </td>
                           <td className='p-4'>{patientReport.lab?.name}</td>
                           <td className='p-4'>{patientReport.labFee}</td>
                           <td className='p-4'>
@@ -68,7 +70,9 @@ const AllReports = () => {
                               Show Lab Report
                             </button>
                           </td>
-                          <td className='p-4'>{convertDate(patientReport.date)}</td>
+                          <td className='p-4'>
+                            {convertDate(patientReport.date)}
+                          </td>
                         </tr>
                       );
                     })}

@@ -142,14 +142,16 @@ const Add = () => {
                   <option selected value=''>
                     Select Bed
                   </option>
-                  {roomBedList.map((room, idx) => {
-                    return (
-                      <option key={room._id} value={room._id}>
-                        {room.roomNumber?.roomNumber}{' '}
-                        {room.bedNumber?.bedNumber}
-                      </option>
-                    );
-                  })}
+                  {roomBedList
+                    .filter((room) => room.isAvailable === true)
+                    .map((room, idx) => {
+                      return (
+                        <option key={room._id} value={room._id}>
+                          {room.roomNumber?.roomNumber}{' '}
+                          {room.bedNumber?.bedNumber}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
               <div className='mb-3'>

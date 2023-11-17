@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
 import { convertDate } from '../../commons/functions';
 
 const AllPatients = () => {
   const [allPatients, setAllPatients] = useState([]);
+  const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
   useEffect(() => {
     const fetchPatients = async () => {
+      // if (!localStorage.getItem('access_token')) {
+      //   navigate('/login');
+      // }
       const res = await axios.get('http://localhost:5005/api/patients');
       setAllPatients(res.data);
       console.log(res.data);

@@ -1,4 +1,5 @@
 const express = require('express');
+const { requireAuth } = require('../middleware/authMiddleware');
 
 const {
   createPatient,
@@ -10,7 +11,6 @@ const router = express.Router();
 
 const Patient = require('../models/patient');
 
-// get all patients
 router.get('/', getPatients);
 
 // Post a patient

@@ -39,6 +39,7 @@ import AllRoomBed from './components/roomBed/AllRoomBed';
 import PatientHistory from './components/PatientHistory';
 import PatientHistoryDetail from './components/PatientHistoryDetail';
 import PatientEHRVisit from './components/PatientEHRVisit';
+import SignUp from './components/homePage/SignUp';
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* <Route path='/' element={<Dashboard />} /> */}
-          <Route path='/homepage/login' element={<Login />} />
+          <Route path='/login' element={<Login />} />
           {/* <Route path='/homepage/announcements' element={<Announcements />} /> */}
           <Route path='/' element={<Announcements />} />
           <Route path='/homepage/patient' element={<Patient />} />
@@ -89,6 +90,7 @@ function App() {
             element={<PatientHistoryDetail />}
           />
           <Route path='/ehr-visit/:id' element={<PatientEHRVisit />} />
+          <Route path='/sign-up' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>

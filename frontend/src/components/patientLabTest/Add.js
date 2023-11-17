@@ -47,7 +47,7 @@ const Add = () => {
       `http://localhost:5005/api/ehrVisits/patient/${patientId}`
     );
 
-    console.log(res.data);
+    console.log('EHR VISIT', res.data);
     setEhrVisitList(res.data);
   };
 
@@ -102,10 +102,12 @@ const Add = () => {
                   value={patient}
                   onChange={(e) => handlePatient(e)}
                 >
+                  <option>Select Patient</option>
+
                   {patientList.map((patient, idx) => {
                     return (
                       <option key={patient._id} value={patient._id}>
-                        {patient.firstName} {patient.lastName}{' '}
+                        {patient?.firstName} {patient?.lastName}{' '}
                       </option>
                     );
                   })}
@@ -122,6 +124,7 @@ const Add = () => {
                   value={lab}
                   onChange={(e) => setLab(e.target.value)}
                 >
+                  <option>Select Lab</option>
                   {labList.map((lab, idx) => {
                     return (
                       <option key={lab._id} value={lab._id}>
@@ -149,8 +152,8 @@ const Add = () => {
                     return (
                       <option key={ehrvisit._id} value={ehrvisit._id}>
                         {ehrvisit.patient?.firstName} &nbsp;
-                        {ehrvisit.patient?.lastName} ||{' '}
-                        {convertDate(ehrVisit?.visitDate)}
+                        {ehrvisit.patient?.lastName} ||
+                        {convertDate(ehrvisit?.visitDate)}
                       </option>
                     );
                   })}

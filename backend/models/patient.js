@@ -7,10 +7,12 @@ const patientSchema = new Schema(
     firstName: {
       type: String,
       required: true,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
+      trim: true,
     },
     dateOfBirth: {
       type: Date,
@@ -28,6 +30,7 @@ const patientSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     gender: {
       type: String,
