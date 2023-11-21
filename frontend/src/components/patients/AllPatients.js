@@ -56,14 +56,23 @@ const AllPatients = () => {
         />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
-            <Link
-              to='/patient/add'
-              className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
-            >
-              {' '}
-              Add Patient{' '}
-            </Link>
-            <br /> <br /> <br />
+            {window.localStorage.getItem('role') === 'adminStaffs' ? (
+              <Link
+                to='/patient/add'
+                className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+              >
+                {' '}
+                Add Patient{' '}
+              </Link>
+            ) : (
+              <h3
+                style={{ fontSize: '24px', fontWeight: 'bold', color: 'teal' }}
+              >
+                {' '}
+                All Patients{' '}
+              </h3>
+            )}
+            <br /> <br />
             <input
               type='text'
               placeholder='Search...'

@@ -37,7 +37,7 @@ const Patient = () => {
             response?.data[0]?._id
           );
 
-          if (response.length > 0) {
+          if (response.data.length > 0) {
             console.log('LENGTH IS GREATER', response.length);
             axios
               .get(
@@ -144,7 +144,14 @@ const Patient = () => {
                       <ul className='p-0 mt-4 mb-0'>
                         <li className='flex mb-5'>
                           <h6 className='text-primary mr-2'>Date:</h6>
-                          <Link to={`/ehr-visit/${ehrVisits[0]?._id}`}>
+                          <Link
+                            style={{
+                              fontWeight: 'bold',
+                              color: 'teal',
+                              textDecoration: 'underline',
+                            }}
+                            to={`/ehr-visit/${ehrVisits[0]?._id}`}
+                          >
                             <h3>{convertDate(ehrVisits[0]?.visitDate)}</h3>
                           </Link>
                         </li>

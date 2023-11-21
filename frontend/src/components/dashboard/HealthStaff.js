@@ -23,7 +23,7 @@ const HealthStaff = () => {
   const [ehrVisits, setEhrVisits] = useState([]);
   const [totalBills, setTotalBills] = useState([]);
   const [patientData, setPatientData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filter, setFilter] = useState([]);
 
   if (location?.state?.email) {
     window.localStorage.setItem('email', location?.state?.email);
@@ -38,20 +38,20 @@ const HealthStaff = () => {
 
       setUserData(res.data);
 
-      doctorSchedules.map((doc, idx) => {
-        let name = res.data.firstName + ' ' + res.data.lastName;
-        if (doctorSchedules[idx].Subject === name) {
-          doctorSchedules.filter((healthStaff) => {
-            mySchedule.push({
-              Id: idx,
-              Subject: doctorSchedules[idx].Subject,
-              StartTime: doctorSchedules[idx].StartTime,
-              EndTime: doctorSchedules[idx].EndTime,
-              isAllDay: false,
-            });
-          });
-        }
-      });
+      // doctorSchedules.map((doc, idx) => {
+      //   let name = res.data.firstName + ' ' + res.data.lastName;
+      //   if (doctorSchedules[idx].Subject === name) {
+      //     doctorSchedules.filter((healthStaff) => {
+      //       mySchedule.push({
+      //         Id: idx,
+      //         Subject: doctorSchedules[idx].Subject,
+      //         StartTime: doctorSchedules[idx].StartTime,
+      //         EndTime: doctorSchedules[idx].EndTime,
+      //         isAllDay: false,
+      //       });
+      //     });
+      //   }
+      // });
 
       await axios
         .get(`http://localhost:5005/api/ehrVisits/patient/${res?.data?._id}`)
@@ -91,7 +91,13 @@ const HealthStaff = () => {
     getUserData();
   }, []);
 
-  const eventSettings = { dataSource: mySchedule };
+  let filteredData = doctorSchedules;
+  const userName = userData?.firstName + ' ' + userData?.lastName;
+  filteredData = doctorSchedules.filter(
+    (item, idx) => item.Subject === userName
+  );
+
+  const eventSettings = { dataSource: filteredData };
 
   return (
     <>
@@ -103,54 +109,33 @@ const HealthStaff = () => {
         />
         <div className='bg-background w-3/4 content'>
           <div className='container mx-auto p-small'>
+            <br />
+            <br />
+
             {/* patient details */}
             <div className='p-medium gradient rounded-3xl '>
-              {mySchedule}
-              {mySchedule.map((test, idx) => {
-                return <>Name: {test[idx].Subject}</>;
+              {filter.map((test, idx) => {
+                return (
+                  <>
+                    <p> HELLO</p>
+                  </>
+                );
               })}
-              Length is :{mySchedule.length}
-              {/* {doctorSchedules
-                .filter((healthStaff) => {
-                    filteredData = 
-                healthStaff.Subject ===
-                      (userData?.firstName + ' ' + userData?.lastName)
-                      setFilteredData(healthStaff); }
-                  );
-                })
-                .map((test) => {
-                  return (
-                    <>
-                      {test.Subject} | {test.Id} |{' '}
-                      {convertDate(test?.StartTime)}
-                      {convertDate(test?.EndTime)}
-                    </>
-                  );
-                })} */}
-              <div className='flex'>
-                <ScheduleComponent
-                  width='60%'
-                  height='550px'
-                  selectedDate={new Date(2023, 11, 11)}
-                  // selectedDate={new Date(2018, 1, 15)}
-                  eventSettings={eventSettings}
-                >
-                  <ViewsDirective>
-                    <ViewDirective
-                      option='today'
-                      interval={1}
-                      displayName='2 Weeks'
-                      showWeekend={true}
-                      isSelected={true}
-                    />
-                  </ViewsDirective>
-                  <Inject services={[Day, Week]} />
-                </ScheduleComponent>
 
+              <div className='flex'>
                 <div className='block pl-5 w-100 mx-auto'>
                   <div className='card-body'>
                     <div className='user-details-block'>
                       <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
+                        <Link
+                          to='/ehr-visit/add'
+                          className='inline-block px-4 py-2 text-secondary border-2 border-secondary hover:text-white hover:bg-secondary font-semibold rounded-full text-base transition-colors'
+                        >
+                          {' '}
+                          Add EHRVisit{' '}
+                        </Link>
+                        <br />
+                        <br />
                         Today's Date:{' '}
                         {moment(Date.now()).format('MMMM D, YYYY')} <br />
                         <br />
@@ -205,6 +190,25 @@ const HealthStaff = () => {
                     </div>
                   </div>
                 </div>
+
+                <ScheduleComponent
+                  width='60%'
+                  height='550px'
+                  selectedDate={new Date(2023, 10, 27)}
+                  // selectedDate={new Date(2018, 1, 15)}
+                  eventSettings={eventSettings}
+                >
+                  <ViewsDirective>
+                    <ViewDirective
+                      option='Day'
+                      interval={1}
+                      displayName='2 Weeks'
+                      showWeekend={true}
+                      isSelected={true}
+                    />
+                  </ViewsDirective>
+                  <Inject services={[Day]} />
+                </ScheduleComponent>
               </div>
             </div>
           </div>

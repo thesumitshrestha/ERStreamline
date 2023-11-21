@@ -102,6 +102,12 @@ const AdminStaffDashboard = () => {
       </NavLink>
       <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+        to='/sign-up'
+      >
+        Add User
+      </NavLink>
+      <NavLink
+        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/'
         onClick={(e) => {
           handleLogout(e);
