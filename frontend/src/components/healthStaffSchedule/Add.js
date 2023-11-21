@@ -9,6 +9,7 @@ const Add = () => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [healthStaffList, setHealthStaffList] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,6 +18,15 @@ const Add = () => {
       setHealthStaffList(res.data);
     };
 
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     getHealthStaff();
   }, []);
 
@@ -43,17 +53,26 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
               className='create p-large gradient rounded-3xl '
               onSubmit={handleSubmit}
             >
-              <h3 className='mb-10 font-bold text-3xl'> Add a Schedule of Health Staff</h3>
+              <h3 className='mb-10 font-bold text-3xl'>
+                {' '}
+                Add a Schedule of Health Staff
+              </h3>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Health Staff: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Health Staff:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -72,7 +91,9 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Day: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Day:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''

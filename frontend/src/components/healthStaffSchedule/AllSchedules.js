@@ -18,6 +18,7 @@ const AllSchedules = () => {
   const timeScale = { enable: true, slotCount: 5 };
   // const today = moment(new Date()).format('YYYY, MM, D');
   // console.log('PARSE FLOAT', today.toString());
+  const [currentUser, setCurrentUser] = useState([]);
 
   useEffect(() => {
     const fetchAllHealthStaffSchedules = async () => {
@@ -25,6 +26,16 @@ const AllSchedules = () => {
       setSchedules(res.data);
       console.log('SCHEDULE', res.data);
     };
+
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     fetchAllHealthStaffSchedules();
   }, []);
 
@@ -33,7 +44,11 @@ const AllSchedules = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <Link
@@ -42,36 +57,7 @@ const AllSchedules = () => {
             >
               Add Schedule
             </Link>
-            {/* <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
-              <table>
-                <thead>
-                  <tr>
-                    <th className='p-4'> S.N.</th>
-                    <th className='p-4'>Health Staff Name</th>
-                    <th className='p-4'>Day</th>
-                    <th className='p-4'>Start Time</th>
-                    <th className='p-4'>End Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {schedules &&
-                    schedules.map((schedule, index) => {
-                      return (
-                        <tr key={schedule._id}>
-                          <td className='p-4'> {index + 1}</td>
-                          <td className='p-4'>
-                            {schedule.healthStaff?.firstName} &nbsp;
-                            {schedule.healthStaff?.lastName}
-                          </td>
-                          <td className='p-4'>{schedule.day}</td>
-                          <td className='p-4'>{schedule.startTime}</td>
-                          <td className='p-4'>{schedule.endTime}</td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div> */}
+
             <ScheduleComponent
               width='100%'
               height='550px'

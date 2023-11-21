@@ -5,6 +5,7 @@ const {
   getEHRVisits,
   getEHRVisitsByPatientId,
   getEHRVisitById,
+  getEHRVisitByHealthStaffId,
 } = require('../controllers/ehrVisitController');
 
 const router = express.Router();
@@ -21,5 +22,8 @@ router.get('/patient/:id', getEHRVisitsByPatientId);
 
 // Get single EHRVisits
 router.get('/:id', getEHRVisitById);
+
+// Get EHRVisits by HealthStaff
+router.get('/healthStaff/:id', getEHRVisitByHealthStaffId);
 
 module.exports = router;

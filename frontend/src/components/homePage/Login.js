@@ -12,22 +12,47 @@ const Login = () => {
     e.preventDefault();
     console.log('Email is', email);
     console.log('Password is', password);
-    try {
-      const res = await axios.post('http://localhost:5005/api/users/login', {
-        email: email,
-        password: password,
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        withCredentials: true,
-      });
-      console.log(res.data);
+    window.localStorage.setItem('isLoggedIn', true);
 
-      console.log('NEW Login');
-      e.target.reset();
-      navigate(`/`);
+    try {
+      await axios
+        .post('http://localhost:5005/api/users/login', {
+          email: email,
+          password: password,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          credentials: 'include',
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log('INSIDE IF');
+          console.log('DATA is', res.data);
+          window.localStorage.setItem('role', res.data.role);
+
+          if (res.data.role === 'patients') {
+            navigate(`/patient/dashboard`, {
+              state: {
+                email: email,
+              },
+            });
+          } else if (res.data.role === 'healthStaffs') {
+            navigate(`/health-staff/dashboard`, {
+              state: {
+                email: email,
+              },
+            });
+          } else if (res.data.role === 'adminStaffs') {
+            navigate(`/admin-staff/dashboard`, {
+              state: {
+                email: email,
+              },
+            });
+          } else {
+            alert('No User Found');
+          }
+        });
     } catch (error) {
       console.log(error);
     }

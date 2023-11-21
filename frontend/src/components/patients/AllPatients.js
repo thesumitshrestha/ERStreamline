@@ -7,23 +7,53 @@ import { convertDate } from '../../commons/functions';
 const AllPatients = () => {
   const [allPatients, setAllPatients] = useState([]);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter the items based on the search term
+  const filteredItems = allPatients.filter((item) =>
+    item.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
+    var cookies = document.cookie.split('=')[0];
+    console.log('COOKIES IS', cookies);
     const fetchPatients = async () => {
-      // if (!localStorage.getItem('access_token')) {
-      //   navigate('/login');
-      // }
+      if (!cookies) {
+        navigate('/login');
+      }
       const res = await axios.get('http://localhost:5005/api/patients');
       setAllPatients(res.data);
       console.log(res.data);
     };
     fetchPatients();
+
+    // setFilteredData(doctorSchedules);
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+
+      setCurrentUser(res.data);
+    };
+
+    getUserData();
   }, []);
   return (
     <>
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <Link
@@ -32,15 +62,20 @@ const AllPatients = () => {
             >
               {' '}
               Add Patient{' '}
-            </Link>{' '}
+            </Link>
             <br /> <br /> <br />
+            <input
+              type='text'
+              placeholder='Search...'
+              value={searchTerm}
+              onChange={handleSearch}
+            />
             <div className='bg-white rounded-3xl shadow-lg p-5 text-sm'>
               <table>
                 <thead>
                   <tr>
                     <th className='p-4'> S.N.</th>
-                    <th className='p-4'>First Name</th>
-                    <th className='p-4'>Last Name</th>
+                    <th className='p-4'>Name</th>
                     <th className='p-4'>Date of Birth</th>
                     <th className='p-4'>Address</th>
                     <th className='p-4'>Phone</th>
@@ -53,12 +88,22 @@ const AllPatients = () => {
                 </thead>
                 <tbody>
                   {allPatients &&
-                    allPatients.map((patient, index) => {
+                    filteredItems.map((patient, index) => {
                       return (
                         <tr key={patient._id}>
                           <td className='p-4'> {index + 1}</td>
-                          <td className='p-4'>{patient.firstName}</td>
-                          <td className='p-4'>{patient.lastName}</td>
+                          <td className='p-4'>
+                            <Link
+                              to={`/patient/${patient._id}`}
+                              style={{
+                                color: 'teal',
+                                fontWeight: 'bold',
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {patient.firstName + ' ' + patient.lastName}{' '}
+                            </Link>
+                          </td>
                           <td className='p-4'>
                             {convertDate(patient.dateOfBirth)}
                           </td>

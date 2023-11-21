@@ -5,6 +5,7 @@ const {
   createPatient,
   getPatients,
   getPatientDetail,
+  getPatientByEmail,
 } = require('../controllers/patientController');
 
 const router = express.Router();
@@ -18,5 +19,8 @@ router.post('/', createPatient);
 
 // get single patient
 router.get('/:id', getPatientDetail);
+
+// get patient by email
+router.get('/detail/:email', getPatientByEmail);
 
 module.exports = router;

@@ -21,8 +21,8 @@ const Announcements = () => {
           <div className='px-4 py-2 bg-secondary border-2 border-secondary hover:shadow-lg hover:shadow-secondary-500/50 text-white rounded-full text-base transition-colors'>
             <Link to='/login'>Login</Link>
           </div>
-          <Link to='/homepage/patient'>PATIENT</Link>
-          <Link to='/logout'>Logout</Link>
+          {/* <Link to='/patient/dashboard'>PATIENT</Link> */}
+          {/* <Link to='/logout'>Logout</Link> */}
         </div>
       </div>
       <div className='container mx-auto p-large'>

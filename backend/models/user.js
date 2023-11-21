@@ -6,6 +6,10 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
+    role: {
+      type: String,
+      require: [true, 'Please select the role'],
+    },
     name: {
       type: String,
       required: [true, 'Please enter your name'],

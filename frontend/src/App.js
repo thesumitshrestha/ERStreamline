@@ -1,10 +1,10 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 // import Header from './components/homePage/Header';
 import Login from './components/homePage/Login';
 import Announcements from './components/homePage/Announcements';
-import Patient from './components/homePage/Patient';
+import Patient from './components/dashboard/Patient';
 import Add from './components/patients/Add';
 import AdddHealthStaff from './components/healthStaff/Add';
 import Dashboard from './components/dashboard/Dashboard';
@@ -40,17 +40,42 @@ import PatientHistory from './components/PatientHistory';
 import PatientHistoryDetail from './components/PatientHistoryDetail';
 import PatientEHRVisit from './components/PatientEHRVisit';
 import SignUp from './components/homePage/SignUp';
+import AdminStaff from './components/dashboard/AdminStaff';
+import HealthStaff from './components/dashboard/HealthStaff';
 
 function App() {
+  const login = window.localStorage.getItem('isLoggedIn');
+  const role = window.localStorage.getItem('role');
+  console.log('LOGGGGIN IS', login);
+  console.log('ROLEEEE IS', role);
+
   return (
     <div className='App bg-background'>
       <BrowserRouter>
         <Routes>
           {/* <Route path='/' element={<Dashboard />} /> */}
-          <Route path='/login' element={<Login />} />
+          <Route
+            path='/login'
+            element={login ? <Announcements /> : <Login />}
+          />
           {/* <Route path='/homepage/announcements' element={<Announcements />} /> */}
-          <Route path='/' element={<Announcements />} />
-          <Route path='/homepage/patient' element={<Patient />} />
+          <Route
+            path='/'
+            element={
+              role === 'patients' ? (
+                <Patient />
+              ) : role === 'adminStaffs' ? (
+                <AdminStaff />
+              ) : role === 'healthStaffs' ? (
+                <HealthStaff />
+              ) : (
+                <Announcements />
+              )
+            }
+          />
+          <Route path='/patient/dashboard' element={<Patient />} />
+          <Route path='/admin-staff/dashboard' element={<AdminStaff />} />
+          <Route path='/health-staff/dashboard' element={<HealthStaff />} />
           <Route path='/patient/add' element={<Add />} />
           <Route path='/patients' element={<AllPatients />} />
           <Route path='/patient/:id' element={<PatientDetail />} />
@@ -84,7 +109,10 @@ function App() {
           <Route path='/schedule/add' element={<AddSchedules />} />
           <Route path='/roomBed/add' element={<AddRoomBed />} />
           <Route path='/roomBeds' element={<AllRoomBed />} />
-          <Route path='/patient-history' element={<PatientHistory />} />
+          <Route
+            path='/patient-history'
+            element={login ? <PatientHistory /> : <Login />}
+          />
           <Route
             path='/patient-history/:id'
             element={<PatientHistoryDetail />}

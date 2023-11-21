@@ -8,12 +8,23 @@ const Add = () => {
   const [bedNumber, setBedNumber] = useState('');
   const [bedList, setBedList] = useState([]);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState([]);
 
   useEffect(() => {
     const getBedList = async () => {
       const res = await axios.get('http://localhost:5005/api/beds');
       setBedList(res.data);
     };
+
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     getBedList();
   }, []);
 
@@ -38,7 +49,11 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form

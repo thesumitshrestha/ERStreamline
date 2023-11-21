@@ -14,6 +14,15 @@ const getPatientDetail = async (req, res) => {
   res.status(200).json(patients);
 };
 
+const getPatientByEmail = async (req, res) => {
+  console.log('HEREEE');
+  const email = req.params.email;
+  console.log('EMAIL IS', email);
+  console.log('PARAM IS', req.params.email);
+  const patients = await Patient.findOne({ email: req.params.email });
+  res.status(200).json(patients);
+};
+
 // create new patient
 const createPatient = async (req, res) => {
   const {
@@ -92,4 +101,5 @@ module.exports = {
   createPatient,
   getPatients,
   getPatientDetail,
+  getPatientByEmail,
 };

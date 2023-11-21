@@ -24,6 +24,7 @@ const Add = () => {
   const [medicationFeeList, setMedicationFeeList] = useState([]);
   const [insuranceChecked, setInsuranceChecked] = useState(false);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState([]);
 
   const handleInsurance = () => {
     setInsuranceChecked(!insuranceChecked);
@@ -40,6 +41,15 @@ const Add = () => {
       setAdminStaffList(res.data);
     };
 
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     getPatientList();
     getAdminStaff();
   }, []);
@@ -146,7 +156,11 @@ const Add = () => {
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form
@@ -155,7 +169,9 @@ const Add = () => {
             >
               <h3 className='mb-10 font-bold text-3xl'> Add a Billing</h3>
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Patient: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Patient:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -164,7 +180,7 @@ const Add = () => {
                   onChange={(e) => handlePatient(e)}
                 >
                   <option selected value=''>
-                     Select Patient
+                    Select Patient
                   </option>
                   {patientList.map((patient, idx) => {
                     return (
@@ -176,9 +192,10 @@ const Add = () => {
                 </select>
               </div>
 
-
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select EHRVisit: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select EHRVisit:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -186,14 +203,15 @@ const Add = () => {
                   value={ehrVisit}
                   onChange={(e) => handleEHRVisit(e)}
                 >
-                    <option selected value=''>
-                      Select EHRVisit
-                    </option>
+                  <option selected value=''>
+                    Select EHRVisit
+                  </option>
                   {ehrVisitList.map((ehrVisit, idx) => {
                     return (
                       <option key={ehrVisit._id} value={ehrVisit._id}>
-                        {ehrVisit.patient?.firstName} {ehrVisit.patient?.lastName}{' '}
-                        || {convertDate(ehrVisit.visitDate)}
+                        {ehrVisit.patient?.firstName}{' '}
+                        {ehrVisit.patient?.lastName} ||{' '}
+                        {convertDate(ehrVisit.visitDate)}
                       </option>
                     );
                   })}
@@ -201,7 +219,9 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Administrative Staff: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Administrative Staff:{' '}
+                </label>
                 <select
                   className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
                   name=''
@@ -223,78 +243,99 @@ const Add = () => {
               </div>
 
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Total Lab Fee: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Total Lab Fee:{' '}
+                </label>
                 <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              readonly='readonly'
-              // onChange={setLab(totalLabFee())}
+                  class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  readonly='readonly'
+                  // onChange={setLab(totalLabFee())}
                   value={totalLabFee()}
                 />
               </div>
-                                         
+
               <div className='mb-3 flex items-center'>
-                <label className='mr-2 text-sm font-medium block'>Doctor Fee:</label> 
-                <span className='text-secondary inline-block font-bold'>${DOCTOR_FEE}</span>
+                <label className='mr-2 text-sm font-medium block'>
+                  Doctor Fee:
+                </label>
+                <span className='text-secondary inline-block font-bold'>
+                  ${DOCTOR_FEE}
+                </span>
               </div>
 
-             
               <div className='mb-3'>
-                <label className='mb-2 text-sm font-medium block' htmlFor=''>Select Medication: </label>
+                <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                  Select Medication:{' '}
+                </label>
                 <input
-              class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              readonly='readonly'
-              // onChange={setMedication(totalMedicationFee())}
-              value={totalMedicationFee()}
-            />
+                  class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                  readonly='readonly'
+                  // onChange={setMedication(totalMedicationFee())}
+                  value={totalMedicationFee()}
+                />
               </div>
-                     
-            <div className='mb-3 flex items-center'>
-            <label className='mr-2 text-sm font-medium block'>
-              Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
-              {DOCTOR_FEE}:
-            </label>
-            <span className='text-secondary inline-block font-bold'>${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}</span>
-          </div>
 
               <div className='mb-3 flex items-center'>
-            <label className='mr-2 text-sm font-medium block'>
-              Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
-              {DOCTOR_FEE}:
-            </label>
-            <span className='text-secondary inline-block font-bold'>${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}</span>
-          </div>
-          <div className='mb-3 flex items-center'>
-            <label  className='mr-2 text-sm font-medium block' htmlFor=''> Coverage Amount: </label>
-            <span className='text-secondary inline-block font-bold'>{patientInsurance[0]?.coverageAmount
-              ? '$' + patientInsurance[0]?.coverageAmount
-              : '$' + 0}</span>
-          </div>
-          <div className='mb-3 flex items-center'>
-            <label className='mr-2 text-sm font-medium block' htmlFor=''> Deductible Amount: </label>
-            <span className='text-secondary inline-block font-bold'>{patientInsurance[0]?.deductible
-              ? '$' + patientInsurance[0]?.deductible
-              : '$' + 0}</span>
-          </div>
-          {patientInsurance[0]?.deductible >
-          DOCTOR_FEE + totalLabFee() + totalMedicationFee()
-            ? 'Since Deductible amount is greater than subtotal amount,  Subtotal amount is applied.'
-            : // <div className='mb-3'>
-              //   <label
-              //     htmlFor='inputVacationPercentage'
-              //     className='switch switch-default'
-              //   >
-              //     Want to use Insurance?
-              //   </label>
-              //   &nbsp;
-              //   <input
-              //     id='insuranceChecked'
-              //     type='checkbox'
-              //     checked={insuranceChecked}
-              //     onChange={handleInsurance}
-              //   />
-              // </div>
-              ''}
-          {/* 
+                <label className='mr-2 text-sm font-medium block'>
+                  Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
+                  {DOCTOR_FEE}:
+                </label>
+                <span className='text-secondary inline-block font-bold'>
+                  ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
+                </span>
+              </div>
+
+              <div className='mb-3 flex items-center'>
+                <label className='mr-2 text-sm font-medium block'>
+                  Subtotal: ${totalLabFee()} + ${totalMedicationFee()} + $
+                  {DOCTOR_FEE}:
+                </label>
+                <span className='text-secondary inline-block font-bold'>
+                  ${totalLabFee() + totalMedicationFee() + DOCTOR_FEE}
+                </span>
+              </div>
+              <div className='mb-3 flex items-center'>
+                <label className='mr-2 text-sm font-medium block' htmlFor=''>
+                  {' '}
+                  Coverage Amount:{' '}
+                </label>
+                <span className='text-secondary inline-block font-bold'>
+                  {patientInsurance[0]?.coverageAmount
+                    ? '$' + patientInsurance[0]?.coverageAmount
+                    : '$' + 0}
+                </span>
+              </div>
+              <div className='mb-3 flex items-center'>
+                <label className='mr-2 text-sm font-medium block' htmlFor=''>
+                  {' '}
+                  Deductible Amount:{' '}
+                </label>
+                <span className='text-secondary inline-block font-bold'>
+                  {patientInsurance[0]?.deductible
+                    ? '$' + patientInsurance[0]?.deductible
+                    : '$' + 0}
+                </span>
+              </div>
+              {patientInsurance[0]?.deductible >
+              DOCTOR_FEE + totalLabFee() + totalMedicationFee()
+                ? 'Since Deductible amount is greater than subtotal amount,  Subtotal amount is applied.'
+                : // <div className='mb-3'>
+                  //   <label
+                  //     htmlFor='inputVacationPercentage'
+                  //     className='switch switch-default'
+                  //   >
+                  //     Want to use Insurance?
+                  //   </label>
+                  //   &nbsp;
+                  //   <input
+                  //     id='insuranceChecked'
+                  //     type='checkbox'
+                  //     checked={insuranceChecked}
+                  //     onChange={handleInsurance}
+                  //   />
+                  // </div>
+                  ''}
+              {/* 
           {insuranceChecked && (
             <>
               <div class='mb-3'>
@@ -316,20 +357,20 @@ const Add = () => {
               </div>
             </>
           )} */}
-          {!insuranceChecked && (
-            <div class='mb-3'>
-              <label class='mb-2 text-sm font-medium block' htmlFor=''>
-                Total Amount $
-              </label>
-              <input
-                readonly='readonly'
-                class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-                onChange={(e) => setTotalAmount(e.target.value)}
-                defaultValue={getTotalCalculatedAmount()}
-                value={getTotalCalculatedAmount()}
-              />
-            </div>
-          )}
+              {!insuranceChecked && (
+                <div class='mb-3'>
+                  <label class='mb-2 text-sm font-medium block' htmlFor=''>
+                    Total Amount $
+                  </label>
+                  <input
+                    readonly='readonly'
+                    class='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                    onChange={(e) => setTotalAmount(e.target.value)}
+                    defaultValue={getTotalCalculatedAmount()}
+                    value={getTotalCalculatedAmount()}
+                  />
+                </div>
+              )}
 
               <button className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'>
                 Add Bill

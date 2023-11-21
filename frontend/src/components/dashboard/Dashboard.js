@@ -1,136 +1,71 @@
+import axios from 'axios';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import HealthStaffDashboardSideBar from './HealthStaffDashboardSideBar';
+import AdminStaffDashboard from './AdminStaffDashboardSidebar';
 
-const Dashboard = () => {
+const Dashboard = ({ name, userId, role }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    window.localStorage.removeItem('isLoggedIn');
+    window.localStorage.removeItem('email');
+    window.localStorage.removeItem('role');
+    await axios.get(`http://localhost:5005/api/users/logout`);
+    navigate(`/login`);
+  };
   return (
     <>
       <div className='bg-primary text-white w-1/5 fixed'>
         <h2 className='container mx-auto text-4xl py-8 px-6'>ERStreamline</h2>
-        <div className='nav mt-15 h-screen overflow-y-scroll px-4 pt-15 pb-20'>
-          {/* <NavLink className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/homepage/login'>Login</NavLink> */}
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/'>Announcements</NavLink> */}
+        <h6 className='container mx-auto text-l py-8 px-6'>
+          Welcome {name}
+          <br />
+          {role === 'healthStaffs'
+            ? 'Role: Health Staff'
+            : role === 'adminStaffs'
+            ? 'Role: Admin Staff'
+            : ''}
+        </h6>
 
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/homepage/patient'
-          >
-            Patient
-          </NavLink>
+        {/* Patient Dashboard Side */}
+        {window.localStorage.getItem('role') === 'patients' && (
+          <div className='nav mt-15 h-screen overflow-y-scroll px-4 pt-15 pb-20'>
+            <NavLink
+              className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+              to='/patient/dashboard'
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
+              className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+              to={`/patient-history/${userId}`}
+            >
+              My History
+            </NavLink>
 
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/patients'
-          >
-            All Patients
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/patient/add'>Add Patient</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/health-staffs'
-          >
-            Health Staffs
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/health-staff/add'>Add Health Staff</NavLink> */}
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/health-staff/add'>Add Health Staff</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/labs'
-          >
-            Labs
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/lab/add'>Add Lab</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/patient-lab-reports/'
-          >
-            All Patient Lab Reports
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/patient-lab-report/add'>Add Patient Lab Report</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/admin-staffs'
-          >
-            Admin Staffs
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/admin-staff/add'>Add Admin Staffs</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/insurances'
-          >
-            Insurances
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/insurance/add'>Add Insurance</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/beds'
-          >
-            All Bed
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/bed/add'>Add Bed</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/rooms'
-          >
-            All Rooms
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/room/add'>Add Room</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/ehr-visits'
-          >
-            All EHRVisits
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/ehr-visit/add'>Add EHRVisit</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/admissions'
-          >
-            All Admissions
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/admission/add'>Add Admission</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/medications'
-          >
-            All Medications
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/medication/add'>Add Medication</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/billings'
-          >
-            All Billings
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/billing/add'>Add Billing</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/schedules'
-          >
-            All Schedules
-          </NavLink>
-          {/* <NavLink activeClassName="active" className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200' to='/schedule/add'>Add Schedule</NavLink> */}
-          <NavLink
-            activeClassName='active'
-            className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-            to='/patient-history'
-          >
-            Patient History
-          </NavLink>
-        </div>
+            <NavLink
+              className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+              to='/'
+              onClick={(e) => {
+                handleLogout(e);
+              }}
+            >
+              Logout
+            </NavLink>
+          </div>
+        )}
+
+        {/* Admin Staff Dashboard */}
+        {window.localStorage.getItem('role') === 'adminStaffs' && (
+          <AdminStaffDashboard />
+        )}
+
+        {/* Health Staff Dashboard */}
+        {window.localStorage.getItem('role') === 'healthStaffs' && (
+          <HealthStaffDashboardSideBar />
+        )}
       </div>
     </>
   );

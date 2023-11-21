@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const SignUp = () => {
-  const [name, setName] = useState('');
+  const [role, setRole] = useState(undefined);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState([]);
   const [allDetail, setAllDetail] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Email is', email);
+    console.log('Email is', user.email);
     console.log('Password is', password);
     try {
       const res = await axios.post('http://127.0.0.1:5005/api/users/signup', {
-        name: 'Sumit Shrestha',
-        email: email,
+        role: role,
+        name: user?.firstName + ' ' + user?.lastName,
+        email: user?.email,
         password: password,
         headers: {
           'Access-Control-Allow-Origin': '*',
@@ -32,21 +34,36 @@ const SignUp = () => {
 
   const handleRole = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
-
-    if (e.target.value === 'patient') {
+    setRole(e.target.value);
+    if (e.target.value === 'patients') {
       getAllData('patients');
-    } else if (e.target.value === 'healthStaff') {
+    } else if (e.target.value === 'healthStaffs') {
       getAllData('healthStaffs');
-    } else if (e.target.value === 'adminStaff') {
+    } else if (e.target.value === 'adminStaffs') {
       getAllData('adminStaffs');
     }
   };
 
+  const handleUser = async (e, role) => {
+    e.preventDefault();
+
+    if (role === 'patients') {
+      getUserData('patients', e.target.value);
+    } else if (role === 'healthStaffs') {
+      getUserData('healthStaffs', e.target.value);
+    } else if (role === 'adminStaffs') {
+      getUserData('adminStaffs', e.target.value);
+    }
+  };
+
   const getAllData = async (role) => {
-    console.log('Role is', role);
     const res = await axios.get(`http://localhost:5005/api/${role}`);
     setAllDetail(res.data);
+  };
+
+  const getUserData = async (role, user) => {
+    const res = await axios.get(`http://localhost:5005/api/${role}/${user}`);
+    setUser(res.data);
   };
 
   useEffect(() => {}, []);
@@ -65,15 +82,44 @@ const SignUp = () => {
             onSubmit={handleSubmit}
           >
             <h3 className='mb-10 font-bold text-3xl'> Sign Up</h3>
-
-            {/* <div className='mb-4'>
-              <select className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'>
+            <div className='mb-4'>
+              <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                Role
+              </label>
+              <select
+                onChange={(e) => {
+                  handleRole(e);
+                }}
+                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+              >
                 <option value=''>Select Role</option>
-                <option value='Patient'>Patient</option>
-                <option value='HealthStaff'>HealthStaff</option>
-                <option value='Visitor'>Visitor</option>
+                <option value='patients'>Patient</option>
+                <option value='healthStaffs'>Health Staff</option>
+                <option value='adminStaffs'>Admin Staff</option>
               </select>
-            </div> */}
+            </div>
+            <div className='mb-4'>
+              <label className='mb-2 text-sm font-medium block' htmlFor=''>
+                Name
+              </label>
+              <select
+                name='name'
+                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
+                onChange={(e) => {
+                  handleUser(e, role);
+                }}
+              >
+                <option value=''>Select Name</option>
+                {allDetail.map((detail, idx) => {
+                  return (
+                    <option key={detail._id} value={detail._id}>
+                      {detail.firstName} {detail.lastName}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
             <div className='mb-4'>
               <label className='mb-2 text-sm font-medium block' htmlFor=''>
                 Email
@@ -84,9 +130,7 @@ const SignUp = () => {
                 placeholder='Email'
                 name='email'
                 required
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                value={user?.email}
               />
               <div className='email error'></div>
             </div>
@@ -114,88 +158,6 @@ const SignUp = () => {
               Sign Up
             </button>
           </form>
-          {/* <form
-            className='login_form p-large gradient rounded-3xl '
-            onSubmit={handleSubmit}
-          >
-            <h3 className='mb-10 font-bold text-3xl'> Sign Up</h3>
-            <div className='mb-4'>
-              <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                Role
-              </label>
-              <select
-                onChange={(e) => {
-                  handleRole(e);
-                }}
-                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              >
-                <option value=''>Select Role</option>
-                <option value='patient'>Patient</option>
-                <option value='healthStaff'>Health Staff</option>
-                <option value='adminStaff'>Admin Staff</option>
-              </select>
-            </div>
-            <div className='mb-4'>
-              <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                Name
-              </label>
-              <select
-                name='name'
-                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-              >
-                <option value=''>Select Name</option>
-                {allDetail.map((detail, idx) => {
-                  return (
-                    <option key={detail._id} value={detail._id}>
-                      {detail.firstName} {detail.lastName} || {detail.email}
-                    </option>
-                  );
-                })}
-              </select>
-            </div> */}
-
-          {/* <div className='mb-4'>
-              <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                Email
-              </label>
-              <input
-                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-                type='text'
-                placeholder='Email'
-                name='email'
-                readOnly
-                value={allDetail[0]?.email}
-                required
-                // onChange={(e) => {
-                //   setEmail(e.target.value);
-                // }}
-              />
-              <div className='email error'></div>
-            </div> */}
-
-          {/* <div>
-              <label className='mb-2 text-sm font-medium block' htmlFor=''>
-                Password
-              </label>
-              <input
-                className='p-2.5 text-textLight shadow rounded w-2/5 outline-none focus:border-solid focus:border focus:border-primary focus:shadow-none transition'
-                type='password'
-                placeholder='Password'
-                required
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <div className='password error'></div>
-            </div>
-
-            <button
-              className='px-4 py-2 bg-primary hover:bg-secondary text-white rounded-full text-base mt-10 transition-colors'
-              to='/homepage/patient'
-            >
-              Sign Up
-            </button>
-          </form> */}
         </div>
       </div>
     </>

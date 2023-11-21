@@ -6,6 +6,7 @@ import { convertDate } from '../../commons/functions';
 
 const AllReports = () => {
   const [allPatientReports, setAllPatientReports] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
 
   useEffect(() => {
     const fetchAllPatientLabReports = async () => {
@@ -13,12 +14,26 @@ const AllReports = () => {
       setAllPatientReports(res.data);
       console.log(res.data);
     };
+
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/adminStaffs/detail/${window.localStorage.getItem(
+          'email'
+        )}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     fetchAllPatientLabReports();
   }, []);
   return (
     <>
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <Link
@@ -66,6 +81,7 @@ const AllReports = () => {
                                   'noreferrer'
                                 );
                               }}
+                              style={{ color: 'red' }}
                             >
                               Show Lab Report
                             </button>

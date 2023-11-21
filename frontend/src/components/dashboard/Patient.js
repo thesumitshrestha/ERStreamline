@@ -1,39 +1,31 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, Link } from 'react-router-dom';
-import { calculateAge, convertDate } from '../../commons/functions';
+
 import avatar from '../../images/avatar.png';
-import Dashboard from '../dashboard/Dashboard';
+import Dashboard from './Dashboard';
+import { useLocation, useParams, Link } from 'react-router-dom';
+import axios from 'axios';
+import { calculateAge, convertDate } from '../../commons/functions';
 
 const Patient = () => {
   const location = useLocation();
 
-  const { id } = useParams();
   const [userData, setUserData] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
   const [ehrVisits, setEhrVisits] = useState([]);
   const [totalBills, setTotalBills] = useState([]);
 
   if (location?.state?.email) {
     window.localStorage.setItem('email', location?.state?.email);
   }
-
   const email = window.localStorage.getItem('email');
-
+  console.log('EMAIL IS NEW', email);
   useEffect(() => {
-    const getCurrentUser = async () => {
+    const getUserData = async () => {
       const res = await axios.get(
-        `http://localhost:5005/api/${window.localStorage.getItem(
-          'role'
-        )}/detail/${email}`
+        `http://localhost:5005/api/patients/detail/${email}`
       );
 
-      setCurrentUser(res.data);
-    };
-
-    const getPatientDetail = async () => {
-      const res = await axios.get(`http://localhost:5005/api/patients/${id}`);
       setUserData(res.data);
+      console.log('USER DATA is', res.data);
 
       await axios
         .get(`http://localhost:5005/api/ehrVisits/patient/${res?.data?._id}`)
@@ -61,18 +53,15 @@ const Patient = () => {
       //   console.log('HERE in GET BILLING, ID is', ehrVisit.data._id);
       // });
     };
-
-    getPatientDetail();
-    getCurrentUser();
+    getUserData();
   }, []);
 
   return (
     <>
       <div className='flex'>
         <Dashboard
-          name={currentUser?.firstName + ' ' + currentUser?.lastName}
-          userId={currentUser?._id}
-          role={window.localStorage.getItem('role')}
+          name={userData?.firstName + ' ' + userData?.lastName}
+          userId={userData?._id}
         />
         <div className='bg-background w-3/4 content'>
           <div className='container mx-auto p-large'>
@@ -187,16 +176,6 @@ const Patient = () => {
           </div>
         </div>
       </div>
-      {/* <div>I am Patient Detail Page</div>
-      <h4>
-        Name: {patientDetail?.firstName} {patientDetail?.lastName}
-      </h4>
-      <h4>DOB: {patientDetail?.dateOfBirth}</h4>
-      <h4>Email: {patientDetail?.email}</h4>
-      <h4>Gender: {patientDetail?.gender}</h4>
-      <h4>Phone: {patientDetail?.phone}</h4>
-      <h4>Emergency Contact Name: {patientDetail?.emergencyContactName}</h4>
-      <h4>Emergency Contact Number: {patientDetail?.emergencyContactNumber}</h4> */}
     </>
   );
 };

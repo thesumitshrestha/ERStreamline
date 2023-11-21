@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
@@ -14,6 +14,7 @@ const Add = () => {
   const [bloodGroup, setBloodGroup] = useState('');
   const [emergencyContactName, setEmergencyContactName] = useState('');
   const [emergencyContactNumber, setEmergencyContactNumber] = useState('');
+  const [currentUser, setCurrentUser] = useState([]);
 
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -42,10 +43,25 @@ const Add = () => {
     }
   };
 
+  useEffect(() => {
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/adminStaffs/detail/${window.localStorage.getItem(
+          'email'
+        )}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
+  }, []);
   return (
     <>
       <div className='flex'>
-        <Dashboard/>
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <form

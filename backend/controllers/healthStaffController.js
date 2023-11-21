@@ -49,7 +49,24 @@ const createHealthStaff = async (req, res) => {
   }
 };
 
+const getHealthStaffDetail = async (req, res) => {
+  const id = req.params.id;
+  const healthStaff = await HealthStaff.findById(req.params.id);
+  res.status(200).json(healthStaff);
+};
+
+const getHealthStaffByEmail = async (req, res) => {
+  console.log('HEREEE');
+  const email = req.params.email;
+  console.log('EMAIL IS', email);
+  console.log('PARAM IS', req.params.email);
+  const healthStaffs = await HealthStaff.findOne({ email: req.params.email });
+  res.status(200).json(healthStaffs);
+};
+
 module.exports = {
   createHealthStaff,
   getHealthStaffs,
+  getHealthStaffDetail,
+  getHealthStaffByEmail,
 };

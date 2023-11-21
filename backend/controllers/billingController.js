@@ -57,6 +57,7 @@ const getBillingsByEHRVisit = async (req, res) => {
         path: 'lab',
       },
     ]);
+  res.status(200).json(billingByEHR);
 };
 
 // Create new Billing

@@ -49,7 +49,21 @@ const createAdminStaff = async (req, res) => {
   }
 };
 
+const getAdminStaffDetail = async (req, res) => {
+  const id = req.params.id;
+  const adminStaff = await AdminStaff.findById(req.params.id);
+  res.status(200).json(adminStaff);
+};
+
+const getAdminStaffByEmail = async (req, res) => {
+  const email = req.params.email;
+  const adminStaffs = await AdminStaff.findOne({ email: req.params.email });
+  res.status(200).json(adminStaffs);
+};
+
 module.exports = {
   createAdminStaff,
   getAdminStaffs,
+  getAdminStaffDetail,
+  getAdminStaffByEmail,
 };

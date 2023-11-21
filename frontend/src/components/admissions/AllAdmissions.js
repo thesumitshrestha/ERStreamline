@@ -6,6 +6,7 @@ import { convertDate } from '../../commons/functions';
 
 const AllAdmissions = () => {
   const [allAdmissions, setAllAdmissions] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
 
   useEffect(() => {
     const fetchAllAdmissions = async () => {
@@ -13,12 +14,26 @@ const AllAdmissions = () => {
       setAllAdmissions(res.data);
       console.log(res.data);
     };
+
+    const getUserData = async () => {
+      const res = await axios.get(
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
+      );
+      setCurrentUser(res.data);
+    };
+    getUserData();
     fetchAllAdmissions();
   }, []);
   return (
     <>
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-4/5 content'>
           <div className='container px-5 py-medium'>
             <Link

@@ -3,11 +3,6 @@ const jwt = require('jsonwebtoken');
 const jwtSecret =
   '4715aed3c946f7b0a38e6b534a9583628d84e96d10fbc04700770d572af3dce43625dd';
 
-// const getBed = async (req, res) => {
-//   const bed = await Bed.find({}).sort({ createdAt: -1 });
-//   res.status(200).json(bed);
-// };
-
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -41,9 +36,13 @@ const createToken = (id) => {
 
 // Create new User
 const signUp = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { role, name, email, password } = req.body;
 
   let emptyFields = [];
+
+  if (!role) {
+    emptyFields.push('role');
+  }
 
   if (!name) {
     emptyFields.push('name');
@@ -64,6 +63,7 @@ const signUp = async (req, res, next) => {
   // Add doc to db
   try {
     const user = await User.create({
+      role,
       name,
       email,
       password,
@@ -71,7 +71,7 @@ const signUp = async (req, res, next) => {
     const token = createToken(user._id);
     res.cookie('jwt', token, {
       maxAge: maxAge * 1000,
-      httpOnly: true, // recommended for security
+      httpOnly: false, // recommended for security
       secure: false, // set to true if using HTTPS
       sameSite: 'None', // only if using HTTPS
     });
@@ -98,19 +98,19 @@ const login = async (req, res) => {
     res.cookie('jwt', token, {
       maxAge: maxAge * 1000,
       // expires: expiryDate,
-      httpOnly: true, // recommended for security
+      httpOnly: false, // recommended for security
       // secure: false, // set to true if using HTTPS
       // sameSite: 'None', // only if using HTTPS
     });
 
-    res.status(200).json({ user: user._id });
+    res.status(200).json({ user: user._id, role: user.role });
   } catch (error) {
     res.status(400).json({});
   }
 };
 
 const logout = (req, res) => {
-  res.cookie('access_token', '', { httpOnly: true, maxAge: 1 });
+  res.cookie('jwt', '', { httpOnly: false, maxAge: 1 });
   res.status(200).json({ message: 'User logged Out' });
 };
 

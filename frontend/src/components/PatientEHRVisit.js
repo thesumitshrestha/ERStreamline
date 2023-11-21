@@ -1,16 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Dashboard from './dashboard/Dashboard';
 import { convertDate, calculateAge } from '../commons/functions';
-import avatar from '../images/avatar.png'
+import avatar from '../images/avatar.png';
 
 const PatientEHRVisit = () => {
+  const location = useLocation();
+  const [currentUser, setCurrentUser] = useState([]);
   const [ehrVisit, setEhrVisit] = useState();
   const [ehrVisitPatientLab, setEhrVisitPatientLab] = useState([]);
   const [ehrVisitMedicationList, setEhrVisitMedicationList] = useState([]);
   const [ehrVisitAdmission, setEhrVisitAdmission] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const email = window.localStorage.getItem('email');
   const { id } = useParams();
+
+  const getUserData = async () => {
+    const res = await axios.get(
+      `http://localhost:5005/api/patients/detail/${email}`
+    );
+    setUserData(res.data);
+    console.log('USER DATA is', res.data);
+  };
 
   const getEHRVisit = async () => {
     await axios
@@ -48,146 +60,36 @@ const PatientEHRVisit = () => {
       });
   };
 
+  const getCurrentUserData = async () => {
+    const res = await axios.get(
+      `http://localhost:5005/api/${window.localStorage.getItem(
+        'role'
+      )}/detail/${window.localStorage.getItem('email')}`
+    );
+
+    setCurrentUser(res.data);
+  };
+
   useEffect(() => {
     getEHRVisit();
     getLabsByEHRVisit();
     getMedicationByEhrVisit();
     getAdmissionByEhrVisit();
+    getUserData();
+    getCurrentUserData();
   }, []);
 
   return (
     <>
-      {/* <div>EhrVisit Details</div>
-      <div>
-        Patient Name: {ehrVisit?.patient?.firstName}{' '}
-        {ehrVisit?.patient?.lastName}
-      </div>
-      <div>
-        Health Staff: {ehrVisit?.healthStaff?.firstName} &nbsp;
-        {ehrVisit?.healthStaff?.lastName}
-      </div>
-      <div>Visit Date: {convertDate(ehrVisit?.visitDate)}</div>
-      <div>Blood Pressure: {ehrVisit?.bloodPressure}</div>
-      <div>Height: {ehrVisit?.height}</div>
-      <div>Weight: {ehrVisit?.weight} lbs</div>
-      <div>Diagnosis: {ehrVisit?.diagnosis}</div>
-      <div>Follow Up Instructions: {ehrVisit?.followUpInstructions}</div>
-      <div> Procedure: {ehrVisit?.procedure}</div>
-      <div>Medical History: {ehrVisit?.medicalHistory} lbs</div>
-      <div>Prescribed Medications: {ehrVisit?.prescribedMedications} lbs</div>
-
-      <p> Age: {calculateAge(ehrVisit?.patient?.dateOfBirth)}</p>
-
-      <br />
-      <br />
-      <br />
-
-      <h2> Lab Results</h2>
-      {ehrVisitPatientLab.length > 0
-        ? ehrVisitPatientLab.map((lab, idx) => {
-            return (
-              <div key={idx}>
-                <p>
-                  {lab?.lab?.name} -
-                  <button
-                    style={{ textDecoration: 'underline', color: 'blue' }}
-                    onClick={(e) => {
-                      window.open(
-                        `http://localhost:5005/reports/${lab?.report}`,
-                        '_blank',
-                        'noreferrer'
-                      );
-                    }}
-                  >
-                    Show Lab Report
-                  </button>
-                  - {lab?.labFee} | {convertDate(lab?.date)}
-                </p>
-              </div>
-            );
-          })
-        : 'No Lab Test Found'}
-
-      <br />
-      <br />
-      <br />
-      <br />
-      <h2> Medication </h2>
-      {ehrVisitMedicationList.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th> S.N.</th>
-              <th>Medication Name</th>
-              <th>Dosage</th>
-              <th>Medication Cost</th>
-              <th>Prescribed Date</th>
-              <th>Health Staff</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ehrVisitMedicationList.map((med, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>{med?.medicationName}</td>
-                  <td>{med?.dosage}</td>
-                  <td>${med?.medicineCost} </td>
-                  <td>{convertDate(med?.prescribedDate)} </td>
-                  <td>
-                    {med?.healthStaff.firstName} &nbsp;{' '}
-                    {med?.healthStaff.lastName}{' '}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        'No Medication Found'
-      )}
-
-      <br />
-      <br />
-      <h2> Admission </h2>
-      {ehrVisitAdmission.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th> S.N.</th>
-              <th>Bed Number</th>
-              <th>Admission Date</th>
-              <th>Discharge Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ehrVisitAdmission.map((admission, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>
-                    {admission?.bedNumber.roomNumber.roomNumber}
-                    {admission?.bedNumber.bedNumber.bedNumber}
-                  </td>
-                  <td>{convertDate(admission?.admissionDate)} </td>
-                  <td>{convertDate(admission?.dischargeDate)} </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        'No Admission Found'
-      )}
- */}
-
       <div className='flex'>
-        <Dashboard />
+        <Dashboard
+          name={currentUser?.firstName + ' ' + currentUser?.lastName}
+          userId={currentUser?._id}
+          role={window.localStorage.getItem('role')}
+        />
         <div className='bg-background w-3/4 content'>
           <div className='container mx-auto p-large'>
-            <h3 className='mb-10 font-bold text-3xl'>
-                EhrVisit Details
-            </h3>
+            <h3 className='mb-10 font-bold text-3xl'>EhrVisit Details</h3>
             <div className='p-small gradient rounded-3xl mt-10 basis-2/4'>
               <div className='block '>
                 <div className='card-body'>
@@ -201,10 +103,15 @@ const PatientEHRVisit = () => {
                     </div>
                     <div className='text-center mt-3'>
                       <h4>
-                        <b> {ehrVisit?.patient?.firstName}{' '}
-                        {ehrVisit?.patient?.lastName}</b>
+                        <b>
+                          {' '}
+                          {ehrVisit?.patient?.firstName}{' '}
+                          {ehrVisit?.patient?.lastName}
+                        </b>
                       </h4>
-                      <p>{calculateAge(ehrVisit?.patient?.dateOfBirth)} Years</p>
+                      <p>
+                        {calculateAge(ehrVisit?.patient?.dateOfBirth)} Years
+                      </p>
                     </div>
                     {/* <h4>
                       <b> EhrVisit Details</b>
@@ -212,15 +119,11 @@ const PatientEHRVisit = () => {
                     <ul className='flex items-center justify-between p-0 mt-4 mb-0 '>
                       <li className='text-center w-1/3'>
                         <h6 className='text-primary'>Height</h6>
-                        <h3>
-                          {ehrVisit?.height}
-                        </h3>
+                        <h3>{ehrVisit?.height}</h3>
                       </li>
                       <li className='text-center border-l border-secondary w-1/3'>
                         <h6 className='text-primary'>Weight</h6>
-                        <h3>
-                          {ehrVisit?.weight} lbs
-                        </h3>
+                        <h3>{ehrVisit?.weight} lbs</h3>
                       </li>
                       <li className='text-center border-l border-secondary w-1/3'>
                         <h6 className='text-primary'>Blood Pressure</h6>
@@ -233,7 +136,7 @@ const PatientEHRVisit = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className='p-small gradient rounded-3xl mt-10 basis-2/4'>
               <div className='block '>
                 <div className='card-body'>
@@ -246,43 +149,32 @@ const PatientEHRVisit = () => {
                         <h6 className='text-primary'>Health Staff</h6>
                         <h3>
                           {ehrVisit?.healthStaff?.firstName} &nbsp;
-                          {ehrVisit?.healthStaff?.lastName} 
+                          {ehrVisit?.healthStaff?.lastName}
                         </h3>
                       </li>
                       <li className='text-center border-l border-secondary w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Visit Date</h6>
-                        <h3>
-                          {convertDate(ehrVisit?.visitDate)}
-                        </h3>
+                        <h3>{convertDate(ehrVisit?.visitDate)}</h3>
                       </li>
                       <li className='text-center w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Diagnosis</h6>
-                        <h3 className='text-warning'>
-                          {ehrVisit?.diagnosis}
-                        </h3>
+                        <h3 className='text-warning'>{ehrVisit?.diagnosis}</h3>
                       </li>
                       <li className='text-center border-l border-secondary w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Follow Up Instructions</h6>
-                        <h3>
-                          {ehrVisit?.followUpInstructions}
-                        </h3>
+                        <h3>{ehrVisit?.followUpInstructions}</h3>
                       </li>
                       <li className='text-center w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Procedure</h6>
-                        <h3>
-                          {ehrVisit?.procedure}
-                        </h3>
+                        <h3>{ehrVisit?.procedure}</h3>
                       </li>
                       <li className='text-center border-l border-secondary w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Medical History</h6>
-                        <h3>
-                          {ehrVisit?.medicalHistory}
-                        </h3>
-                      </li><li className='text-center w-1/2 p-1 mb-2'>
+                        <h3>{ehrVisit?.medicalHistory}</h3>
+                      </li>
+                      <li className='text-center w-1/2 p-1 mb-2'>
                         <h6 className='text-primary'>Prescribed Medication</h6>
-                        <h3>
-                          {ehrVisit?.prescribedMedications}
-                        </h3>
+                        <h3>{ehrVisit?.prescribedMedications}</h3>
                       </li>
                     </ul>
                     {/* contact info */}
@@ -297,115 +189,130 @@ const PatientEHRVisit = () => {
               </h3>
               <div className='text-sm mt-4'>
                 {ehrVisitPatientLab.length > 0 ? (
-                <table>
-                  <thead>
-                    <tr>
-                      <th className='p-4'>Lab Name</th>
-                      <th className='p-4'>Lab Report</th>
-                      <th className='p-4'>Amount</th>
-                      <th className='p-4'>Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ehrVisitPatientLab.map((lab, idx) => (
-                      <tr key={idx}>
-                        <td className='p-4'>{lab?.lab?.name}</td>
-                        <td className='p-4'>
-                          <button className='underline text-primary'
-                            onClick={(e) => {
-                              window.open(`http://localhost:5005/reports/${lab?.report}`, '_blank', 'noreferrer');
-                            }}
-                          >
-                            Show Lab Report
-                          </button>
-                        </td>
-                        <td className='p-4 font-bold text-secondary'>${lab?.labFee}</td>
-                        <td className='p-4'>{convertDate(lab?.date)}</td>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className='p-4'>Lab Name</th>
+                        <th className='p-4'>Lab Report</th>
+                        <th className='p-4'>Amount</th>
+                        <th className='p-4'>Date</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                'No Lab Test Found'
-              )}
+                    </thead>
+                    <tbody>
+                      {ehrVisitPatientLab.map((lab, idx) => (
+                        <tr key={idx}>
+                          <td className='p-4'>{lab?.lab?.name}</td>
+                          <td className='p-4'>
+                            <button
+                              className='underline text-primary'
+                              onClick={(e) => {
+                                window.open(
+                                  `http://localhost:5005/reports/${lab?.report}`,
+                                  '_blank',
+                                  'noreferrer'
+                                );
+                              }}
+                            >
+                              Show Lab Report
+                            </button>
+                          </td>
+                          <td className='p-4 font-bold text-secondary'>
+                            ${lab?.labFee}
+                          </td>
+                          <td className='p-4'>{convertDate(lab?.date)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  'No Lab Test Found'
+                )}
               </div>
             </div>
-             {/* Medication */}
+            {/* Medication */}
             <div className='bg-white rounded-3xl shadow-lg p-5 mt-10'>
               <h3 className='text-center mb-10'>
                 <b>Medication</b>
               </h3>
               <div className='text-sm mt-4'>
-              {ehrVisitMedicationList.length > 0 ? (
-                <table>
-                  <thead>
-                    <tr>
-                      <th className='p-4'> S.N.</th>
-                      <th className='p-4'>Medication Name</th>
-                      <th className='p-4'>Dosage</th>
-                      <th className='p-4'>Medication Cost</th>
-                      <th className='p-4'>Prescribed Date</th>
-                      <th className='p-4'>Health Staff</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ehrVisitMedicationList.map((med, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td className='p-4'>{idx + 1}</td>
-                          <td className='p-4'>{med?.medicationName}</td>
-                          <td className='p-4'>{med?.dosage}</td>
-                          <td className='p-4 font-bold text-secondary'>${med?.medicineCost} </td>
-                          <td className='p-4'>{convertDate(med?.prescribedDate)} </td>
-                          <td className='p-4'>
-                            {med?.healthStaff.firstName} &nbsp;{' '}
-                            {med?.healthStaff.lastName}{' '}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ) : (
-                'No Medication Found'
-              )}
+                {ehrVisitMedicationList.length > 0 ? (
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className='p-4'> S.N.</th>
+                        <th className='p-4'>Medication Name</th>
+                        <th className='p-4'>Dosage</th>
+                        <th className='p-4'>Medication Cost</th>
+                        <th className='p-4'>Prescribed Date</th>
+                        <th className='p-4'>Health Staff</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ehrVisitMedicationList.map((med, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td className='p-4'>{idx + 1}</td>
+                            <td className='p-4'>{med?.medicationName}</td>
+                            <td className='p-4'>{med?.dosage}</td>
+                            <td className='p-4 font-bold text-secondary'>
+                              ${med?.medicineCost}{' '}
+                            </td>
+                            <td className='p-4'>
+                              {convertDate(med?.prescribedDate)}{' '}
+                            </td>
+                            <td className='p-4'>
+                              {med?.healthStaff.firstName} &nbsp;{' '}
+                              {med?.healthStaff.lastName}{' '}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  'No Medication Found'
+                )}
               </div>
             </div>
-             {/* Admission */}
+            {/* Admission */}
             <div className='bg-white rounded-3xl shadow-lg p-5 mt-10'>
               <h3 className='text-center mb-10'>
                 <b>Admissions</b>
               </h3>
               <div className='text-sm mt-4'>
                 {ehrVisitAdmission.length > 0 ? (
-                <table>
-                  <thead>
-                    <tr>
-                      <th className='p-4'> S.N.</th>
-                      <th className='p-4'>Bed Number</th>
-                      <th className='p-4'>Admission Date</th>
-                      <th className='p-4'>Discharge Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ehrVisitAdmission.map((admission, idx) => {
-                      return (
-                        <tr key={idx}>
-                          <td className='p-4'>{idx + 1}</td>
-                          <td className='p-4'>
-                            {admission?.bedNumber.roomNumber.roomNumber}
-                            {admission?.bedNumber.bedNumber.bedNumber}
-                          </td>
-                          <td className='p-4'>{convertDate(admission?.admissionDate)} </td>
-                          <td className='p-4'>{convertDate(admission?.dischargeDate)} </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ) : (
-                'No Admission Found'
-              )}
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className='p-4'> S.N.</th>
+                        <th className='p-4'>Bed Number</th>
+                        <th className='p-4'>Admission Date</th>
+                        <th className='p-4'>Discharge Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ehrVisitAdmission.map((admission, idx) => {
+                        return (
+                          <tr key={idx}>
+                            <td className='p-4'>{idx + 1}</td>
+                            <td className='p-4'>
+                              {admission?.bedNumber.roomNumber.roomNumber}
+                              {admission?.bedNumber.bedNumber.bedNumber}
+                            </td>
+                            <td className='p-4'>
+                              {convertDate(admission?.admissionDate)}{' '}
+                            </td>
+                            <td className='p-4'>
+                              {convertDate(admission?.dischargeDate)}{' '}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  'No Admission Found'
+                )}
               </div>
             </div>
           </div>
