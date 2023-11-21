@@ -19,6 +19,7 @@ const AdminStaff = () => {
   const location = useLocation();
   const [userData, setUserData] = useState([]);
   const [roomBed, setRoomBed] = useState([]);
+  const [patients, setPatients] = useState([]);
   const [ehrVisits, setEhrVisits] = useState([]);
   const [admissions, setAdmissions] = useState([]);
   const eventSettings = { dataSource: doctorSchedules };
@@ -42,6 +43,11 @@ const AdminStaff = () => {
       setRoomBed(res.data);
     };
 
+    const getPatients = async () => {
+      const res = await axios.get(`http://localhost:5005/api/patients`);
+      setPatients(res.data);
+    };
+
     const getEhrVisits = async () => {
       const res = await axios.get(`http://localhost:5005/api/ehrVisits`);
       setEhrVisits(res.data);
@@ -56,6 +62,7 @@ const AdminStaff = () => {
     getRoomBed();
     getEhrVisits();
     getAdmission();
+    getPatients();
   }, []);
   return (
     <div>
@@ -83,36 +90,70 @@ const AdminStaff = () => {
             {' '}
             Add Admission{' '}
           </Link>
-          <br />
-          <br />
           {/* Patient Details */}
           <div className='p-medium gradient rounded-3xl '>
-            {/* {doctorSchedules}
-            {doctorSchedules.map((test, idx) => {
-              return <>Name: {test[idx].Subject}</>;
-            })}
-            Length is :{doctorSchedules.length} */}
-            {/* {doctorSchedules
-                .filter((healthStaff) => {
-                    filteredData = 
-                healthStaff.Subject ===
-                      (userData?.firstName + ' ' + userData?.lastName)
-                      setFilteredData(healthStaff); }
-                  );
-                })
-                .map((test) => {
-                  return (
-                    <>
-                      {test.Subject} | {test.Id} |{' '}
-                      {convertDate(test?.StartTime)}
-                      {convertDate(test?.EndTime)}
-                    </>
-                  );
-                })} */}
             <div className='flex'>
               <div className='block w-100 pr-5 mr-5'>
                 <div className='card-body'>
                   <div className='user-details-block'>
+                    Today's Date: {moment(Date.now()).format('MMMM D, YYYY')}{' '}
+                    <br />
+                    <br />
+                    <b> TOTAL EHR VISITS </b> <br />
+                    <span
+                      className='mt-5'
+                      style={{
+                        color: 'teal',
+                        fontSize: '44px',
+                        marginTop: '10px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {ehrVisits.length}
+                    </span>
+                    <br />
+                    <b> TOTAL ADMISSIONS </b> <br />
+                    <span
+                      className='mt-5'
+                      style={{
+                        color: 'teal',
+                        fontSize: '44px',
+                        marginTop: '10px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {admissions.length}
+                    </span>
+                    <br />
+                    <b> TOTAL ROOMS OCCUPIED </b> <br />
+                    <span
+                      className='mt-5'
+                      style={{
+                        color: 'teal',
+                        fontSize: '44px',
+                        marginTop: '10px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {
+                        roomBed.filter((room) => {
+                          return room.isAvailable === false ? roomBed : '';
+                        }).length
+                      }
+                    </span>
+                    <br />
+                    <b> TOTAL PATIENTS </b> <br />
+                    <span
+                      className='mt-5'
+                      style={{
+                        color: 'teal',
+                        fontSize: '44px',
+                        marginTop: '10px',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {patients.length}
+                    </span>
                     <h2
                       style={{
                         fontSize: '18px',
@@ -129,7 +170,7 @@ const AdminStaff = () => {
                       className='bg-white rounded-1xl shadow-lg pl-5 pr-5 text-sm'
                       style={{
                         width: '300px',
-                        maxHeight: '550px',
+                        maxHeight: '400px',
                         overflow: 'scroll',
                       }}
                     >
