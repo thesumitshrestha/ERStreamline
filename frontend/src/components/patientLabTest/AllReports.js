@@ -17,9 +17,9 @@ const AllReports = () => {
 
     const getUserData = async () => {
       const res = await axios.get(
-        `http://localhost:5005/api/adminStaffs/detail/${window.localStorage.getItem(
-          'email'
-        )}`
+        `http://localhost:5005/api/${window.localStorage.getItem(
+          'role'
+        )}/detail/${window.localStorage.getItem('email')}`
       );
       setCurrentUser(res.data);
     };

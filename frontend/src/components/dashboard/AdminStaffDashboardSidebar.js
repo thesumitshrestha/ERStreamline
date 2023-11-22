@@ -40,12 +40,12 @@ const AdminStaffDashboard = () => {
         Labs
       </NavLink>
 
-      <NavLink
+      {/* <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/patient-lab-reports/'
       >
         All Patient Lab Reports
-      </NavLink>
+      </NavLink> */}
       <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/insurances'
@@ -70,12 +70,12 @@ const AdminStaffDashboard = () => {
       >
         All Admissions
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/medications'
       >
         All Medications
-      </NavLink>
+      </NavLink> */}
       <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/billings'
@@ -88,12 +88,12 @@ const AdminStaffDashboard = () => {
       >
         All Schedules
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/ehr-visits'
       >
         All EHRVisits
-      </NavLink>
+      </NavLink> */}
       <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/patient-history'

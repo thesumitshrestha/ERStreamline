@@ -27,12 +27,26 @@ const HealthStaffDashboard = () => {
         All Patients
       </NavLink>
 
-      {/* <NavLink
+      <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
         to='/patient-lab-reports/'
       >
         All Patient Lab Reports
-      </NavLink> */}
+      </NavLink>
+
+      <NavLink
+        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+        to='/ehr-visits'
+      >
+        All EHRVisits
+      </NavLink>
+
+      <NavLink
+        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
+        to='/medications'
+      >
+        All Medications
+      </NavLink>
 
       {/* <NavLink
         className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
