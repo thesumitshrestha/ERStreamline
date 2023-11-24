@@ -1,41 +1,41 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AdminStaffDashboard = () => {
   const navigate = useNavigate();
   const handleLogout = async (e) => {
     e.preventDefault();
-    window.localStorage.removeItem('isLoggedIn');
-    window.localStorage.removeItem('email');
-    window.localStorage.removeItem('role');
+    window.localStorage.removeItem("isLoggedIn");
+    window.localStorage.removeItem("email");
+    window.localStorage.removeItem("role");
     await axios.get(`http://localhost:5005/api/users/logout`);
     navigate(`/login`);
   };
   return (
-    <div className='nav mt-15 h-screen overflow-y-scroll px-4 pt-15 pb-20'>
+    <div className="nav mt-15 h-screen overflow-y-scroll px-4 pt-15 pb-36">
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/"
       >
         Dashboard
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/health-staffs'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/health-staffs"
       >
         Health Staffs
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/patients'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/patients"
       >
         All Patients
       </NavLink>
 
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/labs'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/labs"
       >
         Labs
       </NavLink>
@@ -47,26 +47,26 @@ const AdminStaffDashboard = () => {
         All Patient Lab Reports
       </NavLink> */}
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/insurances'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/insurances"
       >
         Insurances
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/beds'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/beds"
       >
         All Bed
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/rooms'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/rooms"
       >
         All Rooms
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/admissions'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/admissions"
       >
         All Admissions
       </NavLink>
@@ -77,14 +77,14 @@ const AdminStaffDashboard = () => {
         All Medications
       </NavLink> */}
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/billings'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/billings"
       >
         All Billings
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/schedules'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/schedules"
       >
         All Schedules
       </NavLink>
@@ -95,20 +95,20 @@ const AdminStaffDashboard = () => {
         All EHRVisits
       </NavLink> */}
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/patient-history'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/patient-history"
       >
         Patient History
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/sign-up'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/sign-up"
       >
         Add User
       </NavLink>
       <NavLink
-        className='block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200'
-        to='/'
+        className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
+        to="/"
         onClick={(e) => {
           handleLogout(e);
         }}
