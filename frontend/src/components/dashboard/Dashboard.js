@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import HealthStaffDashboardSideBar from "./HealthStaffDashboardSideBar";
 import AdminStaffDashboard from "./AdminStaffDashboardSidebar";
 import avatar from "../../images/avatar.png";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Dashboard = ({ name, userId, role }) => {
   const navigate = useNavigate();
@@ -17,18 +17,47 @@ const Dashboard = ({ name, userId, role }) => {
     await axios.get(`http://localhost:5005/api/users/logout`);
     navigate(`/login`);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (
+        isLogoutVisible &&
+        e.target.closest(".user-profile") === null &&
+        e.target.closest(".logout") === null
+      ) {
+        setIsLogoutVisible(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, [isLogoutVisible]);
   return (
     <>
       <div className="bg-primary text-white w-1/5 fixed">
         <h2 className="container mx-auto text-4xl py-8 px-6">ERStreamline</h2>
         <h6 className="container mx-auto text-l py-8 px-6">
-          Welcome {name}
+          Welcome <span className="ml-2 text-secondary font-bold">{name}</span>
           <br />
-          {role === "healthStaffs"
+          {/* {role === "healthStaffs"
             ? "Role: Health Staff"
             : role === "adminStaffs"
             ? "Role: Admin Staff"
-            : ""}
+            : ""} */}
+          {role && (
+            <div className="user-role">
+              Role:{" "}
+              <span className="ml-2 text-secondary font-bold">
+                {role === "healthStaffs"
+                  ? "Health Staff"
+                  : role === "adminStaffs"
+                  ? "Admin Staff"
+                  : ""}
+              </span>
+            </div>
+          )}
         </h6>
 
         {/* Patient Dashboard Side */}
@@ -47,7 +76,7 @@ const Dashboard = ({ name, userId, role }) => {
               My History
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
               className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
               to="/"
               onClick={(e) => {
@@ -55,7 +84,7 @@ const Dashboard = ({ name, userId, role }) => {
               }}
             >
               Logout
-            </NavLink>
+            </NavLink> */}
           </div>
         )}
 
@@ -70,7 +99,7 @@ const Dashboard = ({ name, userId, role }) => {
         )}
         {/* logout button on top right corner starts */}
         <div
-          className="user-profile fixed top-8 right-10 pointer z-100"
+          className="user-profile fixed top-8 right-10 cursor-pointer"
           onClick={() => setIsLogoutVisible(!isLogoutVisible)}
         >
           <div className="flex justify-center text-primary items-center bg-white shadow-lg p-4 rounded-full">
@@ -87,7 +116,7 @@ const Dashboard = ({ name, userId, role }) => {
             } w-full bg-primary`}
           >
             <NavLink
-              className="text-base text-white font-medium  transition duration-200 w-full"
+              className="text-base text-white font-medium  transition duration-200 w-full block"
               to="/"
               onClick={(e) => {
                 handleLogout(e);

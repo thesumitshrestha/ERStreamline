@@ -106,7 +106,7 @@ const AdminStaffDashboard = () => {
       >
         Add User
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className="block p-4 mb-1 text-base rounded-xl font-medium  hover:text-primary hover:bg-white transition duration-200"
         to="/"
         onClick={(e) => {
@@ -114,7 +114,7 @@ const AdminStaffDashboard = () => {
         }}
       >
         Logout
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 };

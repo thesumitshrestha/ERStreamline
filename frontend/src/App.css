@@ -1,3 +1,12 @@
-.gradient{
-    background: linear-gradient(45deg, #fc9e5b -200%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 75%, #089bab 200%);
+.gradient {
+  background: linear-gradient(
+    45deg,
+    #fc9e5b -200%,
+    rgba(255, 255, 255, 1) 25%,
+    rgba(255, 255, 255, 1) 75%,
+    #089bab 200%
+  );
+}
+.fixed {
+  z-index: 999;
 }
