@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Dashboard from '../dashboard/Dashboard';
+import { convertDate } from '../../commons/functions';
 
 const Add = () => {
   const [dischargeDate, setDischargeDate] = useState('');
@@ -108,7 +109,7 @@ const Add = () => {
                 value={admissionList[0]?.ehrVisit._id}
               >
                 <option selected value='' disabled>
-                  {admissionList[0]?.ehrVisit.visitDate}
+                  {convertDate(admissionList[0]?.ehrVisit.visitDate)}
                 </option>
               </select>
             </div>
@@ -133,7 +134,7 @@ const Add = () => {
                 value={admissionList[0]?.admissionDate}
               >
                 <option selected value='' disabled>
-                  {admissionList[0]?.admissionDate}
+                  {convertDate(admissionList[0]?.admissionDate)}
                 </option>
               </select>
             </div>

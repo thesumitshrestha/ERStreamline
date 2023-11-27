@@ -4622,8 +4622,8 @@ export const doctorSchedules = [
   {
     Id: 661,
     Subject: 'William Turner',
-    StartTime: new Date(2023, 11, 26, 9, 0),
-    EndTime: new Date(2023, 11, 26, 12, 0),
+    StartTime: new Date(2023, 11, 27, 9, 0),
+    EndTime: new Date(2023, 11, 27, 12, 0),
     IsAllDay: false,
   },
   {
@@ -4860,8 +4860,8 @@ export const doctorSchedules = [
   {
     Id: 695,
     Subject: 'William Turner',
-    StartTime: new Date(2023, 11, 28, 18, 0),
-    EndTime: new Date(2023, 11, 28, 21, 0),
+    StartTime: new Date(2023, 11, 26, 18, 0),
+    EndTime: new Date(2023, 11, 26, 21, 0),
     IsAllDay: false,
   },
   {

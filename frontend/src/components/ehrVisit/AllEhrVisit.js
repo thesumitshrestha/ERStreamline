@@ -67,7 +67,8 @@ const AllEhrVisit = () => {
                         <tr key={ehrvisit._id}>
                           <td className='p-4'> {index + 1}</td>
                           <td className='p-4'>
-                            <Link to={`/patient/${ehrvisit?.patient?._id}`}>
+                            {/* <Link to={`/patient/${ehrvisit?.patient?._id}`}> */}
+                            <Link to={`/ehr-visit/${ehrvisit._id}`}>
                               {ehrvisit?.patient?.firstName}{' '}
                               {ehrvisit?.patient?.lastName}
                             </Link>
