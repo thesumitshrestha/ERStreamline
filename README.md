@@ -52,7 +52,7 @@ To get started with ERStreamline, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/thesumitshrestha/ERStreamline.git`
 2. Install dependencies for the backend and frontend.
-3. Configure the backend settings, including MongoDB connection strings.
+3. Configure the backend settings, including MongoDB connection.
 4. Run the backend server using Node.js and Express.js.
 5. Start the frontend application using React.js.
 
